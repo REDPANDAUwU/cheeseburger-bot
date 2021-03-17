@@ -1,0 +1,9 @@
+{
+  "token": "Insert main bots token",
+  "debug-token": "cheeseburger bot supports a debug bot, so that you can test things without having to reset the main bot",
+  "prefix": "bot prefix",
+  "debug-prefix": "debug bots prefix",
+  "debug": "(yes) to start the debug bot, (no) to start the main bot",
+  "pinwebhookurl": "webhook that the $archive command will use",
+  "owner-id": "the ID of the owner (insert as int, not string)"
+}
