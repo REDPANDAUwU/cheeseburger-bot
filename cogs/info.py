@@ -30,6 +30,10 @@ class info(commands.Cog):
         embedz.set_thumbnail(url=self.client.user.avatar_url)
         await ctx.send(embed=embedz)
 
+    @commands.command(brief='gives invite for the bot')
+    async def invitelink(self, ctx):
+        ctx.send(f'https://discord.com/api/oauth2/authorize?client_id={self.client.user.id}&permissions=8&scope=bot')
+
 
 def setup(client):
     client.add_cog(info(client))
