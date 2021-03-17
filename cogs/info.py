@@ -24,7 +24,7 @@ class info(commands.Cog):
 
     @commands.command(brief='gives basic info on the bot')
     async def info(self, ctx):
-        repo = git.Repo('cheeseburger-bot')
+        repo = git.Repo('/home/gaming/cheeseburger-bot/')
         commits = repo.git.rev_list('--count', 'HEAD')
         embedz = discord.Embed(title='bot info', description=str(commits), color=0x00ff00)
         embedz.set_thumbnail(url=self.client.avatar_url)
