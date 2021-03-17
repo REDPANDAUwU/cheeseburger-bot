@@ -36,7 +36,7 @@ async def send_to_channel(self, chnl, message, deleted):  # called on message_de
         nick1 = message.author.nick
     nick = ''
     for i in str(nick1):
-        if i == "'" or i =='"':
+        if i == "'" or i == '"':
             i = ''
         nick += i
     if len(message.attachments) == 0 or deleted:
@@ -51,14 +51,19 @@ async def send_to_channel(self, chnl, message, deleted):  # called on message_de
             await chnl.send('{"content": "' + str(msg) + '", "avatar": "' + str(
                 user.avatar_url) + '", "nick": "' + str(nick) + '", "id": "' + str(message.id) + '", "image": "true"}')
     else:
+        # get server that it will use to cache images and messages
+        with open(os.path.join(os.path.dirname(__file__), os.pardir, 'config.json')) as meow:
+            snipe_server_id = json.load(meow)["snipe-server"]
+        snipe_server = self.client.get_guild(snipe_server_id)
+
         # random name is to prevent multiple files being downloaded into the same directory, it isn't
         # perfect but i am lazy
-        snipe_server = self.client.get_guild(818293070159675444)
         r = random.randint(1, 256)
         atchmnt = message.attachments[0].url
         atchmnt_list = atchmnt.split('.')
         atchmnt_end = atchmnt_list[len(atchmnt_list) - 1]
         snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}-atchmnts")
+
         # checks if the attachment doesnt have a file ending
         if atchmnt_end.startswith('com/'):
             atchmnt_end = ''
@@ -81,18 +86,29 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
     if message.author.bot:
         return
     r = random.randint(1, 256)
-    snipe_server = client.get_guild(818293070159675444)
+    with open(os.path.join(os.path.dirname(__file__), os.pardir, 'config.json')) as meow:
+        snipe_server_id = json.load(meow)["snipe-server"]
+
+    snipe_server = client.get_guild(snipe_server_id)
     category = client.get_channel(818293122697396274)
     snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}")
     snipe_atchmnt_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}-atchmnts")
+
+    # creates a new channel if there isnt one already
     if snipe_channel is None:
         snipe_channel = await snipe_server.create_text_channel(message.channel.id, category=category)
 
+    # get the last deleted message from the channel
+
     msg = await snipe_channel.history(limit=1).flatten()
     msg = msg[0]
+
+    # writes the contents of the file to a json
     file = open(r"content/json/" + str(r) + r".json", "w+")
     file.write(msg.content)
     file.close()
+
+    # reads the contents of the json
     with open("content/json/" + str(r) + ".json") as meow:
         content = json.load(meow)["content"]
     with open("content/json/" + str(r) + ".json") as meow:
@@ -107,7 +123,9 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
         image = False
     elif image == 'true':
         image = True
-
+    # removes the json to save disk space
+    os.remove("content/json/" + str(r) + ".json")
+    
     do_image = False
     if snipe_atchmnt_channel is not None and image:
         number = 0
