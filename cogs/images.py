@@ -22,6 +22,7 @@ class images(commands.Cog):
     @commands.command(brief='sends a random anime picture which is nsfw sometimes')
     async def anime(self, ctx):
         animes = os.listdir('./content/images/Nekos/')
+        input(len(animes))
         if len(animes) == 1:
             return
         meowing = True
