@@ -95,9 +95,7 @@ async def reload(ctx):
     with open('config.json') as meow:
         owner = json.load(meow)["owner-id"]
     if ctx.author.id == owner:
-        repo = git.Repo()
         g = git.cmd.Git(os.getcwd())
-        repo.git.checkout('master')
         g.pull()
 
         client.reload_extension('cogs.info')
