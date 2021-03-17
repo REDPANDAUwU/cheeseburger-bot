@@ -160,8 +160,12 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
                         else:
                             await webhook.send(discord.utils.escape_mentions(content), username=nick,
                                                avatar_url=avatar)
+    # catch for if the bot is missing permissions
     except Exception:
-        pass
+        # instead of sending a webhook it sends a embed
+        embedz = discord.Embed(title=str(nick), description=str(content), color=0x00ff00)
+        embedz.set_thumbnail(url=avatar)
+        await message.channel.send(embed=embedz)
     if not success:
         try:
             await message.channel.create_webhook(name="_snipe")
@@ -177,7 +181,9 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
                                 else:
                                     await webhook.send(discord.utils.escape_mentions(content), username=nick,
                                                        avatar_url=avatar)
+        # catch for if the bot is missing permissions
         except Exception:
+            # instead of sending a webhook it sends a embed
             embedz = discord.Embed(title=str(nick), description=str(content), color=0x00ff00)
             embedz.set_thumbnail(url=avatar)
             await message.channel.send(embed=embedz)
