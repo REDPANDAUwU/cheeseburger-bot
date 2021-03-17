@@ -90,13 +90,12 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
         snipe_server_id = json.load(meow)["snipe-server"]
 
     snipe_server = client.get_guild(snipe_server_id)
-    category = client.get_channel(818293122697396274)
     snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}")
     snipe_atchmnt_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}-atchmnts")
 
     # creates a new channel if there isnt one already
     if snipe_channel is None:
-        snipe_channel = await snipe_server.create_text_channel(message.channel.id, category=category)
+        snipe_channel = await snipe_server.create_text_channel(message.channel.id)
 
     # get the last deleted message from the channel
 
