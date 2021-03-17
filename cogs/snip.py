@@ -125,7 +125,7 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
         image = True
     # removes the json to save disk space
     os.remove("content/json/" + str(r) + ".json")
-    
+
     do_image = False
     if snipe_atchmnt_channel is not None and image:
         number = 0
