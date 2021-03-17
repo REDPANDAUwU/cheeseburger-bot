@@ -3,7 +3,8 @@ import discord
 import time
 import os
 import os.path
-import git
+from git import Repo
+
 
 class info(commands.Cog):
 
@@ -23,8 +24,8 @@ class info(commands.Cog):
         await ctx.send(f'cheeseburger bot is running version {meow.read()}')
 
     @commands.command(brief='gives basic info on the bot')
-    async def info(self, ctx):
-        repo = git.Repo('/home/gaming/cheeseburger-bot/')
+    async def about(self, ctx):
+        repo = Repo(os.pardir)
         commits = repo.git.rev_list('--count', 'HEAD')
         embedz = discord.Embed(title='bot info', description=str(commits), color=0x00ff00)
         embedz.set_thumbnail(url=self.client.avatar_url)
