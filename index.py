@@ -80,6 +80,8 @@ async def stunna():
     meowing = True
     while meowing:
         stunnaboys = os.listdir('./content/images/Stunnaboy/')
+        if len(stunnaboys) == 1:
+            return
         stunnaboy = random.choice(stunnaboys)
         stunnaboy = './content/images/Stunnaboy/' + stunnaboy
         stunna_list = stunnaboy.split('.')

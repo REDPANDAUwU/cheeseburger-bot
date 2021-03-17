@@ -22,11 +22,13 @@ class images(commands.Cog):
     @commands.command(brief='sends a random anime picture which is nsfw sometimes')
     async def anime(self, ctx):
         animes = os.listdir('./content/images/Nekos/')
+        if len(animes) == 1:
+            return
         meowing = True
         while meowing:
             anime = random.choice(animes)
             anime = './content/images/Nekos/' + anime
-            anime_list = anime.split()
+            anime_list = anime.split('.')
             if os.path.getsize(anime) < 8388608 and anime_list[len(anime_list) - 1] != 'md':
                 meowing = False
             else:
@@ -36,6 +38,8 @@ class images(commands.Cog):
     @commands.command(brief='sends a random trap which is nsfw sometimes')
     async def trap(self, ctx):
         traps = os.listdir('./content/images/trap/')
+        if len(traps) == 1:
+            return
         meowing = True
         while meowing:
             trap = random.choice(traps)
@@ -50,6 +54,8 @@ class images(commands.Cog):
     @commands.command(brief='sends floppa')
     async def floppa(self, ctx):
         floppas = os.listdir('./content/images/floppa/')
+        if len(floppas) == 1:
+            return
         meowing = True
         while meowing:
             floppa = random.choice(floppas)
