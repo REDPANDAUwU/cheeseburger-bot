@@ -25,7 +25,7 @@ class info(commands.Cog):
 
     @commands.command(brief='gives basic info on the bot')
     async def about(self, ctx):
-        repo = Repo.init(__file__, bare=True)
+        repo = Repo.init(os.path, bare=True)
         commits = repo.git.rev_list('--count', 'HEAD')
         embedz = discord.Embed(title='bot info', description=str(commits), color=0x00ff00)
         embedz.set_thumbnail(url=self.client.avatar_url)
