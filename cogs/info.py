@@ -27,7 +27,7 @@ class info(commands.Cog):
     async def about(self, ctx):
         embedz = discord.Embed(title='bot info', description='da best bot eva made', color=0x00ff00)
         embedz.add_field(name="source", value='https://github.com/REDPANDAUwU/cheeseburger-bot')
-        embedz.set_thumbnail(url=self.client.avatar_url)
+        embedz.set_thumbnail(url=self.client.user.avatar_url)
         await ctx.send(embed=embedz)
 
 
