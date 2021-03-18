@@ -84,35 +84,21 @@ async def reload(ctx):
         g = git.cmd.Git(os.getcwd())
         g.pull()
 
-        client.reload_extension('cogs.info')
-
-        client.reload_extension('cogs.moderator')
-
-        client.reload_extension('cogs.images')
-
-        client.reload_extension('cogs.misc')
-
-        client.reload_extension('cogs.snip')
-
-        client.reload_extension('cogs.onmsg')
+        cogs = os.listdir('./cogs/')
+        for cog in cogs:
+            cog_list = cog.split('.')
+            if cog_list[len(cog_list) - 1] == 'py':
+                client.load_extension(f'cogs.{cog_list[0]}')
 
         await ctx.send('all cogs reloaded')
 
 
 # cogs
-
-
-client.load_extension('cogs.info')
-
-client.load_extension('cogs.moderator')
-
-client.load_extension('cogs.images')
-
-client.load_extension('cogs.misc')
-
-client.load_extension('cogs.snip')
-
-client.load_extension('cogs.onmsg')
+cogs = os.listdir('./cogs/')
+for cog in cogs:
+    cog_list = cog.split('.')
+    if cog_list[len(cog_list) - 1] == 'py':
+        client.load_extension(f'cogs.{cog_list[0]}')
 
 with open("config.json") as meow:
     if debug:
