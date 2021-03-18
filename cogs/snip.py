@@ -6,7 +6,6 @@ import requests
 import json
 import aiohttp
 from discord import Webhook, AsyncWebhookAdapter
-from discord.ext.commands.errors import MissingPermissions
 
 
 class bcolors:

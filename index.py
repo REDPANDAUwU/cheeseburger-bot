@@ -1,26 +1,10 @@
-from typing import TextIO
 import discord
-from discord import NotFound
-import time
 from discord.ext import commands
 from discord.ext import tasks
-from discord import Webhook, AsyncWebhookAdapter
-from discord.ext.commands import has_permissions
-from discord.ext.commands.errors import MissingPermissions
-from discord.utils import get
-import asyncio
 import os
 import json
 import random
-import requests
-import re
-from gtts import gTTS
-import time
-import sqlite3
-import aiohttp
-import logging
 import git
-from git import repo, Repo
 
 
 class bcolors:
@@ -94,8 +78,8 @@ async def stunna():
 
 @client.command(hidden=True)
 async def reload(ctx):
-    with open('config.json') as meow:
-        owner = json.load(meow)["owner-id"]
+    with open('config.json') as file:
+        owner = json.load(file)["owner-id"]
     if ctx.author.id == owner:
         g = git.cmd.Git(os.getcwd())
         g.pull()
