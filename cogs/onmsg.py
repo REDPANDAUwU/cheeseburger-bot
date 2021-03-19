@@ -15,11 +15,14 @@ class onmsg(commands.Cog):
         # dotbot
         if message.content == '.' and message.channel.name == 'dot-wars':
             role = get(message.guild.roles, name="Dot Master!")
+            
+            await message.author.add_roles(role)
+            
             for i in message.guild.members:
                 if role in i.roles and i != message.author:
                     await i.remove_roles(role)
 
-            await message.author.add_roles(role)
+            
         elif message.channel.name == 'dot-wars' and message.content != '.':
             await message.delete()
 
