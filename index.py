@@ -60,7 +60,7 @@ async def on_message(message):
 
 @tasks.loop(minutes=1440)
 async def stunna():
-    chnl = client.get_channel(820837463961501706)
+    chnl = client.get_channel(823228873801465866)
     meowing = True
     while meowing:
         stunnaboys = os.listdir('./content/images/Stunnaboy/')
