@@ -92,12 +92,9 @@ class onmsg(commands.Cog):
     async def on_reaction_add(self, reaction, user):
         await reaction.message.add_reaction(reaction)
         if reaction.message.guild.id == 768371462489899028:
-            try:
-                channel = await user.create_dm()
-                await channel.send('u added a  reaciton !!!!!!')
-            except Error as e:
-                print(e)
-
+            channel = await user.create_dm()
+            await channel.send('u added a  reaciton !!!!!!')
+                
     @commands.Cog.listener()
     async def on_message_edit(self, before, after):
         if before.channel.id == 782825184054476821:
