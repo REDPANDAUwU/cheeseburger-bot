@@ -88,7 +88,7 @@ async def reload(ctx):
         for cog in cogs:
             cog_list = cog.split('.')
             if cog_list[len(cog_list) - 1] == 'py':
-                client.load_extension(f'cogs.{cog_list[0]}')
+                client.reload_extension(f'cogs.{cog_list[0]}')
 
         await ctx.send('all cogs reloaded')
 
