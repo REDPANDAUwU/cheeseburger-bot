@@ -230,17 +230,9 @@ class snip(commands.Cog):
             await snipe_script(self.client, message)
         # await self.client.process_commands(message)
 
-    @on_message.error
-    async def on_message_error(self, message, error):
-        message.channel.send(f'I encountered the following error during the execution of the command!{error}')
-
     @commands.command(brief='sends the last deleted message')
     async def snipe(self, ctx):
         await snipe_script(self.client, ctx.message)
-
-    @snipe.error
-    async def snipe_error(self, ctx, error):
-        ctx.send(f'I encountered the following error during the execution of the command!{error}')
 
 
 def setup(client):

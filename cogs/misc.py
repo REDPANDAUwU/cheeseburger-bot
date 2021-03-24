@@ -39,7 +39,11 @@ class misc(commands.Cog):
                 await i.delete()
                 break
 
-
+    @commands.Cog.listener()
+    async def on_error(self, ctx, exception):
+        if "Missing Permissions" in str(exception):
+            return await ctx.send(f'I dont have the permissions to use this command, consider giving the bot the'
+                                  f' "Admin" permission')
 
 
 def setup(client):
