@@ -146,48 +146,33 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
                     print(f'{bcolors.WARNING} {error}')
 
     success = False
-    try:
-        for i in await message.channel.webhooks():
-            if i.channel == message.channel:
-                if i.name == '_snipe':
+    for i in await message.channel.webhooks():
+        if i.channel == message.channel:
+            if i.name == '_snipe':
+                success = True
+                async with aiohttp.ClientSession() as session:
+                    webhook = Webhook.from_url(i.url, adapter=AsyncWebhookAdapter(session))
+                    if do_image:
+                        await webhook.send(discord.utils.escape_mentions(f"{content}\n{atchmnt_url}"),
+                                           username=nick, avatar_url=avatar)
+                    else:
+                        await webhook.send(discord.utils.escape_mentions(content), username=nick,
+                                           avatar_url=avatar)
                     success = True
-                    async with aiohttp.ClientSession() as session:
-                        webhook = Webhook.from_url(i.url, adapter=AsyncWebhookAdapter(session))
-                        if do_image:
-                            await webhook.send(discord.utils.escape_mentions(f"{content}\n{atchmnt_url}"),
-                                               username=nick, avatar_url=avatar)
-                        else:
-                            await webhook.send(discord.utils.escape_mentions(content), username=nick,
-                                               avatar_url=avatar)
-                        success = True
-    # catch for if the bot is missing permissions
-    except Exception:
-        # instead of sending a webhook it sends a embed
-        embedz = discord.Embed(title=str(nick), description=str(content), color=0x00ff00)
-        embedz.set_thumbnail(url=avatar)
-        await message.channel.send(embed=embedz)
-        success = True
     if not success:
-        try:
-            await message.channel.create_webhook(name="_snipe")
-            for i in await message.guild.webhooks():
-                if i.channel == message.channel:
-                    # makes sure it only uses a webhook named "_snipe"
-                    if i.name == '_snipe':
-                            async with aiohttp.ClientSession() as session:
-                                webhook = Webhook.from_url(i.url, adapter=AsyncWebhookAdapter(session))
-                                if do_image:
-                                    await webhook.send(discord.utils.escape_mentions(f"{content}\n{atchmnt_url}"),
-                                                       username=nick, avatar_url=avatar)
-                                else:
-                                    await webhook.send(discord.utils.escape_mentions(content), username=nick,
-                                                       avatar_url=avatar)
-        # catch for if the bot is missing permissions
-        except Exception:
-            # instead of sending a webhook it sends a embed
-            embedz = discord.Embed(title=str(nick), description=str(content), color=0x00ff00)
-            embedz.set_thumbnail(url=avatar)
-            await message.channel.send(embed=embedz)
+        await message.channel.create_webhook(name="_snipe")
+        for i in await message.guild.webhooks():
+            if i.channel == message.channel:
+                # makes sure it only uses a webhook named "_snipe"
+                if i.name == '_snipe':
+                        async with aiohttp.ClientSession() as session:
+                            webhook = Webhook.from_url(i.url, adapter=AsyncWebhookAdapter(session))
+                            if do_image:
+                                await webhook.send(discord.utils.escape_mentions(f"{content}\n{atchmnt_url}"),
+                                                   username=nick, avatar_url=avatar)
+                            else:
+                                await webhook.send(discord.utils.escape_mentions(content), username=nick,
+                                                   avatar_url=avatar)
 
 
 class snip(commands.Cog):
@@ -245,9 +230,17 @@ class snip(commands.Cog):
             await snipe_script(self.client, message)
         # await self.client.process_commands(message)
 
+    @on_message.error
+    async def on_message_error(self, message, error):
+        message.channel.send(f'I encountered the following error during the execution of the command!{error}')
+
     @commands.command(brief='sends the last deleted message')
     async def snipe(self, ctx):
         await snipe_script(self.client, ctx.message)
+
+    @snipe.error
+    async def snipe_error(self, ctx, error):
+        ctx.send(f'I encountered the following error during the execution of the command!{error}')
 
 
 def setup(client):

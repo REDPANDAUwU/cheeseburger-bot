@@ -1,3 +1,5 @@
 discord.py
-gtts
+gtts~=2.2.2
 gitpython
+aiohttp~=3.7.4.post0
+requests~=2.25.1

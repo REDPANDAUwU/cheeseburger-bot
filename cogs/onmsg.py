@@ -15,14 +15,14 @@ class onmsg(commands.Cog):
         # dotbot
         if message.content == '.' and message.channel.name == 'dot-wars':
             role = get(message.guild.roles, name="Dot Master!")
-            
+
             await message.author.add_roles(role)
-            
+
             for i in message.guild.members:
                 if role in i.roles and i != message.author:
                     await i.remove_roles(role)
 
-            
+
         elif message.channel.name == 'dot-wars' and message.content != '.':
             await message.delete()
 
@@ -94,7 +94,7 @@ class onmsg(commands.Cog):
         if reaction.message.guild.id == 768371462489899028:
             channel = await user.create_dm()
             await channel.send('u added a  reaciton !!!!!!')
-                
+
     @commands.Cog.listener()
     async def on_message_edit(self, before, after):
         if before.channel.id == 782825184054476821:
