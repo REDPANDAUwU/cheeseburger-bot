@@ -131,7 +131,7 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
         number = 0
         again = True
         while again:
-            print('in again')
+            # print('in again')
             number += 10
             if number > 99:
                 await message.channel.send('cannot find a message to snipe!')
