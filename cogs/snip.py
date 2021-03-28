@@ -184,9 +184,12 @@ class snip(commands.Cog):
         if message.author == self.client.user:
             return
 
+        with open(os.path.join(os.path.dirname(__file__), os.pardir, 'config.json')) as meow:
+            snipe_server_id = json.load(meow)["snipe-server"]
+
         # checking if the server is the server for caching messages
-        if message.guild.id != 818293070159675444:
-            snipe_server = self.client.get_guild(818293070159675444)
+        if message.guild.id != int(snipe_server_id):
+            snipe_server = self.client.get_guild(int(snipe_server_id))
 
             # category = self.client.get_channel(818293122697396274)
             snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}")
@@ -204,15 +207,18 @@ class snip(commands.Cog):
         if message.author == self.client.user:
             return
 
+        with open(os.path.join(os.path.dirname(__file__), os.pardir, 'config.json')) as meow:
+            snipe_server_id = json.load(meow)["snipe-server"]
+
         # snipe
-        if message.guild.id != 818293070159675444:
+        if message.guild.id != int(snipe_server_id):
             do_cmd = True
             if len(message.attachments) == 0:
                 do_cmd = False
             # if there are attachments on the message
             if do_cmd:
                 # find the server and category to place the images
-                snipe_server = self.client.get_guild(818293070159675444)
+                snipe_server = self.client.get_guild(int(snipe_server_id))
                 category = self.client.get_channel(818311445506555935)
                 snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}-atchmnts")
 
