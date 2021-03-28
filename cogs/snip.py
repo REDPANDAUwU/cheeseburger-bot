@@ -82,7 +82,9 @@ async def send_to_channel(self, chnl, message, deleted):  # called on message_de
 
 
 async def snipe_script(client, message):  # called on message 'snipe' or $snipe
+    # print('snipe script')
     if message.author.bot:
+        print('return')
         return
     r = random.randint(1, 256)
     with open(os.path.join(os.path.dirname(__file__), os.pardir, 'config.json')) as meow:
@@ -123,20 +125,20 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
         image = True
     # removes the json to save disk space
     os.remove("content/json/" + str(r) + ".json")
-
+    # print('128')
     do_image = False
     if snipe_atchmnt_channel is not None and image:
         number = 0
         again = True
         while again:
+            print('in again')
             number += 10
             if number > 99:
-                if message.content == '':
-                    await message.channel.send('cannot find a message to snipe!')
-                    return
-                else:
-                    break
-            for i in await snipe_atchmnt_channel.history(limit=number).flatten():
+                await message.channel.send('cannot find a message to snipe!')
+                return
+            x = await snipe_atchmnt_channel.history(limit=number).flatten()
+            for i in x:
+                # print(i)
                 try:
                     if int(i.content) == int(id):
                         do_image = True
@@ -165,14 +167,15 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
             if i.channel == message.channel:
                 # makes sure it only uses a webhook named "_snipe"
                 if i.name == '_snipe':
-                        async with aiohttp.ClientSession() as session:
-                            webhook = Webhook.from_url(i.url, adapter=AsyncWebhookAdapter(session))
-                            if do_image:
-                                await webhook.send(discord.utils.escape_mentions(f"{content}\n{atchmnt_url}"),
-                                                   username=nick, avatar_url=avatar)
-                            else:
-                                await webhook.send(discord.utils.escape_mentions(content), username=nick,
-                                                   avatar_url=avatar)
+                    async with aiohttp.ClientSession() as session:
+                        webhook = Webhook.from_url(i.url, adapter=AsyncWebhookAdapter(session))
+                        if do_image:
+                            await webhook.send(discord.utils.escape_mentions(f"{content}\n{atchmnt_url}"),
+                                               username=nick, avatar_url=avatar)
+                        else:
+                            await webhook.send(discord.utils.escape_mentions(content), username=nick,
+                                               avatar_url=avatar)
+    # print('end of snipe script')
 
 
 class snip(commands.Cog):
