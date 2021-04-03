@@ -39,16 +39,13 @@ async def send_to_channel(self, chnl, message, deleted):  # called on message_de
             i = ''
         nick += i
     if len(message.attachments) == 0 or deleted:
-        do_attachment = False
-    else:
-        do_attachment = True
-    if not do_attachment:
         if len(message.attachments) == 0:
             await chnl.send('{"content": "' + str(msg) + '", "avatar": "' + str(
                 user.avatar_url) + '", "nick": "' + str(nick) + '", "id": "' + str(message.id) + '", "image": "false"}')
         else:
             await chnl.send('{"content": "' + str(msg) + '", "avatar": "' + str(
                 user.avatar_url) + '", "nick": "' + str(nick) + '", "id": "' + str(message.id) + '", "image": "true"}')
+
     else:
         # get server that it will use to cache images and messages
         with open(os.path.join(os.path.dirname(__file__), os.pardir, 'config.json')) as meow:
@@ -76,7 +73,7 @@ async def send_to_channel(self, chnl, message, deleted):  # called on message_de
                 handle.write(block)
 
         if os.path.getsize('./content/images/' + str(r) + '.' + atchmnt_end) < 8388608:
-            await chnl.send(str(message.id), file=discord.File('./content/images/' + str(r) + '.' + atchmnt_end))
+            await snipe_channel.send(str(message.id), file=discord.File('./content/images/' + str(r) + '.' + atchmnt_end))
 
         os.remove('./content/images/' + str(r) + '.' + atchmnt_end)
 
@@ -194,12 +191,9 @@ class snip(commands.Cog):
         if message.guild.id != int(snipe_server_id):
             snipe_server = self.client.get_guild(int(snipe_server_id))
 
-            # category = self.client.get_channel(818293122697396274)
             snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}")
-            # print(snipe_channel)
             if snipe_channel is None:
                 new_chnl = await snipe_server.create_text_channel(name=f"{message.channel.id}")
-                # print(new_chnl)
                 await send_to_channel(self, new_chnl, message, True)
 
             else:
@@ -222,13 +216,11 @@ class snip(commands.Cog):
             if do_cmd:
                 # find the server and category to place the images
                 snipe_server = self.client.get_guild(int(snipe_server_id))
-                category = self.client.get_channel(818311445506555935)
                 snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}-atchmnts")
 
                 # if there isnt a channel to cache those images in yet
                 if snipe_channel is None:
-                    new_chnl = await snipe_server.create_text_channel(f"{message.channel.id}-atchmnts",
-                                                                      category=category)
+                    new_chnl = await snipe_server.create_text_channel(f"{message.channel.id}-atchmnts")
                     await send_to_channel(self, new_chnl, message, False)
 
                 else:
