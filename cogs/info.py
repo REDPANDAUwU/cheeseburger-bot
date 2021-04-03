@@ -32,7 +32,8 @@ class info(commands.Cog):
 
     @commands.command(brief='gives invite for the bot')
     async def invitelink(self, ctx):
-        await ctx.send(f'https://discord.com/api/oauth2/authorize?client_id={self.client.user.id}&permissions=8&scope=bot')
+        await ctx.send(f'https://discord.com/api/oauth2/authorize?client_id={self.client.user.id}&permissions=8&scope'
+                       f'=bot')
 
 
 def setup(client):
