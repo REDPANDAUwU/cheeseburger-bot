@@ -227,7 +227,7 @@ class snip(commands.Cog):
                     await send_to_channel(self, snipe_channel, message, False)
 
         # snipes on message instead of command
-        if message.content.lower() == "snipe" or message.content.lower() == "sniper":
+        if message.content.lower().startswith('snipe'):
             await snipe_script(self.client, message)
         # await self.client.process_commands(message)
 
