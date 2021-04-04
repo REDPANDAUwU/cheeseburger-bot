@@ -208,7 +208,7 @@ class snip(commands.Cog):
 
             # snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}")
                 # new_chnl = await snipe_server.create_text_channel(name=f"{message.channel.id}")
-            with open("content/json/" + str(message.channel.id) + ".json", "w+") as meow:
+            with open("content/json/" + str(message.channel.id) + ".json", "w") as meow:
                 if len(message.attachments) == 0:
                     meow.write('{"content": "' + str(msg) + '", "avatar": "' + str(
                         user.avatar_url) + '", "nick": "' + str(nick) + '", "id": "' + str(
