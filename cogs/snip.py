@@ -98,31 +98,31 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
 
     # get the last deleted message from the channel
 
-    msg = await snipe_channel.history(limit=1).flatten()
-    msg = msg[0]
+    # msg = await snipe_channel.history(limit=1).flatten()
+    # msg = msg[0]
 
     # writes the contents of the file to a json
-    file = open(r"content/json/" + str(r) + r".json", "w+")
-    file.write(msg.content)
-    file.close()
+    # file = open(r"content/json/" + str(message.channel.id) + r".json", "w+")
+    # file.write(msg.content)
+    # file.close()
 
     # reads the contents of the json
-    with open("content/json/" + str(r) + ".json") as meow:
+    with open("content/json/" + str(message.channel.id) + ".json") as meow:
         content = json.load(meow)["content"]
-    with open("content/json/" + str(r) + ".json") as meow:
+    with open("content/json/" + str(message.channel.id) + ".json") as meow:
         avatar = json.load(meow)["avatar"]
-    with open("content/json/" + str(r) + ".json") as meow:
+    with open("content/json/" + str(message.channel.id) + ".json") as meow:
         nick = json.load(meow)["nick"]
-    with open("content/json/" + str(r) + ".json") as meow:
+    with open("content/json/" + str(message.channel.id) + ".json") as meow:
         id = json.load(meow)["id"]
-    with open("content/json/" + str(r) + ".json") as meow:
+    with open("content/json/" + str(message.channel.id) + ".json") as meow:
         image = json.load(meow)["image"]
     if image == 'false':
         image = False
     elif image == 'true':
         image = True
     # removes the json to save disk space
-    os.remove("content/json/" + str(r) + ".json")
+    # os.remove("content/json/" + str(r) + ".json")
     # print('128')
     do_image = False
     if snipe_atchmnt_channel is not None and image:
@@ -190,14 +190,33 @@ class snip(commands.Cog):
         # checking if the server is the server for caching messages
         if message.guild.id != int(snipe_server_id):
             snipe_server = self.client.get_guild(int(snipe_server_id))
-
-            snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}")
-            if snipe_channel is None:
-                new_chnl = await snipe_server.create_text_channel(name=f"{message.channel.id}")
-                await send_to_channel(self, new_chnl, message, True)
-
+            msg = ''
+            for i in str(message.content):
+                if i == "'" or i == '"':
+                    i = ''
+                msg += i
+            user = self.client.get_user(message.author.id)
+            if message.author.nick is None:
+                nick1 = message.author
             else:
-                await send_to_channel(self, snipe_channel, message, True)
+                nick1 = message.author.nick
+            nick = ''
+            for i in str(nick1):
+                if i == "'" or i == '"':
+                    i = ''
+                nick += i
+
+            # snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}")
+                # new_chnl = await snipe_server.create_text_channel(name=f"{message.channel.id}")
+            with open("content/json/" + str(message.channel.id) + ".json", "w+") as meow:
+                if len(message.attachments) == 0:
+                    meow.write('{"content": "' + str(msg) + '", "avatar": "' + str(
+                        user.avatar_url) + '", "nick": "' + str(nick) + '", "id": "' + str(
+                        message.id) + '", "image": "false"}')
+                else:
+                    meow.write('{"content": "' + str(msg) + '", "avatar": "' + str(
+                        user.avatar_url) + '", "nick": "' + str(nick) + '", "id": "' + str(
+                        message.id) + '", "image": "true"}')
 
     @commands.Cog.listener()
     async def on_message(self, message):
