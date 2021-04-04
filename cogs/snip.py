@@ -73,7 +73,8 @@ async def send_to_channel(self, chnl, message, deleted):  # called on message_de
                 handle.write(block)
 
         if os.path.getsize('./content/images/' + str(r) + '.' + atchmnt_end) < 8388608:
-            await snipe_channel.send(str(message.id), file=discord.File('./content/images/' + str(r) + '.' + atchmnt_end))
+            await snipe_channel.send(str(message.id), file=discord.File('./content/images/' + str(r) + '.' +
+                                                                        atchmnt_end))
 
         os.remove('./content/images/' + str(r) + '.' + atchmnt_end)
 
@@ -89,7 +90,7 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
 
     snipe_server = client.get_guild(snipe_server_id)
     snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}")
-    snipe_atchmnt_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}-atchmnts")
+    snipe_atchmnt_channel = client.get_channel(828152387997925406)
 
     # creates a new channel if there isnt one already
     if snipe_channel is None:
@@ -148,7 +149,6 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
     for i in await message.channel.webhooks():
         if i.channel == message.channel:
             if i.name == '_snipe':
-                success = True
                 async with aiohttp.ClientSession() as session:
                     webhook = Webhook.from_url(i.url, adapter=AsyncWebhookAdapter(session))
                     if do_image:
@@ -215,16 +215,41 @@ class snip(commands.Cog):
             # if there are attachments on the message
             if do_cmd:
                 # find the server and category to place the images
-                snipe_server = self.client.get_guild(int(snipe_server_id))
-                snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}-atchmnts")
+                # snipe_server = self.client.get_guild(int(snipe_server_id))
+                snipe_channel = self.client.get_channel(828152387997925406)
+                # snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}-atchmnts")
 
                 # if there isnt a channel to cache those images in yet
-                if snipe_channel is None:
-                    new_chnl = await snipe_server.create_text_channel(f"{message.channel.id}-atchmnts")
-                    await send_to_channel(self, new_chnl, message, False)
+                # if snipe_channel is None:
+                #     new_chnl = await snipe_server.create_text_channel(f"{message.channel.id}-atchmnts")
+                #     await send_to_channel(self, new_chnl, message, False)
 
-                else:
-                    await send_to_channel(self, snipe_channel, message, False)
+                # else:
+
+                # random name is to prevent multiple files being downloaded into the same directory, it isn't
+                # perfect but i am lazy
+                r = random.randint(1, 256)
+                atchmnt = message.attachments[0].url
+                atchmnt_list = atchmnt.split('.')
+                atchmnt_end = atchmnt_list[len(atchmnt_list) - 1]
+
+                # checks if the attachment doesnt have a file ending
+                if atchmnt_end.startswith('com/'):
+                    atchmnt_end = ''
+
+                with open('./content/images/' + str(r) + '.' + atchmnt_end, 'wb') as handle:
+                    print(f'{bcolors.OKBLUE}downloading image ID#{r}{bcolors.ENDC}')
+                    image = requests.get(atchmnt, stream=True)
+                    for block in image.iter_content(1024):
+                        if not block:
+                            break
+                        handle.write(block)
+
+                if os.path.getsize('./content/images/' + str(r) + '.' + atchmnt_end) < 8388608:
+                    await snipe_channel.send(str(message.id), file=discord.File('./content/images/' + str(r) + '.' +
+                                                                                atchmnt_end))
+
+                os.remove('./content/images/' + str(r) + '.' + atchmnt_end)
 
         # snipes on message instead of command
         if message.content.lower().startswith('snipe'):
