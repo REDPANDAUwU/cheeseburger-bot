@@ -64,19 +64,17 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
     # snipe_atchmnt_channel = client.get_channel(828152387997925406)
 
     with open("content/json/" + str(message.channel.id) + ".json") as meow:
-        msg_id = json.load(meow)["meow"]
-    with open("content/json/" + str(message.channel.id) + ".json") as meow:
-        image = json.load(meow)["imag"]
+        meowmeow = json.load(meow)
+        msg_id = meowmeow["meow"]
+        image = meowmeow["imag"]
 
     # reads the contents of the message id json
     with open("content/json/" + str(msg_id) + ".json") as meow:
-        content = json.load(meow)["content"]
-    with open("content/json/" + str(msg_id) + ".json") as meow:
-        avatar = json.load(meow)["avatar"]
-    with open("content/json/" + str(msg_id) + ".json") as meow:
-        nick = json.load(meow)["nick"]
-    with open("content/json/" + str(msg_id) + ".json") as meow:
-        atchmnt = json.load(meow)["image"]
+        meowmeow = json.load(meow)
+        content = json.load(meowmeow)["content"]
+        avatar = json.load(meowmeow)["avatar"]
+        nick = json.load(meowmeow)["nick"]
+        atchmnt = json.load(meowmeow)["image"]
 
     if image == 'false':
         image = False
