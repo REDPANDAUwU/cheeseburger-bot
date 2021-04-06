@@ -71,6 +71,7 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
     # reads the contents of the message id json
     with open("content/json/" + str(msg_id) + ".json") as meow:
         meowmeow = json.load(meow)
+        # print(meowmeow)
         content = meowmeow["content"]
         avatar = meowmeow["avatar"]
         nick = meowmeow["nick"]
