@@ -23,60 +23,31 @@ class bcolors:
 async def send_to_channel(self, chnl, message, deleted):  # called on message_delete and on_message
     if message.author.bot:
         return
-    msg = ''
-    for i in str(message.content):
-        if i == "'" or i == '"':
-            i = ''
-        msg += i
-    user = self.client.get_user(message.author.id)
-    if message.author.nick is None:
-        nick1 = message.author
-    else:
-        nick1 = message.author.nick
-    nick = ''
-    for i in str(nick1):
-        if i == "'" or i == '"':
-            i = ''
-        nick += i
-    if len(message.attachments) == 0 or deleted:
-        if len(message.attachments) == 0:
-            await chnl.send('{"content": "' + str(msg) + '", "avatar": "' + str(
-                user.avatar_url) + '", "nick": "' + str(nick) + '", "id": "' + str(message.id) + '", "image": "false"}')
-        else:
-            await chnl.send('{"content": "' + str(msg) + '", "avatar": "' + str(
-                user.avatar_url) + '", "nick": "' + str(nick) + '", "id": "' + str(message.id) + '", "image": "true"}')
 
-    else:
-        # get server that it will use to cache images and messages
-        with open(os.path.join(os.path.dirname(__file__), os.pardir, 'config.json')) as meow:
-            snipe_server_id = json.load(meow)["snipe-server"]
-        snipe_server = self.client.get_guild(snipe_server_id)
+    # random name is to prevent multiple files being downloaded into the same directory, it isn't
+    # perfect but i am lazy
+    atchmnt = message.attachments[0].url
+    atchmnt_list = atchmnt.split('.')
+    atchmnt_end = atchmnt_list[len(atchmnt_list) - 1]
+    snipe_channel = self.client.get_channel(828152387997925406)
 
-        # random name is to prevent multiple files being downloaded into the same directory, it isn't
-        # perfect but i am lazy
-        r = random.randint(1, 256)
-        atchmnt = message.attachments[0].url
-        atchmnt_list = atchmnt.split('.')
-        atchmnt_end = atchmnt_list[len(atchmnt_list) - 1]
-        snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}-atchmnts")
+    # checks if the attachment doesnt have a file ending
+    if atchmnt_end.startswith('com/'):
+        atchmnt_end = ''
 
-        # checks if the attachment doesnt have a file ending
-        if atchmnt_end.startswith('com/'):
-            atchmnt_end = ''
+    with open('./content/images/' + str(message.id) + '.' + atchmnt_end, 'wb') as handle:
+        print(f'{bcolors.OKBLUE}downloading image ID#{message.id}{bcolors.ENDC}')
+        image = requests.get(atchmnt, stream=True)
+        for block in image.iter_content(1024):
+            if not block:
+                break
+            handle.write(block)
 
-        with open('./content/images/' + str(r) + '.' + atchmnt_end, 'wb') as handle:
-            print(f'{bcolors.OKBLUE}downloading image ID#{r}{bcolors.ENDC}')
-            image = requests.get(atchmnt, stream=True)
-            for block in image.iter_content(1024):
-                if not block:
-                    break
-                handle.write(block)
+    if os.path.getsize('./content/images/' + str(message.id) + '.' + atchmnt_end) < 8388608:
+        await snipe_channel.send(str(message.id), file=discord.File('./content/images/' + str(r) + '.' +
+                                                                    atchmnt_end))
 
-        if os.path.getsize('./content/images/' + str(r) + '.' + atchmnt_end) < 8388608:
-            await snipe_channel.send(str(message.id), file=discord.File('./content/images/' + str(r) + '.' +
-                                                                        atchmnt_end))
-
-        os.remove('./content/images/' + str(r) + '.' + atchmnt_end)
+    os.remove('./content/images/' + str(message.id) + '.' + atchmnt_end)
 
 
 async def snipe_script(client, message):  # called on message 'snipe' or $snipe
@@ -88,62 +59,30 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
     with open(os.path.join(os.path.dirname(__file__), os.pardir, 'config.json')) as meow:
         snipe_server_id = json.load(meow)["snipe-server"]
 
-    snipe_server = client.get_guild(snipe_server_id)
-    snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}")
-    snipe_atchmnt_channel = client.get_channel(828152387997925406)
+    # snipe_server = client.get_guild(snipe_server_id)
+    # snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}")
+    # snipe_atchmnt_channel = client.get_channel(828152387997925406)
 
-    # creates a new channel if there isnt one already
-    if snipe_channel is None:
-        snipe_channel = await snipe_server.create_text_channel(message.channel.id)
-
-    # get the last deleted message from the channel
-
-    # msg = await snipe_channel.history(limit=1).flatten()
-    # msg = msg[0]
-
-    # writes the contents of the file to a json
-    # file = open(r"content/json/" + str(message.channel.id) + r".json", "w+")
-    # file.write(msg.content)
-    # file.close()
-
-    # reads the contents of the json
     with open("content/json/" + str(message.channel.id) + ".json") as meow:
+        msg_id = json.load(meow)["meow"]
+    with open("content/json/" + str(message.channel.id) + ".json") as meow:
+        image = json.load(meow)["imag"]
+
+    # reads the contents of the message id json
+    with open("content/json/" + str(msg_id) + ".json") as meow:
         content = json.load(meow)["content"]
-    with open("content/json/" + str(message.channel.id) + ".json") as meow:
+    with open("content/json/" + str(msg_id) + ".json") as meow:
         avatar = json.load(meow)["avatar"]
-    with open("content/json/" + str(message.channel.id) + ".json") as meow:
+    with open("content/json/" + str(msg_id) + ".json") as meow:
         nick = json.load(meow)["nick"]
-    with open("content/json/" + str(message.channel.id) + ".json") as meow:
-        id = json.load(meow)["id"]
-    with open("content/json/" + str(message.channel.id) + ".json") as meow:
-        image = json.load(meow)["image"]
+    with open("content/json/" + str(msg_id) + ".json") as meow:
+        atchmnt = json.load(meow)["image"]
+
     if image == 'false':
         image = False
-    elif image == 'true':
+    else:
+        atchmnt_url = atchmnt
         image = True
-    # removes the json to save disk space
-    # os.remove("content/json/" + str(r) + ".json")
-    # print('128')
-    do_image = False
-    if snipe_atchmnt_channel is not None and image:
-        number = 0
-        again = True
-        while again:
-            # print('in again')
-            number += 10
-            if number > 99:
-                await message.channel.send('cannot find a message to snipe!')
-                return
-            x = await snipe_atchmnt_channel.history(limit=number).flatten()
-            for i in x:
-                # print(i)
-                try:
-                    if int(i.content) == int(id):
-                        do_image = True
-                        atchmnt_url = i.attachments[0].url
-                        again = False
-                except Exception as error:
-                    print(f'{bcolors.WARNING} {error}')
 
     success = False
     for i in await message.channel.webhooks():
@@ -151,7 +90,7 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
             if i.name == '_snipe':
                 async with aiohttp.ClientSession() as session:
                     webhook = Webhook.from_url(i.url, adapter=AsyncWebhookAdapter(session))
-                    if do_image:
+                    if image:
                         await webhook.send(discord.utils.escape_mentions(f"{content}\n{atchmnt_url}"),
                                            username=nick, avatar_url=avatar)
                     else:
@@ -166,7 +105,7 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
                 if i.name == '_snipe':
                     async with aiohttp.ClientSession() as session:
                         webhook = Webhook.from_url(i.url, adapter=AsyncWebhookAdapter(session))
-                        if do_image:
+                        if image:
                             await webhook.send(discord.utils.escape_mentions(f"{content}\n{atchmnt_url}"),
                                                username=nick, avatar_url=avatar)
                         else:
@@ -189,13 +128,13 @@ class snip(commands.Cog):
 
         # checking if the server is the server for caching messages
         if message.guild.id != int(snipe_server_id):
-            snipe_server = self.client.get_guild(int(snipe_server_id))
+            # snipe_server = self.client.get_guild(int(snipe_server_id))
             msg = ''
             for i in str(message.content):
                 if i == "'" or i == '"':
                     i = ''
                 msg += i
-            user = self.client.get_user(message.author.id)
+            # user = self.client.get_user(message.author.id)
             if message.author.nick is None:
                 nick1 = message.author
             else:
@@ -207,16 +146,12 @@ class snip(commands.Cog):
                 nick += i
 
             # snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}")
-                # new_chnl = await snipe_server.create_text_channel(name=f"{message.channel.id}")
+            # new_chnl = await snipe_server.create_text_channel(name=f"{message.channel.id}")
             with open("content/json/" + str(message.channel.id) + ".json", "w") as meow:
                 if len(message.attachments) == 0:
-                    meow.write('{"content": "' + str(msg) + '", "avatar": "' + str(
-                        user.avatar_url) + '", "nick": "' + str(nick) + '", "id": "' + str(
-                        message.id) + '", "image": "false"}')
+                    meow.write('{"meow": "' + str(message.id) + '", "imag": "false"}')
                 else:
-                    meow.write('{"content": "' + str(msg) + '", "avatar": "' + str(
-                        user.avatar_url) + '", "nick": "' + str(nick) + '", "id": "' + str(
-                        message.id) + '", "image": "true"}')
+                    meow.write('{"meow": "' + str(message.id) + '", "imag": "true"}')
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -231,6 +166,7 @@ class snip(commands.Cog):
             do_cmd = True
             if len(message.attachments) == 0:
                 do_cmd = False
+            imag = False
             # if there are attachments on the message
             if do_cmd:
                 # find the server and category to place the images
@@ -238,16 +174,8 @@ class snip(commands.Cog):
                 snipe_channel = self.client.get_channel(828152387997925406)
                 # snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}-atchmnts")
 
-                # if there isnt a channel to cache those images in yet
-                # if snipe_channel is None:
-                #     new_chnl = await snipe_server.create_text_channel(f"{message.channel.id}-atchmnts")
-                #     await send_to_channel(self, new_chnl, message, False)
-
-                # else:
-
                 # random name is to prevent multiple files being downloaded into the same directory, it isn't
                 # perfect but i am lazy
-                r = random.randint(1, 256)
                 atchmnt = message.attachments[0].url
                 atchmnt_list = atchmnt.split('.')
                 atchmnt_end = atchmnt_list[len(atchmnt_list) - 1]
@@ -256,19 +184,56 @@ class snip(commands.Cog):
                 if atchmnt_end.startswith('com/'):
                     atchmnt_end = ''
 
-                with open('./content/images/' + str(r) + '.' + atchmnt_end, 'wb') as handle:
-                    print(f'{bcolors.OKBLUE}downloading image ID#{r}{bcolors.ENDC}')
+                with open('./content/images/' + str(message.id) + 'atch.' + atchmnt_end, 'wb') as handle:
+                    print(f'{bcolors.OKBLUE}downloading image ID#{message.id}{bcolors.ENDC}')
                     image = requests.get(atchmnt, stream=True)
                     for block in image.iter_content(1024):
                         if not block:
                             break
                         handle.write(block)
 
-                if os.path.getsize('./content/images/' + str(r) + '.' + atchmnt_end) < 8388608:
-                    await snipe_channel.send(str(message.id), file=discord.File('./content/images/' + str(r) + '.' +
-                                                                                atchmnt_end))
+                if os.path.getsize('./content/images/' + str(message.id) + 'atch.' + atchmnt_end) < 8388608:
+                    imag = await snipe_channel.send(str(message.id),
+                                                    file=discord.File('./content/images/' + str(message.id) +
+                                                                      'atch.' +
+                                                                      atchmnt_end))
 
-                os.remove('./content/images/' + str(r) + '.' + atchmnt_end)
+                os.remove('./content/images/' + str(message.id) + 'atch.' + atchmnt_end)
+
+            # removes all quotes from the message, so the json interpreter doesnt mess up
+            msg = ''
+            for i in str(message.content):
+                if i == "'" or i == '"':
+                    i = ''
+                msg += i
+            # user = self.client.get_user(message.author.id)
+            # uses the users nickname if the user has one for that guild
+
+            try:
+                if message.author.nick is None:
+                    nick1 = message.author
+                else:
+                    nick1 = message.author.nick
+            except AttributeError:
+                nick1 = message.author
+            nick = ''
+            # removes all quotes from the name, so the json interpreter doesnt mess up
+            for i in str(nick1):
+                if i == "'" or i == '"':
+                    i = ''
+                nick += i
+            # writing contents of the message to a json
+            with open("content/json/" + str(message.id) + ".json", "w") as meow:
+                if len(message.attachments) == 0:
+                    meow.write('{"content": "' + str(msg) + '", "avatar": "' + str(
+                        message.author.avatar_url) + '", "nick": "' + str(nick) + '", "id": "' + str(
+                        message.id) + '", "image": "false"}')
+                # tells the bot whether the message had a image in it
+                else:
+                    url = imag.attachments[0].url
+                    meow.write('{"content": "' + str(msg) + '", "avatar": "' + str(
+                        message.author.avatar_url) + '", "nick": "' + str(nick) + '", "id": "' + str(
+                        message.id) + '", "image": "' + str(url) + '"}')
 
         # snipes on message instead of command
         if message.content.lower().startswith('snipe'):
