@@ -16,7 +16,7 @@ class onmsg(commands.Cog):
             if message.guild.id == 828797783863591012:
                 del_msg = True
         if del_msg:
-            message.delete()
+            await message.delete()
 
         # dotbot
         if message.content == '.' and message.channel.name == 'dot-wars':
