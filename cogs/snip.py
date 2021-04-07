@@ -55,13 +55,6 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
     if message.author.bot:
         print('return')
         return
-    r = random.randint(1, 256)
-    with open(os.path.join(os.path.dirname(__file__), os.pardir, 'config.json')) as meow:
-        snipe_server_id = json.load(meow)["snipe-server"]
-
-    # snipe_server = client.get_guild(snipe_server_id)
-    # snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}")
-    # snipe_atchmnt_channel = client.get_channel(828152387997925406)
 
     with open("content/json/" + str(message.channel.id) + ".json") as meow:
         meowmeow = json.load(meow)
@@ -125,15 +118,13 @@ class snip(commands.Cog):
         with open(os.path.join(os.path.dirname(__file__), os.pardir, 'config.json')) as meow:
             snipe_server_id = json.load(meow)["snipe-server"]
 
-        # checking if the server is the server for caching messages
+        # checking if the server is not the server for caching messages
         if message.guild.id != int(snipe_server_id):
-            # snipe_server = self.client.get_guild(int(snipe_server_id))
             msg = ''
             for i in str(message.content):
                 if i == "'" or i == '"':
                     i = ''
                 msg += i
-            # user = self.client.get_user(message.author.id)
             if message.author.nick is None:
                 nick1 = message.author
             else:
@@ -144,8 +135,6 @@ class snip(commands.Cog):
                     i = ''
                 nick += i
 
-            # snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}")
-            # new_chnl = await snipe_server.create_text_channel(name=f"{message.channel.id}")
             with open("content/json/" + str(message.channel.id) + ".json", "w") as meow:
                 if len(message.attachments) == 0:
                     meow.write('{"meow": "' + str(message.id) + '", "imag": "false"}')
@@ -169,9 +158,7 @@ class snip(commands.Cog):
             # if there are attachments on the message
             if do_cmd:
                 # find the server and category to place the images
-                # snipe_server = self.client.get_guild(int(snipe_server_id))
                 snipe_channel = self.client.get_channel(828152387997925406)
-                # snipe_channel = discord.utils.get(snipe_server.channels, name=f"{message.channel.id}-atchmnts")
 
                 # random name is to prevent multiple files being downloaded into the same directory, it isn't
                 # perfect but i am lazy
@@ -205,7 +192,7 @@ class snip(commands.Cog):
                 if i == "'" or i == '"':
                     i = ''
                 msg += i
-            # user = self.client.get_user(message.author.id)
+
             # uses the users nickname if the user has one for that guild
 
             try:

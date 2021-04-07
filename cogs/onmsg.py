@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from discord.utils import get
-
+import re
 
 class onmsg(commands.Cog):
     def __init__(self, client):
@@ -11,6 +11,12 @@ class onmsg(commands.Cog):
     async def on_message(self, message):
         if isinstance(message.channel, discord.channel.DMChannel):
             return
+        del_msg = False
+        for m in re.finditer(r"\b(nigger)(s\b|\b)", message.content, re.IGNORECASE):
+            if message.guild.id == 828797783863591012:
+                del_msg = True
+        if del_msg:
+            message.delete()
 
         # dotbot
         if message.content == '.' and message.channel.name == 'dot-wars':
