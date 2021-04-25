@@ -52,8 +52,11 @@ class onmsg(commands.Cog):
             lisp = ''
             do_lisp = False
             for i in message.content:
-                if i == 's' or i == 'z' or i == 'S' or i == 'Z':
+                if i == 's':
                     i = 'th'
+                    do_lisp = True
+                if i == 'S':
+                    i = 'TH'
                     do_lisp = True
                 lisp += i
             if not do_lisp:
