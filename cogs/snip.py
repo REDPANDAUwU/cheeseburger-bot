@@ -35,7 +35,7 @@ async def send_to_channel(self, chnl, message, deleted):  # called on message_de
     if atchmnt_end.startswith('com/'):
         atchmnt_end = ''
 
-    with open('./content/images/' + str(message.id) + '.' + atchmnt_end, 'wb') as handle:
+    with open('./content/images/' + str(message.id) + '.' + atchmnt_end, 'w+') as handle:
         print(f'{bcolors.OKBLUE}downloading image ID#{message.id}{bcolors.ENDC}')
         image = requests.get(atchmnt, stream=True)
         for block in image.iter_content(1024):
@@ -56,13 +56,13 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
         print('return')
         return
 
-    with open("content/json/" + str(message.channel.id) + ".json") as meow:
+    with open("content/json/" + str(message.channel.id) + ".json", "w+") as meow:
         meowmeow = json.load(meow)
         msg_id = meowmeow["meow"]
         image = meowmeow["imag"]
 
     # reads the contents of the message id json
-    with open("content/json/" + str(msg_id) + ".json") as meow:
+    with open("content/json/" + str(msg_id) + ".json", "w+") as meow:
         meowmeow = json.load(meow)
         # print(meowmeow)
         content = meowmeow["content"]
@@ -135,7 +135,7 @@ class snip(commands.Cog):
                     i = ''
                 nick += i
 
-            with open("content/json/" + str(message.channel.id) + ".json", "w") as meow:
+            with open("content/json/" + str(message.channel.id) + ".json", "w+") as meow:
                 if len(message.attachments) == 0:
                     meow.write('{"meow": "' + str(message.id) + '", "imag": "false"}')
                 else:
@@ -170,7 +170,7 @@ class snip(commands.Cog):
                 if atchmnt_end.startswith('com/'):
                     atchmnt_end = ''
 
-                with open('./content/images/' + str(message.id) + 'atch.' + atchmnt_end, 'wb') as handle:
+                with open('./content/images/' + str(message.id) + 'atch.' + atchmnt_end, 'w+') as handle:
                     print(f'{bcolors.OKBLUE}downloading image ID#{message.id}{bcolors.ENDC}')
                     image = requests.get(atchmnt, stream=True)
                     for block in image.iter_content(1024):
@@ -209,7 +209,7 @@ class snip(commands.Cog):
                     i = ''
                 nick += i
             # writing contents of the message to a json
-            with open("content/json/" + str(message.id) + ".json", "w") as meow:
+            with open("content/json/" + str(message.id) + ".json", "w+") as meow:
                 if len(message.attachments) == 0:
                     meow.write('{"content": "' + str(msg) + '", "avatar": "' + str(
                         message.author.avatar_url) + '", "nick": "' + str(nick) + '", "id": "' + str(
