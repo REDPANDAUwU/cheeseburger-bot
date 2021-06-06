@@ -176,7 +176,7 @@ class snip(commands.Cog):
                     for block in image.iter_content(1024):
                         if not block:
                             break
-                        handle.write(block)
+                        handle.write(str(block))
 
                 if os.path.getsize('./content/images/' + str(message.id) + 'atch.' + atchmnt_end) < 8388608:
                     imag = await snipe_channel.send(str(message.id),

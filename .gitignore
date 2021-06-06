@@ -134,3 +134,6 @@ content/json/
 .idea
 archive
 .idea/dictionaries/conno.xml
+*.png
+*.png
+*.webp
