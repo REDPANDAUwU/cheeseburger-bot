@@ -62,7 +62,7 @@ class pride(commands.Cog):
 
     @avatar_pride.error
     async def avatar_pride(self, ctx, error):
-        ctx.send(error)
+        await ctx.send(error)
 
 
 def setup(client):
