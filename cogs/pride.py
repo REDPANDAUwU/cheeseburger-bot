@@ -61,7 +61,7 @@ class pride(commands.Cog):
         await ctx.send(file=discord.File(f'./content/images/flags/temp/{ctx.message.id}output.png'))
 
     @avatar_pride.error
-    async def avatar_pride(self, ctx, error):
+    async def avatar_pride_error(self, ctx, error):
         await ctx.send(error)
 
 
