@@ -52,14 +52,15 @@ class pride(commands.Cog):
         pic = json.loads(pic)
         x = pic[0]['image']['geometry']['width']
         y = pic[0]['image']['geometry']['height']
-        x += int(y/2)
+        x += int(y / 2)
         print(f'{x}:{y}')
         os.system(f'convert -geometry {x}x{y} ./content/images/flags/pedo.png ./content/images/flags/temp/'
                   f'{ctx.message.id}.png')
         os.system(f'composite -compose multiply -gravity center ./content/images/flags/temp/'
                   f'{ctx.message.id}.png {file_name} ./content/images/flags/temp/{ctx.message.id}output.png')
         await ctx.send(file=discord.File(f'./content/images/flags/temp/{ctx.message.id}output.png'))
-    @avatar_pride.error()
+
+    @avatar_pride.error
     async def avatar_pride(self, ctx, error):
         ctx.send(error)
 
