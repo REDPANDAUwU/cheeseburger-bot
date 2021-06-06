@@ -59,6 +59,9 @@ class pride(commands.Cog):
         os.system(f'composite -compose multiply -gravity center ./content/images/flags/temp/'
                   f'{ctx.message.id}.png {file_name} ./content/images/flags/temp/{ctx.message.id}output.png')
         await ctx.send(file=discord.File(f'./content/images/flags/temp/{ctx.message.id}output.png'))
+    @avatar_pride.error()
+    async def avatar_pride(self, ctx, error):
+        ctx.send(error)
 
 
 def setup(client):
