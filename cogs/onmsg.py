@@ -3,6 +3,7 @@ from discord.ext import commands
 from discord.utils import get
 import re
 
+
 class onmsg(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -11,12 +12,6 @@ class onmsg(commands.Cog):
     async def on_message(self, message):
         if isinstance(message.channel, discord.channel.DMChannel):
             return
-        del_msg = False
-        for m in re.finditer(r"\b(nigger)(s\b|\b)", message.content, re.IGNORECASE):
-            if message.guild.id == 828797783863591012:
-                del_msg = True
-        if del_msg:
-            await message.delete()
 
         # dotbot
         if message.content == '.' and message.channel.name == 'dot-wars':
@@ -27,7 +22,6 @@ class onmsg(commands.Cog):
             for i in message.guild.members:
                 if role in i.roles and i != message.author:
                     await i.remove_roles(role)
-
 
         elif message.channel.name == 'dot-wars' and message.content != '.':
             await message.delete()
@@ -113,6 +107,10 @@ class onmsg(commands.Cog):
             if not dont_delete:
                 await before.delete()
 
+    @commands.Cog.listener()
+    async def on_member_join(self, member):
+        if member.id == 552225393571004425 and member.guild.id == 690036880812671048:
+            await member.ban()
 
 def setup(client):
     client.add_cog(onmsg(client))
