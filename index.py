@@ -47,6 +47,7 @@ async def on_ready():
     print(f'{bcolors.OKGREEN}loaded cheeseburger-bot version: {ver}{bcolors.ENDC}')
     if not debug:
         stunna.start()
+    purge_temp.start()
 
 
 @client.listen('on_message')
@@ -56,6 +57,24 @@ async def on_message(message):
         random.randint(0, 1000000000000000000000000000000000)) + str(
         random.randint(0, 1000000000000000000000000000000000))
     await client.change_presence(activity=discord.Game(name=status_name))
+
+
+@client.command(hidden=True)
+async def reload(ctx):
+    with open('config.json') as file:
+        owner = json.load(file)["owner-id"]
+    if ctx.author.id == owner:
+        if not debug:
+            g = git.cmd.Git(os.getcwd())
+            g.pull()
+
+        cogs = os.listdir('./cogs/')
+        for cog in cogs:
+            cog_list = cog.split('.')
+            if cog_list[len(cog_list) - 1] == 'py':
+                client.reload_extension(f'cogs.{cog_list[0]}')
+
+        await ctx.send('all cogs reloaded')
 
 
 @tasks.loop(minutes=1440)
@@ -76,22 +95,11 @@ async def stunna():
     await chnl.send(file=discord.File(stunnaboy))
 
 
-@client.command(hidden=True)
-async def reload(ctx):
-    with open('config.json') as file:
-        owner = json.load(file)["owner-id"]
-    if ctx.author.id == owner:
-        g = git.cmd.Git(os.getcwd())
-        g.pull()
-
-        cogs = os.listdir('./cogs/')
-        for cog in cogs:
-            cog_list = cog.split('.')
-            if cog_list[len(cog_list) - 1] == 'py':
-                client.reload_extension(f'cogs.{cog_list[0]}')
-
-        await ctx.send('all cogs reloaded')
-
+@tasks.loop(minutes=10)
+async def purge_temp():
+    dir = './content/images/temp/'
+    for f in os.listdir(dir):
+        os.remove(os.path.join(dir, f))
 
 # cogs
 cogs = os.listdir('./cogs/')

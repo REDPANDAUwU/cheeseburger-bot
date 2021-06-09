@@ -4,6 +4,8 @@ import random
 import os
 import json
 import requests
+from PIL import Image
+import webcolors
 
 
 class images(commands.Cog):
@@ -100,6 +102,52 @@ class images(commands.Cog):
     @avatar_pride.error
     async def avatar_pride_error(self, ctx, error):
         await ctx.send(error)
+
+    @commands.command()
+    async def dumpy(self, ctx):
+        if True:  # len(ctx.message.attachments) > 0:
+            # attachment = ctx.message.attachments[0].url
+            # file_name_fake = attachment.split('.')
+            # file_name_end = file_name_fake[len(file_name_fake) - 1]
+            # file_name = f'./content/images/temp/{ctx.message.id}.{file_name_end}'
+            file_name = './content/images/temp/851672722543214593.png'
+            # r = requests.get(attachment)
+            # with open(file_name, 'wb') as f:
+            #     f.write(r.content)
+            # output_file_name = f"./content/images/temp/{ctx.message.id}output.png"
+            output_file_name = './content/images/temp/851672722543214593output.png'
+            os.system(f'convert -resize 50x50 {file_name} {output_file_name}')
+            # await ctx.send(file=discord.File(output_file_name))
+
+            # get data of image input
+            picture = Image.open(output_file_name, 'r')
+            pixels = picture.load()
+            grid = []
+            for x in range(50):
+                column = []
+                for y in range(50):
+                    # print(pixels[x, y])
+
+                    column.append(pixels[x, y])  # appends the rgb value to the grid
+                grid.append(column)
+
+            among_us_files = "./content/images/dumpy/"
+            picture.close()
+
+            # what needs to be done: make a for loop for each pixel in the 50x50 image, then create a mask for the image
+            # using a picture i havent made yet
+            export_dir = f'./content/images/temp/amongus/{ctx.message.id}/'
+            os.mkdir(export_dir)
+            i = 0
+            for x in grid:
+                for y in x:
+                    print(y)
+                    hex_code = webcolors.rgb_to_hex(y)
+                    print(hex_code)
+                    os.system(
+                        f'convert {among_us_files}im.gif -layers remove-dups -fill "{hex_code}" -opaque "#009084" '
+                        f'{export_dir}{i}.gif')
+                    i += 1
 
 
 def setup(client):

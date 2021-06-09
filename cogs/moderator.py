@@ -123,6 +123,7 @@ class Moderator(commands.Cog):
         confirmation = await ctx.send('archiving channel: {0}'.format(ctx.channel))
         chnl = self.client.get_channel(801228626871844915)
         msgs.reverse()
+        await ctx.send('downloaded messages, starting to delete')
         for i in msgs:
             if len(i.attachments) == 0:
                 # await chnl.send('from: {0}\n{1}'.format(i.author, i.content))
@@ -155,6 +156,10 @@ class Moderator(commands.Cog):
                 await chnl.send(embed=embedz)
             await i.delete()
         await confirmation.edit(content='done archiving')
+    
+    @fwtarchive.error
+    async def fwtarchive_error(self, ctx, error):
+        await ctx.send(error)
 
     @commands.command(hidden=True)
     @commands.has_permissions(administrator=True)
