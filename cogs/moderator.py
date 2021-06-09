@@ -119,11 +119,12 @@ class Moderator(commands.Cog):
             pass
         else:
             return
-        confirmation = await ctx.send('archiving channel: {0}'.format(ctx.channel))
+        confirmation = await ctx.send(f'archiving channel: {ctx.channel}')
         msgs = await ctx.channel.history(limit=12000).flatten()
         chnl = self.client.get_channel(801228626871844915)
         msgs.reverse()
-        await ctx.send('downloaded messages, starting to delete')
+        await confirmation.edit(content=f'archiving channel: {ctx.channel}\ndownloaded messages, deleting...')
+
         for i in msgs:
             if i.id != confirmation.id:
                 if len(i.attachments) == 0:
