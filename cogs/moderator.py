@@ -125,36 +125,37 @@ class Moderator(commands.Cog):
         msgs.reverse()
         await ctx.send('downloaded messages, starting to delete')
         for i in msgs:
-            if len(i.attachments) == 0:
-                # await chnl.send('from: {0}\n{1}'.format(i.author, i.content))
-                embedz = discord.Embed(title=str(i.author), description=str(i.content), color=0x00ff00)
-                embedz.set_thumbnail(url=i.author.avatar_url)
-                embedz.set_footer(text='#' + str(ctx.channel))
-                await chnl.send(embed=embedz)
-            elif len(i.attachments) >= 1:
-                atchmnt = i.attachments[0]
-                atchmnt = atchmnt.url.split('.')
-                # print(atchmnt[len(atchmnt) - 1])
-                with open('./archive/{0}.{1}'.format(i.id, atchmnt[len(atchmnt) - 1]), 'wb') as handle:
-                    _json = requests.get(i.attachments[0].url, stream=True)
-                    if not _json.ok:
-                        print(_json)
-                    for block in _json.iter_content(1024):
-                        if not block:
-                            break
-                        handle.write(block)
-                    string = './archive/{0}.{1}'.format(i.id, atchmnt[len(atchmnt) - 1])
-                pictur = self.client.get_channel(801241985171980308)
-                if os.path.getsize(string) < 8388608:
-                    imag = await pictur.send(file=discord.File(string))
-                # print(imag.attachments)
-                embedz = discord.Embed(title=str(i.author), description=str(i.content), color=0x00ff00)
-                embedz.set_thumbnail(url=i.author.avatar_url)
-                embedz.set_footer(text=ctx.channel)
-                if os.path.getsize(string) < 8388608:
-                    embedz.set_image(url=imag.attachments[0].url)
-                await chnl.send(embed=embedz)
-            await i.delete()
+            if i.id != confirmation.id:
+                if len(i.attachments) == 0:
+                    # await chnl.send('from: {0}\n{1}'.format(i.author, i.content))
+                    embedz = discord.Embed(title=str(i.author), description=str(i.content), color=0x00ff00)
+                    embedz.set_thumbnail(url=i.author.avatar_url)
+                    embedz.set_footer(text='#' + str(ctx.channel))
+                    await chnl.send(embed=embedz)
+                elif len(i.attachments) >= 1:
+                    atchmnt = i.attachments[0]
+                    atchmnt = atchmnt.url.split('.')
+                    # print(atchmnt[len(atchmnt) - 1])
+                    with open('./archive/{0}.{1}'.format(i.id, atchmnt[len(atchmnt) - 1]), 'wb') as handle:
+                        _json = requests.get(i.attachments[0].url, stream=True)
+                        if not _json.ok:
+                            print(_json)
+                        for block in _json.iter_content(1024):
+                            if not block:
+                                break
+                            handle.write(block)
+                        string = './archive/{0}.{1}'.format(i.id, atchmnt[len(atchmnt) - 1])
+                    pictur = self.client.get_channel(801241985171980308)
+                    if os.path.getsize(string) < 8388608:
+                        imag = await pictur.send(file=discord.File(string))
+                    # print(imag.attachments)
+                    embedz = discord.Embed(title=str(i.author), description=str(i.content), color=0x00ff00)
+                    embedz.set_thumbnail(url=i.author.avatar_url)
+                    embedz.set_footer(text=ctx.channel)
+                    if os.path.getsize(string) < 8388608:
+                        embedz.set_image(url=imag.attachments[0].url)
+                    await chnl.send(embed=embedz)
+                await i.delete()
         await confirmation.edit(content='done archiving')
     
     @fwtarchive.error
