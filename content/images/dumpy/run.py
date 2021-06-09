@@ -4,6 +4,9 @@ import webcolors
 r = 0
 g = 0
 b = 0
+
+change = 10
+
 while r < 255:
     while g < 255:
         while b < 255:
@@ -15,9 +18,9 @@ while r < 255:
             os.system(f'convert {hex_code.strip("#")}1.gif -dispose previous -fill "{hex_code_dark}" -opaque "#004557" '
                       f'"{hex_code.strip("#")}.gif"')
             os.remove(f'{hex_code.strip("#")}1.gif')
-            b += 5
+            b += change
         b = 0
-        g += 5
+        g += change
     g = 0
-    r += 5
+    r += change
 
