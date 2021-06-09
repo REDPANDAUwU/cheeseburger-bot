@@ -130,11 +130,8 @@ dmypy.json
 *.json
 config.json
 discord.log
-content/json/
 .idea
-archive
 .idea/dictionaries/conno.xml
-*.png
 *.png
 *.webp
 *.jpg
