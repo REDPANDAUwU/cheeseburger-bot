@@ -119,8 +119,8 @@ class Moderator(commands.Cog):
             pass
         else:
             return
-        msgs = await ctx.channel.history(limit=12000).flatten()
         confirmation = await ctx.send('archiving channel: {0}'.format(ctx.channel))
+        msgs = await ctx.channel.history(limit=12000).flatten()
         chnl = self.client.get_channel(801228626871844915)
         msgs.reverse()
         await ctx.send('downloaded messages, starting to delete')
