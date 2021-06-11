@@ -1,5 +1,8 @@
 discord.py
-gtts~=2.2.2
+gtts
 gitpython
-aiohttp~=3.7.4.post0
-requests~=2.25.1
+aiohttp
+requests
+pillow
+webcolors
+speedtest-cli

@@ -47,7 +47,7 @@ async def on_ready():
     print(f'{bcolors.OKGREEN}loaded cheeseburger-bot version: {ver}{bcolors.ENDC}')
     if not debug:
         stunna.start()
-    purge_temp.start()
+        purge_temp.start()
 
 
 @client.listen('on_message')
