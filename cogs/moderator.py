@@ -111,7 +111,9 @@ class Moderator(commands.Cog):
 
     @commands.command(hidden=True)
     async def fwtarchive(self, ctx):
-        if ctx.author.id == 694482209096204308 or ctx.author.id == 774462774947479564:
+        if ctx.author.id == 694482209096204308\
+                or ctx.author.id == 774462774947479564\
+                or ctx.author.id == 771180045917224962:
             pass
         else:
             return
