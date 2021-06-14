@@ -158,7 +158,9 @@ class Moderator(commands.Cog):
                     if os.path.getsize(string) < 8388608:
                         embedz.set_image(url=imag.attachments[0].url)
                     await chnl.send(embed=embedz)
-                await i.delete()
+                if ctx.message.content != "https://cdn.discordapp.com/attachments/799346500424958002" \
+                                          "/839416156820340756/7e277e151f6f6f7e5b82a6e4005f8bc1.png":
+                    await i.delete()
         await confirmation.edit(content='done archiving')
     
     @fwtarchive.error
