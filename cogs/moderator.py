@@ -162,7 +162,10 @@ class Moderator(commands.Cog):
                 illegal = "https://cdn.discordapp.com/attachments/799346500424958002/839416156820340756/7e277e151f6f6f7e5b82a6e4005f8bc1.png"
                 if ctx.message.content != illegal:
                     print(ctx.message.content)
-                    await i.delete()
+                    try:
+                        await i.delete()
+                    except Exception as e:
+                        print(e)
         await confirmation.edit(content='done archiving')
     
     @fwtarchive.error
