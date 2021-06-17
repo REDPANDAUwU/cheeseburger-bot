@@ -132,11 +132,12 @@ class Moderator(commands.Cog):
         for i in msgs:
             if i.id != confirmation.id:
                 if len(i.attachments) == 0:
-                    await chnl.send('from: {0}\n{1}'.format(i.author, i.content))
-                    embedz = discord.Embed(title=str(i.author), description=str(i.content), color=0x00ff00)
-                    embedz.set_thumbnail(url=i.author.avatar_url)
-                    embedz.set_footer(text='#' + str(ctx.channel))
-                    await chnl.send(embed=embedz)
+                    # await chnl.send('from: {0}\n{1}'.format(i.author, i.content))
+                    if len(str(i.content) + str(i.author)) < 2000:
+                        embedz = discord.Embed(title=str(i.author), description=str(i.content), color=0x00ff00)
+                        embedz.set_thumbnail(url=i.author.avatar_url)
+                        embedz.set_footer(text='#' + str(ctx.channel))
+                        await chnl.send(embed=embedz)
                 elif len(i.attachments) >= 1:
                     atchmnt = i.attachments[0]
                     atchmnt = atchmnt.url.split('.')
@@ -161,13 +162,7 @@ class Moderator(commands.Cog):
                             embedz.set_image(url=imag.attachments[0].url)
                         await chnl.send(embed=embedz)
 
-                if i.content == illegal:
-                    print(i.content)
-                    try:
-                        print(await i.delete())
-                    except Exception as e:
-                        print(e)
-                print(i.content)
+                await i.delete()
         await confirmation.edit(content='done archiving')
     
     @fwtarchive.error
