@@ -6,6 +6,7 @@ import json
 from discord import Webhook, AsyncWebhookAdapter
 import requests
 import os
+import re
 
 
 class Moderator(commands.Cog):
@@ -146,6 +147,12 @@ class Moderator(commands.Cog):
                         atchmnt = i.attachments[0]
                         atchmnt = atchmnt.url.split('.')
                         print(atchmnt[len(atchmnt) - 1])
+                        slash = False
+                        for s in re.finditer('/', atchmnt[len(atchmnt) - 1]):
+                            slash = True
+                        if slash:
+                            atchmnt = i.attachments[0]
+                            atchmnt = atchmnt.url.split('/')
                         with open('./archive/{0}.{1}'.format(i.id, atchmnt[len(atchmnt) - 1]), 'wb') as handle:
                             _json = requests.get(i.attachments[0].url, stream=True)
                             if not _json.ok:
