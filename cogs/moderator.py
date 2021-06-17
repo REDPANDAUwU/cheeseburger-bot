@@ -150,7 +150,7 @@ class Moderator(commands.Cog):
                                 break
                             handle.write(block)
                         string = './archive/{0}.{1}'.format(i.id, atchmnt[len(atchmnt) - 1])
-                    if len(str(i.content)) < 2000:
+                    if len(str(i.content) + str(i.author)) < 2000:
                         embedz = discord.Embed(title=str(i.author), description=str(i.content), color=0x00ff00)
                         embedz.set_thumbnail(url=i.author.avatar_url)
                         embedz.set_footer(text=ctx.channel)
