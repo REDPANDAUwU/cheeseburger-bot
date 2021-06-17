@@ -48,6 +48,7 @@ async def on_ready():
     if not debug:
         stunna.start()
         purge_temp.start()
+        catgirl_memes.start()
 
 
 @client.listen('on_message')
@@ -100,6 +101,14 @@ async def purge_temp():
     dir = './content/images/temp/'
     for f in os.listdir(dir):
         os.remove(os.path.join(dir, f))
+
+
+@tasks.loop(minutes=5)
+async def catgirl_memes():
+    channel = client.get_channel(846013796983373845)
+    if channel.name != 'no-catgirl-memes':
+        await channel.edit(name='no-catgirl-memes', topic='Channel solely for catgirl nbot allowing catgrilmemes')
+
 
 # cogs
 cogs = os.listdir('./cogs/')
