@@ -182,6 +182,27 @@ class Moderator(commands.Cog):
 
     @commands.command(hidden=True)
     @commands.has_permissions(administrator=True)
+    async def dmall(self, ctx, *args):
+        if ctx.guild.id != 768371462489899028:
+            return
+        if ctx.author.id != 694482209096204308 and ctx.author.id != 822489157967806524:
+            return
+        for m in ctx.guild.members:
+            # print(m)
+            star = ''
+            for i in args:
+                star += f' {i}'
+
+            if m.id != self.client.user.id and not m.bot:
+                try:
+                    channel = await m.create_dm()
+                    await channel.send(star)
+                except discord.errors.HTTPException:
+                    await ctx.send(f"{ctx.author} has me blocked or has DM's off!")
+        await ctx.send('done dming everyone')
+
+    @commands.command(hidden=True)
+    @commands.has_permissions(administrator=True)
     async def clone(self, ctx):
         category = self.client.get_channel(710435852538478635)
         new_chnl = await ctx.message.guild.create_text_channel(ctx.message.channel.name,
