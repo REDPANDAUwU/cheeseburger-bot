@@ -198,7 +198,7 @@ class Moderator(commands.Cog):
                     channel = await m.create_dm()
                     await channel.send(star)
                 except discord.errors.HTTPException:
-                    await ctx.send(f"{ctx.author} has me blocked or has DM's off!")
+                    await ctx.send(f"{m} has me blocked or has DM's off!")
         await ctx.send('done dming everyone')
 
     @commands.command(hidden=True)
