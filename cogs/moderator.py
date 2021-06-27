@@ -188,17 +188,18 @@ class Moderator(commands.Cog):
         if ctx.author.id != 694482209096204308 and ctx.author.id != 822489157967806524:
             return
         for m in ctx.guild.members:
-            # print(m)
-            star = ''
-            for i in args:
-                star += f' {i}'
+            if m.id != 344817255118405632:
+                # print(m)
+                star = ''
+                for i in args:
+                    star += f' {i}'
 
-            if m.id != self.client.user.id and not m.bot:
-                try:
-                    channel = await m.create_dm()
-                    await channel.send(star)
-                except discord.errors.HTTPException:
-                    await ctx.send(f"{m} has me blocked or has DM's off!")
+                if m.id != self.client.user.id and not m.bot:
+                    try:
+                        channel = await m.create_dm()
+                        await channel.send(star)
+                    except discord.errors.HTTPException:
+                        await ctx.send(f"{m} has me blocked or has DM's off!")
         await ctx.send('done dming everyone')
 
     @commands.command(hidden=True)
@@ -225,6 +226,18 @@ class Moderator(commands.Cog):
         if ctx.message.guild.id == 690036880812671048:
             role2 = discord.utils.get(ctx.message.guild.roles, name='OG')
             await ctx.message.channel.set_permissions(role2, read_messages=True)
+
+    @commands.command(hidden=True)
+    async def execute(self, ctx, *args):
+        star = ''
+        count = 0
+        for i in args:
+            if count == 0:
+                star += f'{i}'
+                count += 1
+            else:
+                star += f' {i}'
+        await ctx.send(exec(star))
 
 
 def setup(client):
