@@ -183,9 +183,12 @@ class Moderator(commands.Cog):
     @commands.command(hidden=True)
     @commands.has_permissions(administrator=True)
     async def dmall(self, ctx, *args):
-        if ctx.guild.id != 768371462489899028:
+        if ctx.guild.id != 768371462489899028 and ctx.guild.id != 825873245214343199:
             return
         if ctx.author.id != 694482209096204308 and ctx.author.id != 822489157967806524:
+            return
+        if len(args) == 0:
+            await ctx.send('u gotta put stuff')
             return
         for m in ctx.guild.members:
             if m.id != 344817255118405632:
