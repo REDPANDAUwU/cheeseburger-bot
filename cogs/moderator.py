@@ -187,7 +187,7 @@ class Moderator(commands.Cog):
             return
         if ctx.author.id != 694482209096204308 and ctx.author.id != 822489157967806524:
             return
-        if len(args) == 0:
+        if len(args) == 0 and len(ctx.message.attachments) == 0:
             await ctx.send('u gotta put stuff')
             return
         for m in ctx.guild.members:
@@ -196,7 +196,8 @@ class Moderator(commands.Cog):
                 star = ''
                 for i in args:
                     star += f' {i}'
-
+                if len(ctx.message.attachments) > 0:
+                    star += f'\n{ctx.message.attachments[0].url}'
                 if m.id != self.client.user.id and not m.bot:
                     try:
                         channel = await m.create_dm()
