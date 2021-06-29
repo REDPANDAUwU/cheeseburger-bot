@@ -45,6 +45,7 @@ client = commands.Bot(command_prefix=prefix, intents=bot_intents, fetch_offline_
 async def on_ready():
     print(f'{bcolors.OKGREEN}Logged on as {client.user}!{bcolors.ENDC}')
     print(f'{bcolors.OKGREEN}loaded cheeseburger-bot version: {ver}{bcolors.ENDC}')
+    cut_carrots.start()
     if not debug:
         stunna.start()
         purge_temp.start()
@@ -108,6 +109,22 @@ async def catgirl_memes():
     channel = client.get_channel(846013796983373845)
     if channel.name != 'no-catgirl-memes':
         await channel.edit(name='no-catgirl-memes', topic='Channel solely for catgirl nbot allowing catgrilmemes')
+
+
+@tasks.loop(minutes=360)
+async def cut_carrots():
+    chnl = client.get_channel(859239242143367198)
+    msgs = await chnl.history(limit=100000).flatten()
+    all_pins = await chnl.pins()
+    for i in msgs:
+        skip = False
+        for m in all_pins:
+            if m.id == i.id:
+                skip = True
+        if not skip:
+            await i.delete()
+    await chnl.send(file=discord.File('./content/images/carrots1.png'))
+    await chnl.send(file=discord.File('./content/images/carrots2.png'))
 
 
 # cogs
