@@ -45,8 +45,9 @@ client = commands.Bot(command_prefix=prefix, intents=bot_intents, fetch_offline_
 async def on_ready():
     print(f'{bcolors.OKGREEN}Logged on as {client.user}!{bcolors.ENDC}')
     print(f'{bcolors.OKGREEN}loaded cheeseburger-bot version: {ver}{bcolors.ENDC}')
-    cut_carrots.start()
+
     if not debug:
+        cut_carrots.start()
         stunna.start()
         purge_temp.start()
         catgirl_memes.start()
