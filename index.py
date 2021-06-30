@@ -128,7 +128,7 @@ async def cut_carrots():
         if not skip:
             await i.delete()
     for i in os.listdir('./content/images/carrots/'):
-            await chnl.send(file=discord.File(f'./content/images/carrots/{i}'))
+        await chnl.send(file=discord.File(f'./content/images/carrots/{i}'))
     print('done with carrots')
 
 
