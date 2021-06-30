@@ -43,7 +43,12 @@ class misc(commands.Cog):
                                   f' "Admin" permission')
 
     @commands.command(hidden=True)
+    @commands.has_permissions(administrator=True)
     async def add_carrot(self, ctx):
+        if ctx.guild.id != 768371462489899028:
+            return
+        if ctx.message.author.id != 694482209096204308 and ctx.message.author.id != 822489157967806524:
+            return
         if len(ctx.message.attachments) == 0:
             await ctx.send('u have to upload a pic first')
             return
