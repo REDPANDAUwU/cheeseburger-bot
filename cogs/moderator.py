@@ -190,6 +190,19 @@ class Moderator(commands.Cog):
         if len(args) == 0 and len(ctx.message.attachments) == 0:
             await ctx.send('u gotta put stuff')
             return
+
+        success = False
+        for i in await ctx.message.channel.webhooks():
+            if i.channel == ctx.message.channel:
+                if i.name == '_dm':
+                    webhook_url = i.url
+                    success = True
+        if not success:
+            webhook = await ctx.message.channel.create_webhook(name="_dm")
+            for i in await ctx.message.channel.webhooks():
+                if i.id == webhook.id:
+                    webhook_url = i.url
+
         for m in ctx.guild.members:
             if m.id != 344817255118405632:
                 # print(m)
@@ -203,7 +216,13 @@ class Moderator(commands.Cog):
                         channel = await m.create_dm()
                         await channel.send(star)
                     except discord.errors.HTTPException:
-                        await ctx.send(f"{m} has me blocked or has DM's off!")
+                        print(self.client.user.avatar_url)
+                        print(webhook_url)
+                        # await ctx.send(f"{m} has me blocked or has DM's off!")
+                        requests.post(webhook_url, {'username': 'Cheeseburger Bot',
+                                                    'avatar_url': str(self.client.user.avatar_url),
+                                                    'content': f"<@{m.id}> has me blocked or has DM's off!"
+                                                    })
         await ctx.send('done dming everyone')
 
     @commands.command(hidden=True)
