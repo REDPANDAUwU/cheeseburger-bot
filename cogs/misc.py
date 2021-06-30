@@ -1,10 +1,7 @@
 import discord
 from discord.ext import commands
-import json
-import aiohttp
-from discord import Webhook, AsyncWebhookAdapter
 from gtts import gTTS
-import random
+import os
 
 
 class misc(commands.Cog):
@@ -44,6 +41,18 @@ class misc(commands.Cog):
         if "Missing Permissions" in str(exception):
             return await ctx.send(f'I dont have the permissions to use this command, consider giving the bot the'
                                   f' "Admin" permission')
+
+    @commands.command(hidden=True)
+    async def add_carrot(self, ctx):
+        if len(ctx.message.attachments) == 0:
+            await ctx.send('u have to upload a pic first')
+            return
+        count = 1
+        for i in os.listdir('./content/images/carrots/'):
+            count += 1
+        os.system(f'curl "{ctx.message.attachments[0].url}" -s --output ./content/images/carrots/carrots{count}.png')
+        await ctx.send('downloaded imag')
+        self.client.cut_carrots.restart()
 
 
 def setup(client):

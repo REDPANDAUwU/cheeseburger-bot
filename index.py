@@ -47,10 +47,13 @@ async def on_ready():
     print(f'{bcolors.OKGREEN}loaded cheeseburger-bot version: {ver}{bcolors.ENDC}')
 
     if not debug:
-        cut_carrots.start()
-        stunna.start()
+
+        # stunna.start()
         purge_temp.start()
         catgirl_memes.start()
+    cut_carrots.start()
+    client.cut_carrots = cut_carrots
+    print(f'{bcolors.OKGREEN}all ready{bcolors.ENDC}')
 
 
 @client.listen('on_message')
@@ -114,6 +117,7 @@ async def catgirl_memes():
 
 @tasks.loop(minutes=360)
 async def cut_carrots():
+    print('start carrots')
     chnl = client.get_channel(859239242143367198)
     msgs = await chnl.history(limit=100000).flatten()
     all_pins = await chnl.pins()
@@ -124,8 +128,9 @@ async def cut_carrots():
                 skip = True
         if not skip:
             await i.delete()
-    await chnl.send(file=discord.File('./content/images/carrots1.png'))
-    await chnl.send(file=discord.File('./content/images/carrots2.png'))
+    for i in os.listdir('./content/images/carrots/'):
+            await chnl.send(file=discord.File(f'./content/images/carrots/{i}'))
+    print('done with carrots')
 
 
 # cogs
