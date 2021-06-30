@@ -216,8 +216,6 @@ class Moderator(commands.Cog):
                         channel = await m.create_dm()
                         await channel.send(star)
                     except discord.errors.HTTPException:
-                        print(self.client.user.avatar_url)
-                        print(webhook_url)
                         # await ctx.send(f"{m} has me blocked or has DM's off!")
                         requests.post(webhook_url, {'username': 'Cheeseburger Bot',
                                                     'avatar_url': str(self.client.user.avatar_url),
