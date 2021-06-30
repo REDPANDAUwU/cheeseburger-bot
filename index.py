@@ -47,12 +47,11 @@ async def on_ready():
     print(f'{bcolors.OKGREEN}loaded cheeseburger-bot version: {ver}{bcolors.ENDC}')
 
     if not debug:
-
-        # stunna.start()
+        stunna.start()
         purge_temp.start()
         catgirl_memes.start()
-    cut_carrots.start()
-    client.cut_carrots = cut_carrots
+        cut_carrots.start()
+        client.cut_carrots = cut_carrots
     print(f'{bcolors.OKGREEN}all ready{bcolors.ENDC}')
 
 
