@@ -44,7 +44,6 @@ client = commands.Bot(command_prefix=prefix, intents=bot_intents, fetch_offline_
 @client.event
 async def on_ready():
     print(f'{bcolors.OKGREEN}Logged on as {client.user}!{bcolors.ENDC}')
-    print(f'{bcolors.OKGREEN}loaded cheeseburger-bot version: {ver}{bcolors.ENDC}')
 
     if not debug:
         stunna.start()
@@ -52,7 +51,7 @@ async def on_ready():
         catgirl_memes.start()
         cut_carrots.start()
         client.cut_carrots = cut_carrots
-    print(f'{bcolors.OKGREEN}all ready{bcolors.ENDC}')
+    print(f'{bcolors.OKGREEN}loaded cheeseburger-bot version: {ver}{bcolors.ENDC}')
 
 
 @client.listen('on_message')
