@@ -220,7 +220,7 @@ class Moderator(commands.Cog):
                 if m.id != self.client.user.id and not m.bot:
                     try:
                         channel = await m.create_dm()
-                        await channel.send(star)
+                        await channel.send(f'<@{m.id}>star')
                     except discord.errors.HTTPException:
                         # await ctx.send(f"{m} has me blocked or has DM's off!")
                         requests.post(webhook_url, {'username': 'Cheeseburger Bot',
