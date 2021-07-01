@@ -179,7 +179,7 @@ class Moderator(commands.Cog):
                 if "NotFound" in e:
                     pass
                 else:
-                    ctx.send(e)
+                    ctx.send(f'warn: {e}')
         await confirmation.edit(content='done archiving')
     
     @fwtarchive.error
