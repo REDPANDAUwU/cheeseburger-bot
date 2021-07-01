@@ -180,7 +180,7 @@ class Moderator(commands.Cog):
                     pass
                 else:
                     ctx.send(f'warn: {e}')
-        await confirmation.edit(content='done archiving')
+        await ctx.send('done archiving')
     
     @fwtarchive.error
     async def fwtarchive_error(self, ctx, error):
