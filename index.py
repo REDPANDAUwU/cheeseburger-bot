@@ -51,8 +51,8 @@ async def on_ready():
         catgirl_memes.start()
         cut_carrots.start()
         client.cut_carrots = cut_carrots
-    catgirl_memes.start()
-    client.catgirl_memes = catgirl_memes
+        catgirl_memes.start()
+        client.catgirl_memes = catgirl_memes
     print(f'{bcolors.OKGREEN}loaded cheeseburger-bot version: {ver}{bcolors.ENDC}')
 
 
