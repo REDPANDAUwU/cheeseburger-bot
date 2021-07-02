@@ -59,6 +59,21 @@ class misc(commands.Cog):
         await ctx.send('downloaded imag')
         self.client.cut_carrots.restart()
 
+    @commands.command(hidden=True)
+    @commands.has_permissions(administrator=True)
+    async def add_catgirl(self, ctx):
+        if ctx.guild.id != 768371462489899028:
+            return
+        if ctx.message.author.id != 694482209096204308 and ctx.message.author.id != 822489157967806524:
+            return
+        if len(ctx.message.attachments) == 0:
+            await ctx.send('u have to upload a pic first')
+            return
+        os.system(f'curl "{ctx.message.attachments[0].url}" -s --output '
+                  f'./content/images/catgirlmemes/{ctx.message.id}.png')
+        await ctx.send('downloaded imag')
+        self.client.catgirl_memes.restart()
+
 
 def setup(client):
     client.add_cog(misc(client))

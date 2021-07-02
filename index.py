@@ -51,6 +51,8 @@ async def on_ready():
         catgirl_memes.start()
         cut_carrots.start()
         client.cut_carrots = cut_carrots
+    catgirl_memes.start()
+    client.catgirl_memes = catgirl_memes
     print(f'{bcolors.OKGREEN}loaded cheeseburger-bot version: {ver}{bcolors.ENDC}')
 
 
@@ -129,6 +131,24 @@ async def cut_carrots():
     for i in sorted(os.listdir('./content/images/carrots/')):
         await chnl.send(file=discord.File(f'./content/images/carrots/{i}'))
     print('done with carrots')
+
+
+@tasks.loop(minutes=360)
+async def catgirl_memes():
+    print('start catgirl memes')
+    chnl = client.get_channel(846013796983373845)
+    msgs = await chnl.history(limit=100000).flatten()
+    all_pins = await chnl.pins()
+    for i in msgs:
+        skip = False
+        for m in all_pins:
+            if m.id == i.id:
+                skip = True
+        if not skip:
+            await i.delete()
+    for i in sorted(os.listdir('./content/images/catgirlmemes/')):
+        await chnl.send(file=discord.File(f'./content/images/catgirlmemes/{i}'))
+    print('done with catgirl memes')
 
 
 # cogs
