@@ -107,10 +107,10 @@ class onmsg(commands.Cog):
             if not dont_delete:
                 await before.delete()
 
-    @commands.Cog.listener()
-    async def on_member_join(self, member):
-        if member.id == 552225393571004425 and member.guild.id == 690036880812671048:
-            await member.ban()
+    #@commands.Cog.listener()
+    #async def on_member_join(self, member):
+    #    if member.id == 552225393571004425 and member.guild.id == 690036880812671048:
+    #        await member.ban()
 
 def setup(client):
     client.add_cog(onmsg(client))
