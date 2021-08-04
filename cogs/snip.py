@@ -87,7 +87,7 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
                 webhook = {"username": nick, "avatar_url": avatar, "content": f"{content}\n{atchmnt_url}"}
             else:
                 webhook = {"username": nick, "avatar_url": avatar, "content": f"{content}"}
-            requests.post(i.url, json.dumps(webhook), headers={"Content-Type": "application/json"})
+            print(requests.post(i.url, json.dumps(webhook), headers={"Content-Type": "application/json"}))
             # print(json.dumps(webhook))
             success = True
     if not success:
