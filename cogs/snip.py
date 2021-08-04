@@ -100,7 +100,7 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
                 webhook = {"username": nick, "avatar_url": avatar, "content": f"{content}"}
 
             requests.post(i.url, json.dumps(webhook), headers={"Content-Type": "application/json"})
-    # print('end of snipe script')
+    print('end of snipe script')
 
 
 class snip(commands.Cog):
