@@ -83,6 +83,7 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
     success = False
     for i in await message.channel.webhooks():
         if i.name == '_snipe':
+            print(i)
             if image:
                 webhook = {"username": nick, "avatar_url": avatar, "content": f"{content}\n{atchmnt_url}"}
             else:
