@@ -79,23 +79,26 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
     else:
         atchmnt_url = atchmnt
         image = True
-
+    if client.debug:
+        webhook_name = '_testsnipe'
+    else:
+        webhook_name = '_snipe'
     success = False
     for i in await message.channel.webhooks():
-        if i.name == '_snipe':
-            print(i)
+        if i.name == webhook_name:
+            # print(i)
             if image:
                 webhook = {"username": nick, "avatar_url": avatar, "content": f"{content}\n{atchmnt_url}"}
             else:
                 webhook = {"username": nick, "avatar_url": avatar, "content": f"{content}"}
-            print(requests.post(i.url, json.dumps(webhook), headers={"Content-Type": "application/json"}))
-            print(i.url)
+            requests.post(i.url, json.dumps(webhook), headers={"Content-Type": "application/json"})
+            # print(i.url)
             # print(json.dumps(webhook))
             success = True
     if not success:
-        i = await message.channel.create_webhook(name="_snipe")
+        i = await message.channel.create_webhook(name=webhook_name)
         # makes sure it only uses a webhook named "_snipe"
-        if i.name == '_snipe':
+        if i.name == webhook_name:
             if image:
                 webhook = {"username": nick, "avatar_url": avatar, "content": f"{content}\n{atchmnt_url}"}
             else:

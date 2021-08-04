@@ -53,6 +53,7 @@ async def on_ready():
         client.cut_carrots = cut_carrots
         catgirl_memes.start()
         client.catgirl_memes = catgirl_memes
+    client.debug = debug
     print(f'{bcolors.OKGREEN}loaded cheeseburger-bot version: {ver}{bcolors.ENDC}')
 
 
