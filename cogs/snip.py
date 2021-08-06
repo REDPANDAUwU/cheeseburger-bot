@@ -199,7 +199,7 @@ class snip(commands.Cog):
                 meow.close()
 
         # snipes on message instead of command
-        if message.content.lower().startswith('snipe'):
+        if message.content.lower() == 'snipe' or message.content.lower() == 'sniper':
             await snipe_script(self.client, message)
         # await self.client.process_commands(message)
 
