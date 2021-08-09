@@ -100,9 +100,11 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
         # makes sure it only uses a webhook named "_snipe"
         if i.name == webhook_name:
             if image:
-                webhook = {"username": nick, "avatar_url": avatar, "content": f"{content}\n{atchmnt_url}"}
+                webhook = {"username": nick, "avatar_url": avatar,
+                           "content": f"{discord.utils.escape_mentions(content)}\n{atchmnt_url}"}
             else:
-                webhook = {"username": nick, "avatar_url": avatar, "content": f"{content}"}
+                webhook = {"username": nick, "avatar_url": avatar,
+                           "content": f"{discord.utils.escape_mentions(content)}"}
 
             requests.post(i.url, json.dumps(webhook), headers={"Content-Type": "application/json"})
     print('end of snipe script')
