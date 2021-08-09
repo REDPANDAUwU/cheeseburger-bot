@@ -116,7 +116,7 @@ class snip(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message_delete(self, message):
-        if message.author == self.client.user:
+        if message.author == self.client.user or message.author.bot:
             return
 
         with open(os.path.join(os.path.dirname(__file__), os.pardir, 'config.json')) as meow:
