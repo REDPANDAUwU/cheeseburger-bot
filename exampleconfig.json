@@ -5,6 +5,9 @@
   "debug-prefix": "debug bots prefix",
   "debug": "(yes) to start the debug bot, (no) to start the main bot",
   "pinwebhookurl": "webhook that the $archive command will use",
-  "owner-id": "the ID of the owner (insert as int, not string)",
-  "snipe-server": "the ID of the server the bot will use to store text and images (insert as int, not string)"
+  "owner-ids": ["the ID of the owner (insert as int, not string)", "this is a list so you can put in multiple ids"],
+  "snipe-channel": "the ID of the channel the bot will use to store pictures",
+  "fwtarchive-pic-channel": "the ID of the channel the bot will use to store the pictures from fwtarchive",
+  "fwtarchive-channel": "the ID of the channel the bot will use to store the messages from fwtarchive",
+  "fwtarchive-server": "the ID of the server you will use for the fwtarchive command"
 }

@@ -18,14 +18,63 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 
+async def save_images(client, message):
+    do_cmd = True
+    if len(message.attachments) == 0:
+        do_cmd = False
+    archiv_img_url = "meow"
+    # if there are attachments on the message
+    if do_cmd:
+        # find the server and category to place the images
+        archiv_img_url = await send_to_channel(message, client)
+
+    # removes all quotes from the message, so the json interpreter doesnt mess up
+    msg = ''
+    for i in str(message.content):
+        if i == "'" or i == '"':
+            i = ''
+        msg += i
+
+    # uses the users nickname if the user has one for that guild
+
+    try:
+        if message.author.nick is None:
+            nick1 = message.author
+        else:
+            nick1 = message.author.nick
+    except AttributeError:
+        nick1 = message.author
+    nick = ''
+    # removes all quotes from the name, so the json interpreter doesnt mess up
+    for i in str(nick1):
+        if i == "'" or i == '"':
+            i = ''
+        nick += i
+    # writing contents of the message to a json
+    with open("content/json/msg/" + str(message.id) + ".json", "w+") as meow:
+        if len(message.attachments) == 0:
+            meow.write('{"content": "' + str(msg) + '", "avatar": "' + str(
+                message.author.avatar_url) + '", "nick": "' + str(nick) + '", "id": "' + str(
+                message.id) + '", "image": "false"}')
+        # tells the bot whether the message had a image in it
+        else:
+            meow.write('{"content": "' + str(msg) + '", "avatar": "' + str(
+                message.author.avatar_url) + '", "nick": "' + str(nick) + '", "id": "' + str(
+                message.id) + '", "image": "' + str(archiv_img_url) + '"}')
+        meow.close()
+
+
 async def send_to_channel(message, client):  # called on message_delete and on_message
     if message.author.bot:
         return
 
+    with open(os.path.join(os.path.dirname(__file__), os.pardir, 'config.json')) as meow:
+        snipe_channel_id = json.load(meow)["snipe-channel"]
+
     atchmnt = message.attachments[0].url
     atchmnt_list = atchmnt.split('.')
     atchmnt_end = atchmnt_list[len(atchmnt_list) - 1]
-    snipe_channel = client.get_channel(828152387997925406)
+    snipe_channel = client.get_channel(snipe_channel_id)
 
     # checks if the attachment doesnt have a file ending
     if atchmnt_end.startswith('com/'):
@@ -119,86 +168,35 @@ class snip(commands.Cog):
         if message.author == self.client.user or message.author.bot:
             return
 
-        with open(os.path.join(os.path.dirname(__file__), os.pardir, 'config.json')) as meow:
-            snipe_server_id = json.load(meow)["snipe-server"]
+        msg = ''
+        for i in str(message.content):
+            if i == "'" or i == '"':
+                i = ''
+            msg += i
+        if message.author.nick is None:
+            nick1 = message.author
+        else:
+            nick1 = message.author.nick
+        nick = ''
+        for i in str(nick1):
+            if i == "'" or i == '"':
+                i = ''
+            nick += i
 
-        # checking if the server is not the server for caching messages
-        if message.guild.id != int(snipe_server_id):
-            msg = ''
-            for i in str(message.content):
-                if i == "'" or i == '"':
-                    i = ''
-                msg += i
-            if message.author.nick is None:
-                nick1 = message.author
+        with open("content/json/" + str(message.channel.id) + ".json", "w+") as meow:
+            if len(message.attachments) == 0:
+                meow.write('{"meow": "' + str(message.id) + '", "imag": "false"}')
             else:
-                nick1 = message.author.nick
-            nick = ''
-            for i in str(nick1):
-                if i == "'" or i == '"':
-                    i = ''
-                nick += i
-
-            with open("content/json/" + str(message.channel.id) + ".json", "w+") as meow:
-                if len(message.attachments) == 0:
-                    meow.write('{"meow": "' + str(message.id) + '", "imag": "false"}')
-                else:
-                    meow.write('{"meow": "' + str(message.id) + '", "imag": "true"}')
-                meow.close()
+                meow.write('{"meow": "' + str(message.id) + '", "imag": "true"}')
+            meow.close()
 
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.author == self.client.user:
             return
 
-        with open(os.path.join(os.path.dirname(__file__), os.pardir, 'config.json')) as meow:
-            snipe_server_id = json.load(meow)["snipe-server"]
-
         # save all images to a channel
-        if message.guild.id != int(snipe_server_id):
-            do_cmd = True
-            if len(message.attachments) == 0:
-                do_cmd = False
-            archiv_img_url = "meow"
-            # if there are attachments on the message
-            if do_cmd:
-                # find the server and category to place the images
-                archiv_img_url = await send_to_channel(message, self.client)
-
-            # removes all quotes from the message, so the json interpreter doesnt mess up
-            msg = ''
-            for i in str(message.content):
-                if i == "'" or i == '"':
-                    i = ''
-                msg += i
-
-            # uses the users nickname if the user has one for that guild
-
-            try:
-                if message.author.nick is None:
-                    nick1 = message.author
-                else:
-                    nick1 = message.author.nick
-            except AttributeError:
-                nick1 = message.author
-            nick = ''
-            # removes all quotes from the name, so the json interpreter doesnt mess up
-            for i in str(nick1):
-                if i == "'" or i == '"':
-                    i = ''
-                nick += i
-            # writing contents of the message to a json
-            with open("content/json/msg/" + str(message.id) + ".json", "w+") as meow:
-                if len(message.attachments) == 0:
-                    meow.write('{"content": "' + str(msg) + '", "avatar": "' + str(
-                        message.author.avatar_url) + '", "nick": "' + str(nick) + '", "id": "' + str(
-                        message.id) + '", "image": "false"}')
-                # tells the bot whether the message had a image in it
-                else:
-                    meow.write('{"content": "' + str(msg) + '", "avatar": "' + str(
-                        message.author.avatar_url) + '", "nick": "' + str(nick) + '", "id": "' + str(
-                        message.id) + '", "image": "' + str(archiv_img_url) + '"}')
-                meow.close()
+        await save_images(self.client, message)
 
         # snipes on message instead of command
         if message.content.lower() == 'snipe' or message.content.lower() == 'sniper':

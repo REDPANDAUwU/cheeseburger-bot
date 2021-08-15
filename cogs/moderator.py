@@ -20,9 +20,6 @@ class Moderator(commands.Cog):
             await ctx.message.channel.send('this is cheseburger server only comand hehe')
             return
 
-        if ctx.message.author.guild_permissions.administrator == False:
-            await ctx.message.channel.send('you cant use this command')
-            return
         guild = ctx.message.guild
         roles = []
         await ctx.message.channel.send('giving u numbers rn')
@@ -112,20 +109,17 @@ class Moderator(commands.Cog):
 
     @commands.command(hidden=True)
     async def fwtarchive(self, ctx):
-        if ctx.author.id == 694482209096204308\
-                or ctx.author.id == 774462774947479564\
-                or ctx.author.id == 771180045917224962\
-                or ctx.author.id == 822489157967806524:
+        if ctx.author.id in self.client.owners:
             pass
         else:
             return
-        if ctx.channel.guild.id == 768371462489899028:
+        if ctx.channel.guild.id == self.client.fwtarchiveserver:
             pass
         else:
             return
         confirmation = await ctx.send(f'archiving channel: {ctx.channel}')
         msgs = await ctx.channel.history(limit=100000).flatten()
-        chnl = self.client.get_channel(801228626871844915)
+        chnl = self.client.get_channel(self.client.fwtarchive)
         msgs.reverse()
         await confirmation.edit(content=f'archiving channel: {ctx.channel}\ndownloaded messages, deleting...')
         all_pins = await ctx.message.channel.pins()
@@ -167,7 +161,7 @@ class Moderator(commands.Cog):
                                 embedz = discord.Embed(title=str(i.author), description=str(i.content), color=0x00ff00)
                                 embedz.set_thumbnail(url=i.author.avatar_url)
                                 embedz.set_footer(text=ctx.channel)
-                                pictur = self.client.get_channel(801241985171980308)
+                                pictur = self.client.get_channel(self.client.fwtarchivepic)
                                 if os.path.getsize(string) < 8388608:
                                     imag = await pictur.send(file=discord.File(string))
                                     print(imag.attachments)
@@ -181,7 +175,7 @@ class Moderator(commands.Cog):
                 else:
                     ctx.send(f'warn: {e}')
         await ctx.send('done archiving')
-    
+
     @fwtarchive.error
     async def fwtarchive_error(self, ctx, error):
         await ctx.send(error)
@@ -189,10 +183,10 @@ class Moderator(commands.Cog):
     @commands.command(hidden=True)
     @commands.has_permissions(administrator=True)
     async def dmall(self, ctx, *args):
-        if ctx.guild.id != 768371462489899028 and ctx.guild.id != 825873245214343199:
-            return
-        if ctx.author.id != 694482209096204308 and ctx.author.id != 822489157967806524:
-            return
+        # if ctx.guild.id != 768371462489899028 and ctx.guild.id != 825873245214343199:
+        #    return
+        # if ctx.author.id != 694482209096204308 and ctx.author.id != 822489157967806524:
+        #    return
         if len(args) == 0 and len(ctx.message.attachments) == 0:
             await ctx.send('u gotta put stuff')
             return
@@ -232,6 +226,9 @@ class Moderator(commands.Cog):
     @commands.command(hidden=True)
     @commands.has_permissions(administrator=True)
     async def clone(self, ctx):
+        if ctx.message.guild.id != 690036880812671048:
+            await ctx.message.channel.send('this is cheseburger server only comand hehe')
+            return
         category = self.client.get_channel(710435852538478635)
         new_chnl = await ctx.message.guild.create_text_channel(ctx.message.channel.name,
                                                                category=ctx.message.channel.category,
@@ -253,18 +250,6 @@ class Moderator(commands.Cog):
         if ctx.message.guild.id == 690036880812671048:
             role2 = discord.utils.get(ctx.message.guild.roles, name='OG')
             await ctx.message.channel.set_permissions(role2, read_messages=True)
-
-    @commands.command(hidden=True)
-    async def execute(self, ctx, *args):
-        star = ''
-        count = 0
-        for i in args:
-            if count == 0:
-                star += f'{i}'
-                count += 1
-            else:
-                star += f' {i}'
-        await ctx.send(exec(star))
 
 
 def setup(client):

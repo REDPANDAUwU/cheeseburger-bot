@@ -45,6 +45,13 @@ client = commands.Bot(command_prefix=prefix, intents=bot_intents, fetch_offline_
 async def on_ready():
     print(f'{bcolors.OKGREEN}Logged on as {client.user}!{bcolors.ENDC}')
 
+    with open('config.json') as configf:
+        config = json.load(configf)
+        client.owners = config['owner-ids']
+        client.fwtarchive = config['fwtarchive-channel']
+        client.fwtarchivepic = config['fwtarchive-pic-channel']
+        client.fwtarchiveserver = config['fwtarchive-server']
+
     if not debug:
         stunna.start()
         purge_temp.start()
