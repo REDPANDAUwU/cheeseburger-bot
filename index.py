@@ -57,6 +57,7 @@ async def on_ready():
         purge_temp.start()
         catgirl_memes.start()
         cut_carrots.start()
+        _catgirl_memes.start()
         client.cut_carrots = cut_carrots
         client.catgirl_memes = catgirl_memes
     client.debug = debug
@@ -116,8 +117,8 @@ async def purge_temp():
 
 
 @tasks.loop(minutes=5)
-async def catgirl_memes():
-    channel = client.get_channel(846013796983373845)
+async def _catgirl_memes():
+    channel = client.get_channel(864202908367454249)
     if channel.name != 'no-catgirl-memes':
         await channel.edit(name='no-catgirl-memes', topic='Channel solely for catgirl nbot allowing catgrilmemes')
 
@@ -125,7 +126,7 @@ async def catgirl_memes():
 @tasks.loop(minutes=360)
 async def cut_carrots():
     print('start carrots')
-    chnl = client.get_channel(859239242143367198)
+    chnl = client.get_channel(864202908186443822)
     msgs = await chnl.history(limit=100000).flatten()
     all_pins = await chnl.pins()
     for i in msgs:
@@ -143,7 +144,7 @@ async def cut_carrots():
 @tasks.loop(minutes=360)
 async def catgirl_memes():
     print('start catgirl memes')
-    chnl = client.get_channel(846013796983373845)
+    chnl = client.get_channel(864202908367454249)
     msgs = await chnl.history(limit=100000).flatten()
     all_pins = await chnl.pins()
     for i in msgs:
