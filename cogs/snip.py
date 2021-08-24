@@ -103,7 +103,7 @@ async def send_to_channel(message, client):  # called on message_delete and on_m
 
 
 async def snipe_script(client, message):  # called on message 'snipe' or $snipe
-    print('snipe script')
+    # print('snipe script')
     if message.author.bot:
         print('return')
         return
@@ -137,9 +137,11 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
         if i.name == webhook_name:
             # print(i)
             if image:
-                webhook = {"username": nick, "avatar_url": avatar, "content": f"{content}\n{atchmnt_url}"}
+                webhook = {"username": nick, "avatar_url": avatar,
+                           "content": f"{discord.utils.escape_mentions(content)}\n{atchmnt_url}"}
             else:
-                webhook = {"username": nick, "avatar_url": avatar, "content": f"{content}"}
+                webhook = {"username": nick, "avatar_url": avatar,
+                           "content": f"{discord.utils.escape_mentions(content)}"}
             requests.post(i.url, json.dumps(webhook), headers={"Content-Type": "application/json"})
             # print(i.url)
             # print(json.dumps(webhook))
