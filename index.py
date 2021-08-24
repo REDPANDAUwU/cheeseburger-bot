@@ -76,8 +76,8 @@ async def on_message(message):
 @client.command(hidden=True)
 async def reload(ctx):
     with open('config.json') as file:
-        owner = json.load(file)["owner-id"]
-    if ctx.author.id == owner:
+        owners = json.load(file)["owner-ids"]
+    if ctx.author.id in owners:
         if not debug:
             g = git.cmd.Git(os.getcwd())
             g.pull()
