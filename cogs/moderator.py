@@ -117,6 +117,8 @@ class Moderator(commands.Cog):
             pass
         else:
             return
+        if ctx.author.id == 497067274428219423:
+            return
         confirmation = await ctx.send(f'archiving channel: {ctx.channel}')
         msgs = await ctx.channel.history(limit=100000).flatten()
         chnl = self.client.get_channel(self.client.fwtarchive)
