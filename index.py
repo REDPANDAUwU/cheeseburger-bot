@@ -81,6 +81,12 @@ async def reload(ctx):
         if not debug:
             g = git.cmd.Git(os.getcwd())
             g.pull()
+        with open('config.json') as configf:
+            config = json.load(configf)
+            client.owners = config['owner-ids']
+            client.fwtarchive = config['fwtarchive-channel']
+            client.fwtarchivepic = config['fwtarchive-pic-channel']
+            client.fwtarchiveserver = config['fwtarchive-server']
 
         cogs = os.listdir('./cogs/')
         for cog in cogs:
