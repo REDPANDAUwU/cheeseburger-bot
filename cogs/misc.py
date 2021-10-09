@@ -62,6 +62,7 @@ class misc(commands.Cog):
     @commands.command(hidden=True)
     @commands.has_permissions(administrator=True)
     async def add_catgirl(self, ctx):
+        print('iopaskegjn')
         if ctx.guild.id != self.client.fwtarchiveserver:
             print('1')
             print(self.client.fwtarchiveserver)
