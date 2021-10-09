@@ -45,9 +45,9 @@ class misc(commands.Cog):
     @commands.command(hidden=True)
     @commands.has_permissions(administrator=True)
     async def add_carrot(self, ctx):
-        if ctx.guild.id != 768371462489899028:
+        if ctx.guild.id != self.client.fwtarchiveserver:
             return
-        if ctx.message.author.id != 694482209096204308 and ctx.message.author.id != 822489157967806524:
+        if ctx.message.author.id in self.client.owners:
             return
         if len(ctx.message.attachments) == 0:
             await ctx.send('u have to upload a pic first')
@@ -62,9 +62,9 @@ class misc(commands.Cog):
     @commands.command(hidden=True)
     @commands.has_permissions(administrator=True)
     async def add_catgirl(self, ctx):
-        if ctx.guild.id != 768371462489899028:
+        if ctx.guild.id != self.client.fwtarchiveserver:
             return
-        if ctx.message.author.id != 694482209096204308 and ctx.message.author.id != 822489157967806524:
+        if ctx.message.author.id in self.client.owners:
             return
         if len(ctx.message.attachments) == 0:
             await ctx.send('u have to upload a pic first')
