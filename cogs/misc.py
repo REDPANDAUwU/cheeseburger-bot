@@ -63,8 +63,11 @@ class misc(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def add_catgirl(self, ctx):
         if ctx.guild.id != self.client.fwtarchiveserver:
+            print('1')
+            print(self.client.fwtarchiveserver)
             return
         if ctx.message.author.id in self.client.owners:
+            print('2')
             return
         if len(ctx.message.attachments) == 0:
             await ctx.send('u have to upload a pic first')
