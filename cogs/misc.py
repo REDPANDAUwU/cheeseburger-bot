@@ -47,7 +47,7 @@ class misc(commands.Cog):
     async def add_carrot(self, ctx):
         if ctx.guild.id != self.client.fwtarchiveserver:
             return
-        if ctx.message.author.id in self.client.owners:
+        if ctx.message.author.id not in self.client.owners:
             return
         if len(ctx.message.attachments) == 0:
             await ctx.send('u have to upload a pic first')
