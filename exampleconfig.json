@@ -9,5 +9,6 @@
   "snipe-channel": "the ID of the channel the bot will use to store pictures",
   "fwtarchive-pic-channel": "the ID of the channel the bot will use to store the pictures from fwtarchive",
   "fwtarchive-channel": "the ID of the channel the bot will use to store the messages from fwtarchive",
-  "fwtarchive-server": "the ID of the server you will use for the fwtarchive command"
+  "fwtarchive-server": "the ID of the server you will use for the fwtarchive command",
+  "fwtarchive-exclude-list": ["a list of IDs of channels you want to exclude from auto-fwtarchive"]
 }

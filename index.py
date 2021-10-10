@@ -1,10 +1,13 @@
+import json
+import os
+import random
+
 import discord
+import git
 from discord.ext import commands
 from discord.ext import tasks
-import os
-import json
-import random
-import git
+
+from utils import fwtarchive
 
 
 class bcolors:
@@ -51,15 +54,17 @@ async def on_ready():
         client.fwtarchive = config['fwtarchive-channel']
         client.fwtarchivepic = config['fwtarchive-pic-channel']
         client.fwtarchiveserver = config['fwtarchive-server']
+        client.autofwtarchivelist = config['fwtarchive-exclude-list']
 
     if not debug:
         stunna.start()
         purge_temp.start()
         catgirl_memes.start()
         cut_carrots.start()
-        _catgirl_memes.start()
+
         client.cut_carrots = cut_carrots
         client.catgirl_memes = catgirl_memes
+    auto_fwtarchive.start()
     client.debug = debug
     print(f'{bcolors.OKGREEN}loaded cheeseburger-bot version: {ver}{bcolors.ENDC}')
 
@@ -87,6 +92,7 @@ async def reload(ctx):
             client.fwtarchive = config['fwtarchive-channel']
             client.fwtarchivepic = config['fwtarchive-pic-channel']
             client.fwtarchiveserver = config['fwtarchive-server']
+            client.autofwtarchivelist = config['fwtarchive-exclude-list']
 
         cogs = os.listdir('./cogs/')
         for cog in cogs:
@@ -122,17 +128,10 @@ async def purge_temp():
         os.remove(os.path.join(dir, f))
 
 
-@tasks.loop(minutes=5)
-async def _catgirl_memes():
-    channel = client.get_channel(864202908367454249)
-    if channel.name != 'no-catgirl-memes':
-        await channel.edit(name='no-catgirl-memes', topic='Channel solely for catgirl nbot allowing catgrilmemes')
-
-
 @tasks.loop(minutes=360)
 async def cut_carrots():
     print('start carrots')
-    chnl = client.get_channel(864202908186443822)
+    chnl = client.get_channel(896519094042501161)
     msgs = await chnl.history(limit=100000).flatten()
     all_pins = await chnl.pins()
     for i in msgs:
@@ -150,7 +149,7 @@ async def cut_carrots():
 @tasks.loop(minutes=360)
 async def catgirl_memes():
     print('start catgirl memes')
-    chnl = client.get_channel(864202908367454249)
+    chnl = client.get_channel(896503366832762990)
     msgs = await chnl.history(limit=100000).flatten()
     all_pins = await chnl.pins()
     for i in msgs:
@@ -163,6 +162,17 @@ async def catgirl_memes():
     for i in sorted(os.listdir('./content/images/catgirlmemes/')):
         await chnl.send(file=discord.File(f'./content/images/catgirlmemes/{i}'))
     print('done with catgirl memes')
+
+
+@tasks.loop(minutes=180)
+async def auto_fwtarchive():
+    print("auto_fwtarchive")
+    client.client = client
+    server = client.get_guild(client.fwtarchiveserver)
+    for i in server.channels:
+        if "CategoryChannel" not in str(type(i)) and "VoiceChannel" not in str(type(i)) and \
+                i.id not in client.autofwtarchivelist:
+            await fwtarchive.fwtarchive(client, i, True)
 
 
 # cogs
