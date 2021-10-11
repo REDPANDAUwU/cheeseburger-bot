@@ -20,7 +20,7 @@ async def fwtarchive(self, ctx, auto):
         confirmation = await ctx.send(f'archiving channel: {ctx.channel}')
         msgs = await ctx.channel.history(limit=100000).flatten()
     else:
-        confirmation = await ctx.send(f'archiving channel: {ctx}')
+        # confirmation = await ctx.send(f'archiving channel: {ctx}')
         msgs = await ctx.history(limit=100000).flatten()
     chnl = self.client.get_channel(self.client.fwtarchive)
     msgs.reverse()
@@ -28,7 +28,7 @@ async def fwtarchive(self, ctx, auto):
         await confirmation.edit(content=f'archiving channel: {ctx.channel}\ndownloaded messages, deleting...')
         all_pins = await ctx.message.channel.pins()
     else:
-        await confirmation.edit(content=f'archiving channel: {ctx}\ndownloaded messages, deleting...')
+        # await confirmation.edit(content=f'archiving channel: {ctx}\ndownloaded messages, deleting...')
         all_pins = await ctx.pins()
     for i in msgs:
         try:
@@ -87,4 +87,6 @@ async def fwtarchive(self, ctx, auto):
                 pass
             else:
                 ctx.send(f'warn: {e}')
-    await ctx.send('done archiving')
+    if not auto:
+        await ctx.send('done archiving')
+    
