@@ -18,9 +18,11 @@ async def fwtarchive(self, ctx, auto):
             return
     if not auto:
         confirmation = await ctx.send(f'archiving channel: {ctx.channel}')
+        confirmation_id = confirmation.id
         msgs = await ctx.channel.history(limit=100000).flatten()
     else:
         # confirmation = await ctx.send(f'archiving channel: {ctx}')
+        confirmation_id = "sex"
         msgs = await ctx.history(limit=100000).flatten()
     chnl = self.client.get_channel(self.client.fwtarchive)
     msgs.reverse()
@@ -32,7 +34,7 @@ async def fwtarchive(self, ctx, auto):
         all_pins = await ctx.pins()
     for i in msgs:
         try:
-            if i.id != confirmation.id:
+            if i.id != confirmation_id:
                 skip = False
                 for m in all_pins:
                     if m.id == i.id:
