@@ -82,6 +82,7 @@ async def fwtarchive(self, ctx, auto):
                                 print(imag.attachments)
                                 embedz.set_image(url=imag.attachments[0].url)
                             await chnl.send(embed=embedz)
+                        os.remove('./archive/{0}.{1}'.format(i.id, atchmnt[len(atchmnt) - 1])
 
                     await i.delete()
         except Exception as e:
