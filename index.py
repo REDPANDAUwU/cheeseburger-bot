@@ -128,7 +128,7 @@ async def purge_temp():
         os.remove(os.path.join(dir, f))
 
 
-@tasks.loop(minutes=360)
+@tasks.loop(minutes=180)
 async def cut_carrots():
     print('start carrots')
     chnl = client.get_channel(896519094042501161)
@@ -146,7 +146,7 @@ async def cut_carrots():
     print('done with carrots')
 
 
-@tasks.loop(minutes=360)
+@tasks.loop(minutes=180)
 async def catgirl_memes():
     print('start catgirl memes')
     chnl = client.get_channel(896503366832762990)
@@ -164,15 +164,21 @@ async def catgirl_memes():
     print('done with catgirl memes')
 
 
-@tasks.loop(minutes=180)
+@tasks.loop(minutes=120)
 async def auto_fwtarchive():
-    print("auto_fwtarchive")
-    client.client = client
-    server = client.get_guild(client.fwtarchiveserver)
-    for i in server.channels:
-        if "CategoryChannel" not in str(type(i)) and "VoiceChannel" not in str(type(i)) and \
-                i.id not in client.autofwtarchivelist:
-            await fwtarchive.fwtarchive(client, i, True)
+    try:
+        print("auto_fwtarchive")
+        client.client = client
+        server = client.get_guild(client.fwtarchiveserver)
+        for i in server.channels:
+            if "CategoryChannel" not in str(type(i)) and "VoiceChannel" not in str(type(i)) and \
+                    i.id not in client.autofwtarchivelist:
+                await fwtarchive.fwtarchive(client, i, True)
+    except Exception as e:
+        m = client.get_user(888298803034210345)
+        chnl = m.create_dm()
+        chnl.send(f"your bot has fucked up retard {e}")
+
 
 
 # cogs
