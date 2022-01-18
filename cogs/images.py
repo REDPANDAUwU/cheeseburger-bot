@@ -28,6 +28,7 @@ class images(commands.Cog):
         animes = os.listdir('./content/images/Nekos/')
         if len(animes) == 1:
             return
+        anime = ''
         meowing = True
         while meowing:
             anime = random.choice(animes)
@@ -44,6 +45,7 @@ class images(commands.Cog):
         traps = os.listdir('./content/images/trap/')
         if len(traps) == 1:
             return
+        trap = ''
         meowing = True
         while meowing:
             trap = random.choice(traps)
@@ -60,6 +62,7 @@ class images(commands.Cog):
         floppas = os.listdir('./content/images/floppa/')
         if len(floppas) == 1:
             return
+        floppa = ''
         meowing = True
         while meowing:
             floppa = random.choice(floppas)

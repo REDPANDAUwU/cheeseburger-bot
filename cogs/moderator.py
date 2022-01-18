@@ -1,12 +1,10 @@
 import json
 import os
-import re
 import sys
 import time
 
 import aiohttp
 import discord
-import requests
 from discord import Webhook, AsyncWebhookAdapter
 from discord.ext import commands
 
@@ -45,7 +43,7 @@ class Moderator(commands.Cog):
             await ctx.message.channel.send('this is cheseburger server only comand hehe')
             return
         chnl = self.client.get_channel(742952152653365289)
-        archive_channel = self.client.get_channel(742952152653365289)
+        # archive_channel = self.client.get_channel(742952152653365289)
         all_pins = await ctx.message.channel.pins()
         for i in all_pins:
             mat = i.attachments
@@ -102,7 +100,8 @@ class Moderator(commands.Cog):
         inviter_id = arg.id
 
         invite_to_send = await ctx.message.channel.create_invite(max_uses=1, max_age=86400,
-                                                                 reason='requested by ' + ctx.message.author.name + '#' + ctx.message.author.discriminator)
+                                                                 reason='requested by ' + ctx.message.author.name + '#'
+                                                                        + ctx.message.author.discriminator)
         user = self.client.get_user(int(inviter_id))
         print(user)
 
@@ -133,9 +132,9 @@ class Moderator(commands.Cog):
             await ctx.message.channel.send('this is cheseburger server only comand hehe')
             return
         category = self.client.get_channel(710435852538478635)
-        new_chnl = await ctx.message.guild.create_text_channel(ctx.message.channel.name,
-                                                               category=ctx.message.channel.category,
-                                                               overwrites=ctx.message.channel.overwrites)
+        # new_chnl = await ctx.message.guild.create_text_channel(ctx.message.channel.name,
+        #                                                        category=ctx.message.channel.category,
+        #                                                        overwrites=ctx.message.channel.overwrites)
         channel_not_made = True
         time.sleep(5)
         m = 0

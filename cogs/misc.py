@@ -53,7 +53,7 @@ class misc(commands.Cog):
             await ctx.send('u have to upload a pic first')
             return
         count = 1
-        for i in os.listdir('./content/images/carrots/'):
+        for _ in os.listdir('./content/images/carrots/'):
             count += 1
         os.system(f'curl "{ctx.message.attachments[0].url}" -s --output ./content/images/carrots/carrots{count}.png')
         await ctx.send('downloaded imag')

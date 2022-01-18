@@ -98,11 +98,11 @@ async def reload(ctx):
             client.fwtarchiveserver = config['fwtarchive-server']
             client.autofwtarchivelist = config['fwtarchive-exclude-list']
 
-        cogs = os.listdir('./cogs/')
-        for cog in cogs:
-            cog_list = cog.split('.')
-            if cog_list[len(cog_list) - 1] == 'py':
-                client.reload_extension(f'cogs.{cog_list[0]}')
+        cogs_ = os.listdir('./cogs/')
+        for cog_ in cogs_:
+            _cog_list = cog_.split('.')
+            if _cog_list[len(_cog_list) - 1] == 'py':
+                client.reload_extension(f'cogs.{_cog_list[0]}')
 
         await ctx.send('all cogs reloaded')
 
@@ -111,6 +111,7 @@ async def reload(ctx):
 async def stunna():
     chnl = client.get_channel(823228873801465866)
     meowing = True
+    stunnaboy = ''
     while meowing:
         stunnaboys = os.listdir('./content/images/Stunnaboy/')
         if len(stunnaboys) == 1:
@@ -127,9 +128,9 @@ async def stunna():
 
 @tasks.loop(minutes=10)
 async def purge_temp():
-    dir = './content/images/temp/'
-    for f in os.listdir(dir):
-        os.remove(os.path.join(dir, f))
+    directory = './content/images/temp/'
+    for f in os.listdir(directory):
+        os.remove(os.path.join(directory, f))
 
 
 @tasks.loop(minutes=180)

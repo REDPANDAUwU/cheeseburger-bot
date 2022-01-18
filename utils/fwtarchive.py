@@ -16,6 +16,7 @@ async def fwtarchive(self, ctx, auto):
             return
         if ctx.author.id == 497067274428219423:
             return
+    confirmation = ''
     if not auto:
         confirmation = await ctx.send(f'archiving channel: {ctx.channel}')
         confirmation_id = confirmation.id
@@ -55,7 +56,7 @@ async def fwtarchive(self, ctx, auto):
                         atchmnt = atchmnt.url.split('.')
                         print(atchmnt[len(atchmnt) - 1])
                         slash = False
-                        for s in re.finditer('/', atchmnt[len(atchmnt) - 1]):
+                        for _ in re.finditer('/', atchmnt[len(atchmnt) - 1]):
                             slash = True
                         if slash:
                             atchmnt = i.attachments[0]

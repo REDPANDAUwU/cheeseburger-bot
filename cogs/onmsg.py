@@ -57,7 +57,7 @@ class onmsg(commands.Cog):
             if not do_lisp:
                 return
             characters = 0
-            for i in lisp:
+            for _ in lisp:
                 characters += 1
             if characters > 2000:
                 await message.channel.send('stfu megagamer')
@@ -117,10 +117,11 @@ class onmsg(commands.Cog):
             if not dont_delete:
                 await before.delete()
 
-    #@commands.Cog.listener()
-    #async def on_member_join(self, member):
+    # @commands.Cog.listener()
+    # async def on_member_join(self, member):
     #    if member.id == 552225393571004425 and member.guild.id == 690036880812671048:
     #        await member.ban()
+
 
 def setup(client):
     client.add_cog(onmsg(client))

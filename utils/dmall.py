@@ -16,7 +16,7 @@ async def dmall(self, ctx, args, on_msg=False):
     if len(args) == 0 and len(ctx.attachments) == 0:
         await ctx.channel.send('u gotta put stuff')
         return
-
+    webhook_url = ''
     success = False
     for i in await ctx.channel.webhooks():
         if i.channel == ctx.channel:
@@ -33,10 +33,12 @@ async def dmall(self, ctx, args, on_msg=False):
         if m.id != 344817255118405632:
             # print(m)
             star = ''
+
             for i in args:
                 star += f' {i}'
             if len(ctx.attachments) > 0:
                 star += f'\n{ctx.attachments[0].url}'
+            star += f'\n- sent by {ctx.author}'
             if m.id != self.client.user.id and not m.bot:
                 try:
                     channel = await m.create_dm()

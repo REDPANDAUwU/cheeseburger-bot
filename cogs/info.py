@@ -4,10 +4,9 @@ import time
 import os
 import os.path
 import speedtest
-from git import Repo
 
 
-def bytesto(bytes, to, bsize=1024):
+def bytesto(_bytes, to, bsize=1024):
     """convert bytes to megabytes, etc.
        sample code:
            print('mb= ' + str(bytesto(314575262000000, 'm')))
@@ -16,7 +15,7 @@ def bytesto(bytes, to, bsize=1024):
     """
 
     a = {'k': 1, 'm': 2, 'g': 3, 't': 4, 'p': 5, 'e': 6}
-    r = float(bytes)
+    r = float(_bytes)
     for i in range(a[to]):
         r = r / bsize
 
