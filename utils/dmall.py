@@ -10,7 +10,7 @@ async def dmall(self, ctx, args, on_msg=False):
 
     # this prevents the function getting ran twice from 1 message
     if not on_msg:
-        if ctx.author.id == 888298803034210345:
+        if ctx.author.id == 656962312565030963:
             return
     # print(args)
     if len(args) == 0 and len(ctx.attachments) == 0:

@@ -91,10 +91,10 @@ class onmsg(commands.Cog):
                     "'" + discord.utils.escape_mentions(message.content) + "' - darwin, " + str(message.created_at))
                 for image in range(len(attachments)):
                     await quote_channel.send(attachments[image - 1].url)
-        
+
         # let GenAi bot use the dmall command (because funny)
         # discord.py by default blocks command requests from bots so i need to do this
-        if message.author.id == 888298803034210345:
+        if message.author.id == 656962312565030963:
             if message.content.lower().startswith(f'{self.client.prefix}dmall'):
                 await dmall.dmall(self, message, message.content[6:].split(), True)
 
