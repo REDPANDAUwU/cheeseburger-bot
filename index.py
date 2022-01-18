@@ -55,6 +55,10 @@ async def on_ready():
         client.fwtarchivepic = config['fwtarchive-pic-channel']
         client.fwtarchiveserver = config['fwtarchive-server']
         client.autofwtarchivelist = config['fwtarchive-exclude-list']
+        if debug:
+            client.prefix = config['debug-prefix']
+        else:
+            client.prefix = config['prefix']
 
     if not debug:
         stunna.start()
@@ -64,7 +68,7 @@ async def on_ready():
 
         client.cut_carrots = cut_carrots
         client.catgirl_memes = catgirl_memes
-    auto_fwtarchive.start()
+        auto_fwtarchive.start()
     client.debug = debug
     print(f'{bcolors.OKGREEN}loaded cheeseburger-bot version: {ver}{bcolors.ENDC}')
 

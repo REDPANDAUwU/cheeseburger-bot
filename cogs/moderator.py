@@ -12,6 +12,7 @@ from discord.ext import commands
 
 sys.path.append(f"{os.path.dirname(os.path.dirname(os.path.abspath(__file__)))}/utils")
 import fwtarchive
+import dmall
 
 
 class Moderator(commands.Cog):
@@ -123,45 +124,7 @@ class Moderator(commands.Cog):
     @commands.command(hidden=True)
     @commands.has_permissions(administrator=True)
     async def dmall(self, ctx, *args):
-        # if ctx.guild.id != 768371462489899028 and ctx.guild.id != 825873245214343199:
-        #    return
-        # if ctx.author.id != 694482209096204308 and ctx.author.id != 822489157967806524:
-        #    return
-        if len(args) == 0 and len(ctx.message.attachments) == 0:
-            await ctx.send('u gotta put stuff')
-            return
-
-        success = False
-        for i in await ctx.message.channel.webhooks():
-            if i.channel == ctx.message.channel:
-                if i.name == '_dm':
-                    webhook_url = i.url
-                    success = True
-        if not success:
-            webhook = await ctx.message.channel.create_webhook(name="_dm")
-            for i in await ctx.message.channel.webhooks():
-                if i.id == webhook.id:
-                    webhook_url = i.url
-
-        for m in ctx.guild.members:
-            if m.id != 344817255118405632:
-                # print(m)
-                star = ''
-                for i in args:
-                    star += f' {i}'
-                if len(ctx.message.attachments) > 0:
-                    star += f'\n{ctx.message.attachments[0].url}'
-                if m.id != self.client.user.id and not m.bot:
-                    try:
-                        channel = await m.create_dm()
-                        await channel.send(f'<@{m.id}>{star}')
-                    except discord.errors.HTTPException:
-                        # await ctx.send(f"{m} has me blocked or has DM's off!")
-                        requests.post(webhook_url, {'username': 'Cheeseburger Bot',
-                                                    'avatar_url': str(self.client.user.avatar_url),
-                                                    'content': f"<@{m.id}> has me blocked or has DM's off!"
-                                                    })
-        await ctx.send('done dming everyone')
+        await dmall.dmall(self, ctx.message, args)
 
     @commands.command(hidden=True)
     @commands.has_permissions(administrator=True)
