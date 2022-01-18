@@ -1,6 +1,7 @@
 import json
 import os
 import random
+import importlib
 
 import discord
 import git
@@ -103,6 +104,8 @@ async def reload(ctx):
             _cog_list = cog_.split('.')
             if _cog_list[len(_cog_list) - 1] == 'py':
                 client.reload_extension(f'cogs.{_cog_list[0]}')
+
+        importlib.reload(fwtarchive)
 
         await ctx.send('all cogs reloaded')
 
