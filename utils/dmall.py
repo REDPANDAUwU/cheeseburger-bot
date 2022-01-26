@@ -45,8 +45,16 @@ async def dmall(self, ctx, args, on_msg=False):
                     await channel.send(f'<@{m.id}>{star}')
                 except discord.errors.HTTPException:
                     # await ctx.send(f"{m} has me blocked or has DM's off!")
-                    requests.post(webhook_url, {'username': 'Cheeseburger Bot',
-                                                'avatar_url': str(self.client.user.avatar_url),
-                                                'content': f"<@{m.id}> has me blocked or has DM's off!"
-                                                })
+                    sent = False
+                    while not sent:
+                        callback = requests.post(webhook_url, {'username': 'Cheeseburger Bot',
+                                                               'avatar_url': str(self.client.user.avatar_url),
+                                                               'content': f"<@{m.id}> has me blocked or has DM's off!"
+                                                               })
+                        if '204' in str(callback):
+                            # print('success')
+                            sent = True
+                        # else:
+                        #     print('loop')
+
     await ctx.channel.send('done dming everyone')
