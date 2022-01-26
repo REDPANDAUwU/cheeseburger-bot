@@ -16,7 +16,7 @@ def webhook_ping(webhook, av_url, user):
             sent = True
 
         time.sleep(.5)
-    print('thready is done!!!!')
+    # print('thready is done!!!!')
 
 
 async def dmall(self, ctx, args, on_msg=False):
@@ -45,7 +45,7 @@ async def dmall(self, ctx, args, on_msg=False):
         for i in await ctx.channel.webhooks():
             if i.id == webhook.id:
                 webhook_url = i.url
-
+    threads = []
     for m in ctx.guild.members:
         if m.id != 344817255118405632:
             # print(m)
@@ -80,5 +80,8 @@ async def dmall(self, ctx, args, on_msg=False):
                                                                              self.client.user.avatar_url,
                                                                              m.id))
                     new_thread.start()
-                    print('thread started')
+                    threads.append(new_thread)
+                    # print('thread started')
+    for i in threads:
+        i.join()
     await ctx.channel.send('done dming everyone')
