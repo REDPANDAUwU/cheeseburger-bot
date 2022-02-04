@@ -1,10 +1,10 @@
 import discord
 import requests
 import time
-import threading
+import asyncio
 
 
-def webhook_ping(webhook, av_url, user):
+async def webhook_ping(webhook, av_url, user):
     sent = False
     while not sent:
         callback = requests.post(webhook, {'username': 'Cheeseburger Bot',
@@ -45,7 +45,7 @@ async def dmall(self, ctx, args, on_msg=False):
         for i in await ctx.channel.webhooks():
             if i.id == webhook.id:
                 webhook_url = i.url
-    threads = []
+    tasks = []
     for m in ctx.guild.members:
         if m.id != 344817255118405632:
             # print(m)
@@ -76,12 +76,15 @@ async def dmall(self, ctx, args, on_msg=False):
                     #     # else:
                     #     #     print('loop')
                     # webhook_ping(webhook_url, self.client.user.avatar_url, m.id)
-                    new_thread = threading.Thread(target=webhook_ping, args=(webhook_url,
-                                                                             self.client.user.avatar_url,
-                                                                             m.id))
-                    new_thread.start()
-                    threads.append(new_thread)
+
+                    # new_thread = threading.Thread(target=webhook_ping, args=(webhook_url,
+                    #                                                          self.client.user.avatar_url,
+                    #                                                          m.id))
+                    # new_thread.start()
+                    # threads.append(new_thread)
+                    new_task = asyncio.create_task(webhook_ping(webhook_url, self.client.user.avatar_url, m.id))
+                    tasks.append(new_task)
                     # print('thread started')
-    # for i in threads:
-    #     i.join()
+    for i in tasks:
+        await i
     await ctx.channel.send('done dming everyone')
