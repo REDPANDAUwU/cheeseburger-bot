@@ -45,7 +45,7 @@ async def dmall(self, ctx, args, on_msg=False):
         for i in await ctx.channel.webhooks():
             if i.id == webhook.id:
                 webhook_url = i.url
-    threads = []
+#     threads = []
     for m in ctx.guild.members:
         if m.id != 344817255118405632:
             # print(m)
@@ -61,26 +61,16 @@ async def dmall(self, ctx, args, on_msg=False):
                     channel = await m.create_dm()
                     await channel.send(f'<@{m.id}>{star}')
                 except discord.errors.HTTPException:
-                    # await ctx.send(f"{m} has me blocked or has DM's off!")
-                    # sent = False
-                    # while not sent:
-                    #     callback = requests.post(webhook_url, {'username': 'Cheeseburger Bot',
-                    #                                            'avatar_url': str(self.client.user.avatar_url),
-                    #                                            'content': f"<@{m.id}> has me blocked or has DM's off!"
-                    #                                            })
-                    #     if '204' in str(callback):
-                    #         # print('success')
-                    #         sent = True
-                    #
-                    #     time.sleep(.5)
-                    #     # else:
-                    #     #     print('loop')
-                    # webhook_ping(webhook_url, self.client.user.avatar_url, m.id)
-                    new_thread = threading.Thread(target=webhook_ping, args=(webhook_url,
-                                                                             self.client.user.avatar_url,
-                                                                             m.id))
-                    new_thread.start()
-                    threads.append(new_thread)
+                    requests.post(webhook_url, {'username': 'Cheeseburger Bot',
+                                                            'avatar_url': str(self.client.user.avatar_url),
+                                                            'content': f"<@{m.id}> has me blocked or has DM's off!"
+                                                            })
+
+#                     new_thread = threading.Thread(target=webhook_ping, args=(webhook_url,
+#                                                                              self.client.user.avatar_url,
+#                                                                              m.id))
+#                     new_thread.start()
+#                     threads.append(new_thread)
                     # print('thread started')
     # for i in threads:
     #     i.join()
