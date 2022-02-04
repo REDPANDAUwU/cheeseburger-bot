@@ -82,6 +82,6 @@ async def dmall(self, ctx, args, on_msg=False):
                     new_thread.start()
                     threads.append(new_thread)
                     # print('thread started')
-    for i in threads:
-        i.join()
+    # for i in threads:
+    #     i.join()
     await ctx.channel.send('done dming everyone')
