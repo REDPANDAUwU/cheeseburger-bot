@@ -183,7 +183,7 @@ async def auto_fwtarchive():
                     i.id not in client.autofwtarchivelist:
                 await fwtarchive.fwtarchive(client, i, True)
     except Exception as e:
-        m = client.get_user(888298803034210345)
+        m = client.get_user(933204476142178304)
         chnl = await m.create_dm()
         await chnl.send(f"your bot has fucked up retard {e}")
 
