@@ -18,7 +18,7 @@ class misc(commands.Cog):
 
     @commands.command(brief='turns your text into a tts mp3')
     async def tts(self, ctx, *args):
-        myobj = gTTS(text=str(args), lang='en', slow=False)
+        myobj = gTTS(text=str(args), lang='ja', slow=False)
         myobj.save("./content/tts.mp3")
         await ctx.send(file=discord.File('./content/tts.mp3'))
 
