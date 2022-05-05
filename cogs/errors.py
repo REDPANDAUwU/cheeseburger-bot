@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+import datetime
 
 
 class error_handling(commands.Cog):
@@ -13,7 +14,7 @@ class error_handling(commands.Cog):
         elif isinstance(error, commands.MissingPermissions):
             return await ctx.send('you need more permisons')
         log_file = open('log.txt', 'a')
-        log_file.write(f'Command: {ctx.command.qualified_name}, error: {error}\n')
+        log_file.write(f'Command: {ctx.command.qualified_name}, error: {error}\n, {datetime.datetime.now()}')
         try:
             return await ctx.send('i broke lol!!!!')
         except:

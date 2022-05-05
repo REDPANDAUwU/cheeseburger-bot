@@ -76,7 +76,8 @@ async def on_ready():
 
 @client.listen('on_message')
 async def on_message(message):
-    print(f'{bcolors.OKCYAN}Message from {message.author}: {message.content}{bcolors.ENDC}')
+    if message.content.strip() != '':
+        print(f'{bcolors.OKCYAN}Message from {message.author}: {message.content}{bcolors.ENDC}')
     status_name = str(random.randint(0, 1000000000000000000000000000000000)) + str(
         random.randint(0, 1000000000000000000000000000000000)) + str(
         random.randint(0, 1000000000000000000000000000000000))
