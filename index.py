@@ -176,19 +176,13 @@ async def catgirl_memes():
 
 @tasks.loop(minutes=120)
 async def auto_fwtarchive():
-    try:
-        print("auto_fwtarchive")
-        client.client = client
-        server = client.get_guild(client.fwtarchiveserver)
-        for i in server.channels:
-            if "CategoryChannel" not in str(type(i)) and "VoiceChannel" not in str(type(i)) and \
-                    i.id not in client.autofwtarchivelist:
-                await fwtarchive.fwtarchive(client, i, True)
-    except:
-        # m = client.get_user(933204476142178304)
-        # chnl = await m.create_dm()
-        # await chnl.send(f"your bot has fucked up retard {e}")
-        pass
+    # print("auto_fwtarchive")
+    client.client = client
+    server = client.get_guild(client.fwtarchiveserver)
+    for i in server.channels:
+        if "CategoryChannel" not in str(type(i)) and "VoiceChannel" not in str(type(i)) and \
+                i.id not in client.autofwtarchivelist:
+            await fwtarchive.fwtarchive(client, i, True)
 
 
 # cogs
