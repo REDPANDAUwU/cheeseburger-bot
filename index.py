@@ -133,7 +133,9 @@ async def stunna():
 async def purge_temp():
     directory = './content/images/temp/'
     for f in os.listdir(directory):
-        os.remove(os.path.join(directory, f))
+        meow = f.split('.')
+        if meow[len(meow) - 1] != "md":
+            os.remove(os.path.join(directory, f))
 
 
 @tasks.loop(minutes=180)
@@ -182,7 +184,7 @@ async def auto_fwtarchive():
             if "CategoryChannel" not in str(type(i)) and "VoiceChannel" not in str(type(i)) and \
                     i.id not in client.autofwtarchivelist:
                 await fwtarchive.fwtarchive(client, i, True)
-    except Exception as e:
+    except:
         # m = client.get_user(933204476142178304)
         # chnl = await m.create_dm()
         # await chnl.send(f"your bot has fucked up retard {e}")

