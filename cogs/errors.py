@@ -13,7 +13,7 @@ class error_handling(commands.Cog):
             return
         elif isinstance(error, commands.MissingPermissions):
             return await ctx.send('you need more permisons')
-        elif isinstance(error, discord.Forbidden):
+        elif isinstance(error, discord.errors.Forbidden):
             return
         log_file = open('log.txt', 'a')
         log_file.write(f'Command: {ctx.command.qualified_name}, error: {error}\n, {datetime.datetime.now()}')
