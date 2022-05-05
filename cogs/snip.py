@@ -201,7 +201,8 @@ class snip(commands.Cog):
         await save_images(self.client, message)
 
         # snipes on message instead of command
-        if message.content.lower() == 'snipe' or message.content.lower() == 'sniper':
+        if message.content.lower() == 'snipe' or message.content.lower() == 'sniper' \
+                or message.content.lower() == 'thnipe':
             await snipe_script(self.client, message)
         # await self.client.process_commands(message)
 

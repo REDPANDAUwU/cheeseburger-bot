@@ -10,6 +10,8 @@ class error_handling(commands.Cog):
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.CommandNotFound):
             return
+        elif isinstance(error, commands.MissingPermissions):
+            return await ctx.send('you need more permisons')
         log_file = open('log.txt', 'a')
         log_file.write(f'Command: {ctx.command.qualified_name}, error: {error}\n')
         try:
