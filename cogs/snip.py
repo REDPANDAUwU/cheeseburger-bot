@@ -105,7 +105,7 @@ async def send_to_channel(message, client):  # called on message_delete and on_m
 async def snipe_script(client, message):  # called on message 'snipe' or $snipe
     # print('snipe script')
     if message.author.bot:
-        print('return')
+        # print('return')
         return
 
     with open("content/json/" + str(message.channel.id) + ".json", "r") as meow:
@@ -158,7 +158,7 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
                            "content": f"{discord.utils.escape_mentions(content)}"}
 
             requests.post(i.url, json.dumps(webhook), headers={"Content-Type": "application/json"})
-    print('end of snipe script')
+    # print('end of snipe script')
 
 
 class snip(commands.Cog):

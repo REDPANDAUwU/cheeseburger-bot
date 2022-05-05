@@ -36,8 +36,6 @@ class images(commands.Cog):
             anime_list = anime.split('.')
             if os.path.getsize(anime) < 8388608 and anime_list[len(anime_list) - 1] != 'md':
                 meowing = False
-            else:
-                print('file too big')
         await ctx.message.channel.send(file=discord.File(anime))
 
     @commands.command(brief='sends a random trap which is nsfw sometimes')
@@ -53,8 +51,6 @@ class images(commands.Cog):
             trap_list = trap.split('.')
             if os.path.getsize(trap) < 8388608 and trap_list[len(trap_list) - 1] != 'md':
                 meowing = False
-            else:
-                print('trap too big')
         await ctx.message.channel.send(file=discord.File(trap))
 
     @commands.command(brief='sends floppa')
@@ -70,8 +66,6 @@ class images(commands.Cog):
             floppa_list = floppa.split('.')
             if os.path.getsize(floppa) < 8388608 and floppa_list[len(floppa_list) - 1] != 'md':
                 meowing = False
-            else:
-                print('floppa too big')
         await ctx.message.channel.send(file=discord.File(floppa))
 
     @commands.command(brief='pride!!!')
@@ -95,7 +89,6 @@ class images(commands.Cog):
         x = pic[0]['image']['geometry']['width']
         y = pic[0]['image']['geometry']['height']
         x += int(y / 2)
-        print(f'{x}:{y}')
         os.system(f'convert -geometry {x}x{y} ./content/images/flags/pedo.png ./content/images/flags/temp/'
                   f'{ctx.message.id}.png')
         os.system(f'composite -compose multiply -gravity center ./content/images/flags/temp/'
@@ -131,7 +124,6 @@ class images(commands.Cog):
                 for y in range(10):
                     try:
                         # print('emow')
-                        print(pixels[x, y])
                         r, g, b, a = pixels[x, y]
                         r -= r % 10
                         g -= g % 10

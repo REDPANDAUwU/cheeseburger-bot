@@ -35,7 +35,7 @@ class Moderator(commands.Cog):
                 if role.name == str(i):
                     roles.append(role)
                     await arg.add_roles(role, reason='meow')
-                    print('given role ' + str(role))
+                    # print('given role ' + str(role))
 
     @commands.command(brief='clears the channels pins',
                       description='clears the channels pins and posts them all in a seperate channel', hidden=True)
@@ -83,7 +83,7 @@ class Moderator(commands.Cog):
                         await webhook.send(mat[image - 1].url)
                 await chnl.send('‏‏‎ ‎')
             await i.unpin(reason='to archive')
-            print(all_pins)
+            # print(all_pins)
 
     @commands.command(brief='invites a user in dm with a 1 use invite', hidden=True)
     async def invite(self, ctx, arg: discord.User):
@@ -97,7 +97,7 @@ class Moderator(commands.Cog):
         if do_invite is not True:
             await ctx.send('u dont have invite aces')
             return
-        print(ctx.message.content)
+        # print(ctx.message.content)
 
         inviter_id = arg.id
 
@@ -105,7 +105,7 @@ class Moderator(commands.Cog):
                                                                  reason='requested by ' + ctx.message.author.name + '#'
                                                                         + ctx.message.author.discriminator)
         user = self.client.get_user(int(inviter_id))
-        print(user)
+        # print(user)
 
         await user.send('here is your instant invite ' + str(invite_to_send))
         await ctx.message.channel.send('invite sent to ' + user.name + '#' + user.discriminator)
@@ -142,10 +142,10 @@ class Moderator(commands.Cog):
         m = 0
         while channel_not_made:
             m += 1
-            print(f"{ctx.message.channel.name}-{m}")
+            # print(f"{ctx.message.channel.name}-{m}")
             if discord.utils.get(ctx.guild.channels, name=f"{ctx.message.channel.name}-{m}") is None:
                 await ctx.message.channel.edit(name=f"{ctx.message.channel.name}-{m}")
-                print('success')
+                # print('success')
                 channel_not_made = False
 
         await ctx.message.channel.edit(category=category)

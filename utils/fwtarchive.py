@@ -54,7 +54,7 @@ async def fwtarchive(self, ctx, auto):
                     elif len(i.attachments) >= 1:
                         atchmnt = i.attachments[0]
                         atchmnt = atchmnt.url.split('.')
-                        print(atchmnt[len(atchmnt) - 1])
+                        # print(atchmnt[len(atchmnt) - 1])
                         slash = False
                         for _ in re.finditer('/', atchmnt[len(atchmnt) - 1]):
                             slash = True
@@ -80,7 +80,7 @@ async def fwtarchive(self, ctx, auto):
                             pictur = self.client.get_channel(self.client.fwtarchivepic)
                             if os.path.getsize(string) < 8388608:
                                 imag = await pictur.send(file=discord.File(string))
-                                print(imag.attachments)
+                                # print(imag.attachments)
                                 embedz.set_image(url=imag.attachments[0].url)
                             await chnl.send(embed=embedz)
                         os.remove('./archive/{0}.{1}'.format(i.id, atchmnt[len(atchmnt) - 1]))
@@ -93,4 +93,4 @@ async def fwtarchive(self, ctx, auto):
                 ctx.send(f'warn: {e}')
     if not auto:
         await ctx.send('done archiving')
-    
+

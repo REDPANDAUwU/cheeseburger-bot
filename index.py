@@ -140,7 +140,7 @@ async def purge_temp():
 
 @tasks.loop(minutes=180)
 async def cut_carrots():
-    print('start carrots')
+    # print('start carrots')
     chnl = client.get_channel(896519094042501161)
     msgs = await chnl.history(limit=100000).flatten()
     all_pins = await chnl.pins()
@@ -153,12 +153,12 @@ async def cut_carrots():
             await i.delete()
     for i in sorted(os.listdir('./content/images/carrots/')):
         await chnl.send(file=discord.File(f'./content/images/carrots/{i}'))
-    print('done with carrots')
+    # print('done with carrots')
 
 
 @tasks.loop(minutes=180)
 async def catgirl_memes():
-    print('start catgirl memes')
+    # print('start catgirl memes')
     chnl = client.get_channel(896503366832762990)
     msgs = await chnl.history(limit=100000).flatten()
     all_pins = await chnl.pins()
@@ -171,7 +171,7 @@ async def catgirl_memes():
             await i.delete()
     for i in sorted(os.listdir('./content/images/catgirlmemes/')):
         await chnl.send(file=discord.File(f'./content/images/catgirlmemes/{i}'))
-    print('done with catgirl memes')
+    # print('done with catgirl memes')
 
 
 @tasks.loop(minutes=120)
