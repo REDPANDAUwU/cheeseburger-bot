@@ -106,8 +106,11 @@ class onmsg(commands.Cog):
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
         if reaction.message.guild.id != 828797783863591012:
-            await reaction.message.add_reaction(reaction)
-        if reaction.message.guild.id == 768371462489899028:
+            try:
+                await reaction.message.add_reaction(reaction)
+            except discord.Forbidden:
+                return
+        if reaction.message.guild.id == 828797783863591012:
             channel = await user.create_dm()
             await channel.send('u added a  reaciton !!!!!!')
 
