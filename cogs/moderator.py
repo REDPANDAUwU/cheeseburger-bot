@@ -158,7 +158,8 @@ class Moderator(commands.Cog):
     @commands.command()
     async def execute(self, ctx, *, code):
         if ctx.author.id not in self.client.owners:
-            ctx.send('shut up')
+            await ctx.send('shut up')
+            return
         str_obj = io.StringIO()
         try:
             with contextlib.redirect_stdout(str_obj):
