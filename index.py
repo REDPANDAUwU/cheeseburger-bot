@@ -2,6 +2,7 @@ import json
 import os
 import random
 import importlib
+import datetime
 
 import discord
 import git
@@ -160,18 +161,23 @@ async def cut_carrots():
 @tasks.loop(minutes=180)
 async def catgirl_memes():
     # print('start catgirl memes')
-    chnl = client.get_channel(896503366832762990)
-    msgs = await chnl.history(limit=100000).flatten()
-    all_pins = await chnl.pins()
-    for i in msgs:
-        skip = False
-        for m in all_pins:
-            if m.id == i.id:
-                skip = True
-        if not skip:
-            await i.delete()
-    for i in sorted(os.listdir('./content/images/catgirlmemes/')):
-        await chnl.send(file=discord.File(f'./content/images/catgirlmemes/{i}'))
+    try:
+        chnl = client.get_channel(896503366832762990)
+        msgs = await chnl.history(limit=100000).flatten()
+        all_pins = await chnl.pins()
+        for i in msgs:
+            skip = False
+            for m in all_pins:
+                if m.id == i.id:
+                    skip = True
+            if not skip:
+                await i.delete()
+        for i in sorted(os.listdir('./content/images/catgirlmemes/')):
+            await chnl.send(file=discord.File(f'./content/images/catgirlmemes/{i}'))
+    except Exception as e:
+        log_file = open('log.txt', 'a')
+        log_file.write(f'Command: catgirlmemes, error: {e}, {datetime.datetime.now()}\n')
+
     # print('done with catgirl memes')
 
 

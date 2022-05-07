@@ -16,7 +16,7 @@ class error_handling(commands.Cog):
         elif isinstance(error, discord.Forbidden):
             return
         log_file = open('log.txt', 'a')
-        log_file.write(f'Command: {ctx.command.qualified_name}, error: {error}\n, {datetime.datetime.now()}')
+        log_file.write(f'Command: {ctx.command.qualified_name}, error: {error}, {datetime.datetime.now()}\n')
         try:
             return await ctx.send('i broke lol!!!!')
         except:
