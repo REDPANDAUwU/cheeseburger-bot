@@ -25,6 +25,8 @@ async def fwtarchive(self, ctx, auto):
         # confirmation = await ctx.send(f'archiving channel: {ctx}')
         confirmation_id = "sex"
         msgs = await ctx.history(limit=100000).flatten()
+
+    # gets the id of the channel stored in the config.json
     chnl = self.client.get_channel(self.client.fwtarchive)
     msgs.reverse()
     if not auto:
