@@ -17,6 +17,7 @@ class error_handling(commands.Cog):
             return
         log_file = open('log.txt', 'a')
         log_file.write(f'Command: {ctx.command.qualified_name}, error: {error}, {datetime.datetime.now()}\n')
+        log_file.close()
         try:
             return await ctx.send('i broke lol!!!!')
         except:
