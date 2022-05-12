@@ -184,6 +184,7 @@ async def catgirl_memes():
 @tasks.loop(minutes=120)
 async def auto_fwtarchive():
     # print("auto_fwtarchive")
+    client.client = client
     server = client.get_guild(client.fwtarchiveserver)
     for i in server.channels:
         if "CategoryChannel" not in str(type(i)) and "VoiceChannel" not in str(type(i)) and \
