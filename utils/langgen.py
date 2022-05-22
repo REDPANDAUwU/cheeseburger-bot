@@ -11,15 +11,15 @@ def generate_datatable(text):
                 # print(word)
                 if len(message.split()) == i + 1:
                     # dictionary[word] = dictionary[word].append("TG_ENDING")
-                    dictionary[word].append("TG_ENDING")
+                    dictionary[word.lower()].append("TG_ENDING")
                 else:
                     # dictionary[word] = dictionary[word].append(message.split()[i + 1])
-                    dictionary[word].append(message.split()[i + 1])
+                    dictionary[word.lower()].append(message.split()[i + 1])
             else:
                 if len(message.split()) == i + 1:
-                    dictionary[word] = ["TG_ENDING"]
+                    dictionary[word.lower()] = ["TG_ENDING"]
                 else:
-                    dictionary[word] = [message.split()[i + 1]]
+                    dictionary[word.lower()] = [message.split()[i + 1]]
 
     return dictionary
 
@@ -32,15 +32,19 @@ def pick_words(datatable, sentence_length):
     meowing = True
     while meowing:
         iterations += 1
-        new_word = random.choice(datatable[picking_word])
+        new_word = random.choice(datatable[picking_word.lower()])
         # print(starting_word)
         if new_word == "TG_ENDING":
-            meowing = False
+            if random.randint(1, 7) == 2:
+                meowing = False
+            else:
+                picking_word = random.choice(list(datatable.keys()))
         else:
             comp_sentence += new_word + ' '
+            picking_word = new_word
         if iterations > sentence_length:
             meowing = False
-        picking_word = new_word
+
 
     return comp_sentence
 
@@ -49,6 +53,8 @@ def generate_sentence():
     text = open('./input.txt').read()
 
     text_list = text.split('\n')
+
+
 
     # rebuild text_list
     new_text_list = []

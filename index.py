@@ -73,6 +73,20 @@ async def on_ready():
         auto_fwtarchive.start()
     client.debug = debug
     print(f'{bcolors.OKGREEN}loaded cheeseburger-bot version: {ver}{bcolors.ENDC}')
+    channel = client.get_channel(879058785656791080)
+    print('collecting messages...')
+    message = await channel.history(limit=50000).flatten()
+    print('adding to log file')
+    for i in message:
+        # print(i.embeds[0].title)\
+        try:
+            if i.embeds[0].title != "Cheeseburger Bot#7278" and i.embeds[0].description.strip() != '':
+                log_file = open('log_fwt.txt', 'a')
+                log_file.write(f'{i.embeds[0].description}\n')
+                log_file.close()
+        except:
+            pass
+    print('done!!!!')
 
 
 @client.listen('on_message')
