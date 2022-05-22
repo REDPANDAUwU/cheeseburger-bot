@@ -3,6 +3,8 @@ from discord.ext import commands
 from gtts import gTTS
 import os
 
+from utils import langgen
+
 
 class misc(commands.Cog):
     def __init__(self, client):
@@ -73,6 +75,10 @@ class misc(commands.Cog):
                   f'./content/images/catgirlmemes/{ctx.message.id}.png')
         await ctx.send('downloaded imag')
         self.client.catgirl_memes.restart()
+
+    @commands.command()
+    async def lang_gen(self, ctx):
+        await ctx.send(langgen.generate_sentence())
 
 
 def setup(client):
