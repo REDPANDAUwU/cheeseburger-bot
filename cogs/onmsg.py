@@ -20,7 +20,7 @@ class onmsg(commands.Cog):
             return
 
         if message.channel.id == 896496646773424178 and message.content != '' \
-                and message.author.id != self.client.user.id:
+                and message.author.id != self.client.user.id and str(message.author.discriminator) != "0000":
             log_file = open('input.txt', 'a')
             log_file.write(f'{message.content}\n')
             log_file.close()
