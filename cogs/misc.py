@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands
 from gtts import gTTS
 import os
+import importlib
+import json
 
 from utils import langgen
 
@@ -79,6 +81,16 @@ class misc(commands.Cog):
     @commands.command()
     async def lang_gen(self, ctx):
         await ctx.send(langgen.generate_sentence())
+
+    @commands.Cog.listener()
+    async def on_command_completion(self, ctx):
+        # print('super epic')
+        # print(ctx.command)
+        if str(ctx.command) == 'reload':
+            with open('config.json') as file:
+                owners = json.load(file)["owner-ids"]
+            if ctx.author.id in owners:
+                importlib.reload(langgen)
 
 
 def setup(client):

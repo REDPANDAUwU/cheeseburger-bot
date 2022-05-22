@@ -3,9 +3,11 @@ from discord.ext import commands
 from discord.utils import get
 import sys
 import os
+import random
 
 sys.path.append(f"{os.path.dirname(os.path.dirname(os.path.abspath(__file__)))}/utils")
 import dmall
+from utils import langgen
 
 
 class onmsg(commands.Cog):
@@ -17,11 +19,15 @@ class onmsg(commands.Cog):
         if isinstance(message.channel, discord.channel.DMChannel):
             return
 
-        if message.channel.id == 896496646773424178 and message.content != '':
+        if message.channel.id == 825875712559808522 and message.content != '':
             with open('input.txt', 'a+') as text_file:
                 # print('seexx')
                 text_file.write(f'{message.content}\n')
                 text_file.close()
+            r = random.randint(0, 15)
+            # print(r)
+            if r == 6:
+                await message.channel.send(langgen.generate_sentence())
 
         # dotbot
         if message.content == '.' and message.channel.name == 'dot-wars':
