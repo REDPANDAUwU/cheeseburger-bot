@@ -19,7 +19,8 @@ class onmsg(commands.Cog):
         if isinstance(message.channel, discord.channel.DMChannel):
             return
 
-        if message.channel.id == 896496646773424178 and message.content != '' and message.author.id != self.client.id:
+        if message.channel.id == 896496646773424178 and message.content != '' \
+                and message.author.id != self.client.user.id:
             log_file = open('input.txt', 'a')
             log_file.write(f'{message.content}\n')
             log_file.close()
