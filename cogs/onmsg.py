@@ -17,9 +17,9 @@ class onmsg(commands.Cog):
         if isinstance(message.channel, discord.channel.DMChannel):
             return
 
-        if message.channel.id == 896496646773424178:
+        if message.channel.id == 825875712559808522:
             with open('input.txt', 'a+') as text_file:
-                text_file.write(message.content)
+                text_file.write(f'{message.content}\n')
                 text_file.close()
 
         # dotbot
