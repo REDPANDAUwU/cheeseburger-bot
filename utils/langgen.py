@@ -1,6 +1,50 @@
 import random
 
 
+def generate_datatable(text):
+    dictionary = {}
+    for message in text:
+        for i, word in enumerate(message.split()):
+            # print(message.split())
+            if word in dictionary.keys():
+                # print(dictionary)
+                # print(word)
+                if len(message.split()) == i + 1:
+                    # dictionary[word] = dictionary[word].append("TG_ENDING")
+                    dictionary[word].append("TG_ENDING")
+                else:
+                    # dictionary[word] = dictionary[word].append(message.split()[i + 1])
+                    dictionary[word].append(message.split()[i + 1])
+            else:
+                if len(message.split()) == i + 1:
+                    dictionary[word] = ["TG_ENDING"]
+                else:
+                    dictionary[word] = [message.split()[i + 1]]
+
+    return dictionary
+
+
+def pick_words(datatable, sentence_length):
+    comp_sentence = ''
+
+    picking_word = random.choice(list(datatable.keys()))
+    iterations = 0
+    meowing = True
+    while meowing:
+        iterations += 1
+        new_word = random.choice(datatable[picking_word])
+        # print(starting_word)
+        if new_word == "TG_ENDING":
+            meowing = False
+        else:
+            comp_sentence += new_word + ' '
+        if iterations > sentence_length:
+            meowing = False
+        picking_word = new_word
+
+    return comp_sentence
+
+
 def generate_sentence():
     text = open('./input.txt').read()
 
@@ -13,6 +57,44 @@ def generate_sentence():
             new_text_list.append(i.strip())
     text_list = new_text_list
     # print(text_list)
+
+    # figure out max length of a message
+    the_max = 0
+    for i in text_list:
+        if len(i) > the_max:
+            the_max = len(i)
+
+    sentence_length = random.randint(3, the_max)
+
+    datatable = generate_datatable(text_list)
+
+    comp_sentence = ''
+
+    meowing = True
+    while meowing:
+        comp_sentence = pick_words(datatable, sentence_length)
+        if comp_sentence.strip() == '':
+            pass
+        else:
+            meowing = False
+
+    return comp_sentence
+
+
+def generate_sentence_old():
+    text = open('./input.txt').read()
+
+    text_list = text.split('\n')
+
+    # rebuild text_list
+    new_text_list = []
+    for i in text_list:
+        if i.strip() != '' and i.strip('\n') != '':
+            new_text_list.append(i.strip())
+    text_list = new_text_list
+    # print(text_list)
+
+    input(generate_datatable(text_list))
 
     # figure out max length of a message
     the_max = 0
@@ -65,3 +147,7 @@ def generate_sentence():
             meowing = False
 
     return comp_sentence
+
+
+if __name__ == "__main__":
+    print(generate_sentence())
