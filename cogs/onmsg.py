@@ -21,7 +21,7 @@ class onmsg(commands.Cog):
 
         if message.channel.id == 896496646773424178 and message.content != '' and message.author.id != self.client.id\
                 and str(message.author.discriminator) == "0000":
-            with open('input.txt', 'a+') as text_file:
+            with open('input.txt', 'a') as text_file:
                 # print('seexx')
                 text_file.write(f'{message.content}\n')
                 text_file.close()
