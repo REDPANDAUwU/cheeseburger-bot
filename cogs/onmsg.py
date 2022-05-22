@@ -19,6 +19,7 @@ class onmsg(commands.Cog):
 
         if message.channel.id == 825875712559808522:
             with open('input.txt', 'a+') as text_file:
+                print('seexx')
                 text_file.write(f'{message.content}\n')
                 text_file.close()
 
