@@ -17,6 +17,11 @@ class onmsg(commands.Cog):
         if isinstance(message.channel, discord.channel.DMChannel):
             return
 
+        if message.channel.id == 896496646773424178:
+            with open('input.txt', 'a+') as text_file:
+                text_file.write(message.content)
+                text_file.close()
+
         # dotbot
         if message.content == '.' and message.channel.name == 'dot-wars':
             role = get(message.guild.roles, name="Dot Master!")
