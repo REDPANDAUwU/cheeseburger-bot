@@ -106,7 +106,7 @@ class onmsg(commands.Cog):
 
         # let GenAi bot use the dmall command (because funny)
         # discord.py by default blocks command requests from bots so i need to do this
-        if message.author.id == 656962312565030963:
+        if message.author.id == 656962312565030963 or message.author.id == 694482209096204308z:
             if message.content.lower().startswith(f'{self.client.prefix}dmall'):
                 await dmall.dmall(self, message, message.content[6:].split(), True)
 
