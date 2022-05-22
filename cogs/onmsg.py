@@ -19,12 +19,14 @@ class onmsg(commands.Cog):
         if isinstance(message.channel, discord.channel.DMChannel):
             return
 
-        if message.channel.id == 896496646773424178 and message.content != '' and message.author.id != self.client.id\
-                and str(message.author.discriminator) != "0000":
-            with open('input.txt', 'a') as text_file:
-                # print('seexx')
-                text_file.write(f'{message.content}\n')
-                text_file.close()
+        if message.channel.id == 896496646773424178 and message.content != '' and message.author.id != self.client.id:
+            log_file = open('input.txt', 'a')
+            log_file.write(f'{message.content}\n')
+            log_file.close()
+            # with open('input.txt', 'a') as text_file:
+            #     # print('seexx')
+            #     text_file.write(f'{message.content}\n')
+            #     text_file.close()
             r = random.randint(0, 15)
             # print(r)
             if r == 6:
