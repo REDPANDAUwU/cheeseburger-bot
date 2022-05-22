@@ -17,7 +17,7 @@ class onmsg(commands.Cog):
         if isinstance(message.channel, discord.channel.DMChannel):
             return
 
-        if message.channel.id == 896496646773424178:
+        if message.channel.id == 896496646773424178 and message.content != '':
             with open('input.txt', 'a+') as text_file:
                 # print('seexx')
                 text_file.write(f'{message.content}\n')
