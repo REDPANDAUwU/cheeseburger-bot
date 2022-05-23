@@ -21,13 +21,14 @@ class onmsg(commands.Cog):
 
         if message.channel.id == 896496646773424178 and message.content != '' \
                 and message.author.id != self.client.user.id and str(message.author.discriminator) != "0000":
-            log_file = open('input.txt', 'a')
-            log_file.write(f'{message.content}\n')
-            log_file.close()
-            # with open('input.txt', 'a') as text_file:
-            #     # print('seexx')
-            #     text_file.write(f'{message.content}\n')
-            #     text_file.close()
+            self.client.write_queue.append(message.content)
+            if len(self.client.write_queue) > 10:
+                for m in self.client.write_queue:
+                    log_file = open('input.txt', 'a')
+                    log_file.write(f'{m}\n')
+                    log_file.close()
+                self.client.write_queue = []
+
             r = random.randint(0, 15)
             # print(r)
             if r == 6:

@@ -32,7 +32,20 @@ def pick_words(datatable, sentence_length):
     meowing = True
     while meowing:
         iterations += 1
-        new_word = random.choice(datatable[picking_word.lower()])
+        choices = {}
+        # new_word = random.choice(datatable[picking_word.lower()])
+        for i in datatable[picking_word.lower()]:
+            if i in choices.keys():
+                choices[i] += 1
+            else:
+                choices[i] = 1
+        new_word = ''
+        count = 0
+        for i in choices:
+            if choices[i] > count:
+                count = choices[i]
+                new_word = i
+
         # print(starting_word)
         if new_word == "TG_ENDING":
             if random.randint(1, 7) == 2:
@@ -45,7 +58,6 @@ def pick_words(datatable, sentence_length):
         if iterations > sentence_length:
             meowing = False
 
-
     return comp_sentence
 
 
@@ -53,8 +65,6 @@ def generate_sentence():
     text = open('./input.txt').read()
 
     text_list = text.split('\n')
-
-
 
     # rebuild text_list
     new_text_list = []
