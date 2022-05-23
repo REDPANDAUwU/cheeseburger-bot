@@ -4,6 +4,8 @@ from discord.utils import get
 import sys
 import os
 import random
+import importlib
+import json
 
 sys.path.append(f"{os.path.dirname(os.path.dirname(os.path.abspath(__file__)))}/utils")
 import dmall
@@ -32,7 +34,7 @@ class onmsg(commands.Cog):
             r = random.randint(0, 15)
             # print(r)
             if r == 6:
-                await message.channel.send(langgen.generate_sentence())
+                await message.channel.send(langgen.generate_sentence(self.client.lang_gen_datatable))
 
         # dotbot
         if message.content == '.' and message.channel.name == 'dot-wars':
@@ -141,6 +143,16 @@ class onmsg(commands.Cog):
                     dont_delete = True
             if not dont_delete:
                 await before.delete()
+
+    @commands.Cog.listener()
+    async def on_command_completion(self, ctx):
+        # print('super epic')
+        # print(ctx.command)
+        if str(ctx.command) == 'reload':
+            with open('config.json') as file:
+                owners = json.load(file)["owner-ids"]
+            if ctx.author.id in owners:
+                importlib.reload(langgen)
 
     # @commands.Cog.listener()
     # async def on_member_join(self, member):

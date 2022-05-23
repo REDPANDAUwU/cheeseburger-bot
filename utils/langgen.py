@@ -61,28 +61,10 @@ def pick_words(datatable, sentence_length):
     return comp_sentence
 
 
-def generate_sentence():
-    text = open('./input.txt').read()
+def generate_sentence(datatable):
+    sentence_length = random.randint(10, 20)
 
-    text_list = text.split('\n')
-
-    # rebuild text_list
-    new_text_list = []
-    for i in text_list:
-        if i.strip() != '' and i.strip('\n') != '':
-            new_text_list.append(i.strip())
-    text_list = new_text_list
-    # print(text_list)
-
-    # figure out max length of a message
-    the_max = 0
-    for i in text_list:
-        if len(i) > the_max:
-            the_max = len(i)
-
-    sentence_length = random.randint(3, the_max)
-
-    datatable = generate_datatable(text_list)
+    # datatable = generate_datatable(text_list)
 
     comp_sentence = ''
 
@@ -166,4 +148,16 @@ def generate_sentence_old():
 
 
 if __name__ == "__main__":
-    print(generate_sentence())
+    text = open('./input.txt').read()
+
+    text_list = text.split('\n')
+
+    # rebuild text_list
+    new_text_list = []
+    for i in text_list:
+        if i.strip() != '' and i.strip('\n') != '':
+            new_text_list.append(i.strip())
+    text_list = new_text_list
+
+    datatable = generate_datatable(text_list)
+    print(generate_sentence(datatable))

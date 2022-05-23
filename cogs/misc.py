@@ -80,7 +80,7 @@ class misc(commands.Cog):
 
     @commands.command()
     async def lang_gen(self, ctx):
-        await ctx.send(langgen.generate_sentence())
+        await ctx.send(langgen.generate_sentence(self.client.lang_gen_datatable))
 
     @commands.Cog.listener()
     async def on_command_completion(self, ctx):

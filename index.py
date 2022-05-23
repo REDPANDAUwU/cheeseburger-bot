@@ -10,6 +10,7 @@ from discord.ext import commands
 from discord.ext import tasks
 
 from utils import fwtarchive
+from utils import langgen
 
 
 class bcolors:
@@ -71,6 +72,7 @@ async def on_ready():
         client.cut_carrots = cut_carrots
         client.catgirl_memes = catgirl_memes
         auto_fwtarchive.start()
+    regen_datatable.start()
     client.debug = debug
     client.write_queue = []
     print(f'{bcolors.OKGREEN}loaded cheeseburger-bot version: {ver}{bcolors.ENDC}')
@@ -109,6 +111,7 @@ async def reload(ctx):
         if not debug:
             g = git.cmd.Git(os.getcwd())
             g.pull()
+            regen_datatable.restart()
         with open('config.json') as configf:
             config = json.load(configf)
             client.owners = config['owner-ids']
@@ -212,6 +215,24 @@ async def auto_fwtarchive():
         log_file = open('log.txt', 'a')
         log_file.write(f'Command: catgirlmemes, error: {e}, {datetime.datetime.now()}\n')
         log_file.close()
+
+
+@tasks.loop(minutes=5)
+async def regen_datatable():
+    text = open('./input.txt').read()
+
+    text_list = text.split('\n')
+
+    # rebuild text_list
+    new_text_list = []
+    for i in text_list:
+        if i.strip() != '' and i.strip('\n') != '':
+            new_text_list.append(i.strip())
+    text_list = new_text_list
+
+    datatable = langgen.generate_datatable(text_list)
+
+    client.lang_gen_datatable = datatable
 
 
 # cogs

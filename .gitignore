@@ -147,3 +147,9 @@ content/images/trap/*
 input.txt
 log.txt
 input.txt.old
+test/createdict.py
+test/genMarkovDict.py
+test/genMarkovText.py
+test/markov.py
+input.dict
+log.txt
