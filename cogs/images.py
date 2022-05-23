@@ -38,8 +38,8 @@ class images(commands.Cog):
                 meowing = False
         await ctx.message.channel.send(file=discord.File(anime))
 
-    @commands.command(brief='sends a random trap which is nsfw sometimes')
-    async def trap(self, ctx):
+    @commands.command(brief='sends a random femboy which is nsfw sometimes')
+    async def femboy(self, ctx):
         traps = os.listdir('./content/images/trap/')
         if len(traps) == 1:
             return
