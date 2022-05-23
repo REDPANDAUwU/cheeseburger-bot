@@ -1,4 +1,5 @@
 import random
+import collections
 
 
 def generate_datatable(text):
@@ -39,12 +40,11 @@ def pick_words(datatable, sentence_length):
                 choices[i] += 1
             else:
                 choices[i] = 1
-        new_word = ''
-        count = 0
-        for i in choices:
-            if choices[i] > count:
-                count = choices[i]
-                new_word = i
+        # print(choices)
+        m = collections.Counter(choices)
+        new_words = m.most_common(3)
+        # input(new_words)
+        new_word = random.choice(new_words)[0]
 
         # print(starting_word)
         if new_word == "TG_ENDING":
