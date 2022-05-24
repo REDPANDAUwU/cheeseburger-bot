@@ -85,8 +85,7 @@ class onmsg(commands.Cog):
 
         # react to burger and cheese moduel
 
-        if message.content.startswith('burger') or message.content.startswith('cheese') or message.content.startswith(
-                'Burger') or message.content.startswith('Cheese'):
+        if message.content.lower().startswith('burger') or message.content.lower().startswith('cheese'):
             emoji = '<cheeseburger:821355767436804116>'
             await message.add_reaction(emoji)
             emoji = '<:CRAB_IS_DANCE:821355752773517342>'
