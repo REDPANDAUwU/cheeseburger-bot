@@ -9,6 +9,7 @@ import discord
 from discord import Webhook, AsyncWebhookAdapter
 from discord.ext import commands
 import contextlib
+import importlib
 
 sys.path.append(f"{os.path.dirname(os.path.dirname(os.path.abspath(__file__)))}/utils")
 import fwtarchive
@@ -167,6 +168,16 @@ class Moderator(commands.Cog):
         except Exception as e:
             return await ctx.send(f"```{e.__class__.__name__}: {e}```")
         await ctx.send(f'```{str_obj.getvalue()}```')
+
+    @commands.Cog.listener()
+    async def on_command_completion(self, ctx):
+        # print('super epic')
+        # print(ctx.command)
+        if str(ctx.command) == 'reload':
+            with open('config.json') as file:
+                owners = json.load(file)["owner-ids"]
+            if ctx.author.id in owners:
+                importlib.reload(dmall)
 
 
 def setup(client):
