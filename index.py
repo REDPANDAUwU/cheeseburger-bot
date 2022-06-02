@@ -3,6 +3,7 @@ import os
 import random
 import importlib
 import datetime
+import requests
 
 import discord
 import git
@@ -72,6 +73,11 @@ async def on_ready():
         client.cut_carrots = cut_carrots
         client.catgirl_memes = catgirl_memes
         auto_fwtarchive.start()
+        make_steam_dick.start()
+    else:
+        # client.steam_dick_data = open('data.bich', 'r').read().split('\n')
+        # make_steam_dick.start()
+        client.steam_dick_data = open('content/data.bich', 'r').read().replace('\t', ' ').split('\n')
     regen_datatable.start()
     client.debug = debug
     client.write_queue = []
@@ -233,6 +239,15 @@ async def regen_datatable():
     datatable = langgen.generate_datatable(text_list)
 
     client.lang_gen_datatable = datatable
+
+
+@tasks.loop(minutes=120)
+async def make_steam_dick():
+    r = requests.get("https://docs.google.com/spreadsheets/d/1ngfg2eP8E_Ue81lqGl6v34uVJ73qrfnq9S-H1aCZGD0/"
+                     "export?format=tsv&gid=277245429")
+    with open('content/data.bich', 'wb') as f:
+        f.write(r.content)
+    client.steam_dick_data = open('content/data.bich', 'r').read().split('\n')
 
 
 # cogs

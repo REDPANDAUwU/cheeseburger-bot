@@ -4,8 +4,11 @@ from gtts import gTTS
 import os
 import importlib
 import json
+import time
+from datetime import datetime
 
 from utils import langgen
+from utils import steamdick
 
 
 class misc(commands.Cog):
@@ -82,6 +85,11 @@ class misc(commands.Cog):
     async def lang_gen(self, ctx):
         await ctx.send(langgen.generate_sentence(self.client.lang_gen_datatable))
 
+    @commands.command()
+    async def steamdick(self, ctx, size, region, reserve_time: int):
+        # print(self.client.steam_dick_data)
+        await ctx.send(steamdick.get_time(self.client.steam_dick_data, self.client.prefix, size, region, reserve_time))
+
     @commands.Cog.listener()
     async def on_command_completion(self, ctx):
         # print('super epic')
@@ -91,6 +99,7 @@ class misc(commands.Cog):
                 owners = json.load(file)["owner-ids"]
             if ctx.author.id in owners:
                 importlib.reload(langgen)
+                importlib.reload(steamdick)
 
 
 def setup(client):
