@@ -38,6 +38,7 @@ async def dmall(self, ctx, args, on_msg=False):
     # check if user wants to send a raw message (no ping/author text)
     if args[0] == "--raw":
         raw = True
+        del args[0]
     else:
         raw = False
 
