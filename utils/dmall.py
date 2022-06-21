@@ -34,6 +34,13 @@ async def dmall(self, ctx, args, on_msg=False):
     if len(args) == 0 and len(ctx.attachments) == 0:
         await ctx.channel.send('u gotta put stuff')
         return
+
+    # check if user wants to send a raw message (no ping/author text)
+    if args[0] == "--raw":
+        raw = True
+    else:
+        raw = False
+
     webhook_url = ''
     success = False
     for i in await ctx.channel.webhooks():
@@ -56,11 +63,13 @@ async def dmall(self, ctx, args, on_msg=False):
                 star += f' {i}'
             if len(ctx.attachments) > 0:
                 star += f'\n{ctx.attachments[0].url}'
-            star += f'\n- sent by {ctx.author}'
+            if not raw:
+                star += f'\n- sent by {ctx.author}'
+                star = f"<@{m.id}>{star}"
             if m.id != self.client.user.id and not m.bot:
                 try:
                     channel = await m.create_dm()
-                    await channel.send(f'<@{m.id}>{star}')
+                    await channel.send(f'{star}')
                 except discord.errors.HTTPException:
                     requests.post(webhook_url, {'username': 'Cheeseburger Bot',
                                                             'avatar_url': str(self.client.user.avatar_url),

@@ -152,3 +152,4 @@ test/genMarkovDict.py
 test/genMarkovText.py
 test/markov.py
 input.dict
+sqltest.py
