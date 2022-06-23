@@ -36,13 +36,16 @@ async def dmall(self, ctx, args, on_msg=False):
         return
 
     # check if user wants to send a raw message (no ping/author text)
-    if args[0] == "--raw":
-        raw = True
-        args = list(args)
-        del args[0]
-        args = tuple(args)
-    else:
-        raw = False
+    try:
+        if args[0] == "--raw":
+            raw = True
+            args = list(args)
+            del args[0]
+            args = tuple(args)
+        else:
+            raw = False
+    except IndexError:
+        pass
 
     webhook_url = ''
     success = False
