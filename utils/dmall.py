@@ -45,7 +45,7 @@ async def dmall(self, ctx, args, on_msg=False):
         else:
             raw = False
     except IndexError:
-        pass
+        raw = False
 
     webhook_url = ''
     success = False
