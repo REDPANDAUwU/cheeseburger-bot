@@ -54,13 +54,16 @@ class onmsg(commands.Cog):
 
         # cheeseburger chat 69 chat
         if message.channel.id == 782825184054476821:
-            msg = message.content.split()
-            dont_delete = False
-            for i in msg:
-                if i == '69':
-                    dont_delete = True
-            if not dont_delete:
+            if '69' not in message.content.split():
                 await message.delete()
+            # msg = message.content.split()
+            # dont_delete = False
+            # for i in msg:
+            #     if i == '69':
+            #         dont_delete = True
+            # if not dont_delete:
+            #     await message.delete()
+
 
         # megagamer lisp
 
@@ -114,7 +117,8 @@ class onmsg(commands.Cog):
         # discord.py by default blocks command requests from bots so i need to do this
         if message.author.id == 656962312565030963 or message.author.id == 694482209096204308:
             if message.content.lower().startswith(f'{self.client.prefix}dmall'):
-                await dmall.dmall(self, message, message.content[6:].split(), True)
+                ctx = await self.client.get_context(message)
+                await dmall.dmall(self, ctx, True)
 
         ctx = await self.client.get_context(message)
 

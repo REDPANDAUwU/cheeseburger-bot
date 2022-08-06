@@ -125,8 +125,8 @@ class Moderator(commands.Cog):
 
     @commands.command(hidden=True)
     @commands.has_permissions(administrator=True)
-    async def dmall(self, ctx, *args):
-        await dmall.dmall(self, ctx.message, args)
+    async def dmall(self, ctx):
+        await dmall.dmall(self, ctx)
 
     @commands.command(hidden=True)
     @commands.has_permissions(administrator=True)
