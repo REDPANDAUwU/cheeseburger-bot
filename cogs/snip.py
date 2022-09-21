@@ -44,13 +44,12 @@ async def save_images(client, message):
             nick1 = message.author.nick
     except AttributeError:
         nick1 = message.author
-    try:
-        if message.author.guild_avatar is None:
-            avatar = message.author.avatar_url
-        else:
-            avatar = message.author.guild_avatar
-    except AttributeError:
+
+    if message.author.guild_avatar is None:
         avatar = message.author.avatar_url
+    else:
+        avatar = message.author.guild_avatar
+
     nick = ''
     # removes all quotes from the name, so the json interpreter doesnt mess up
     for i in str(nick1):
