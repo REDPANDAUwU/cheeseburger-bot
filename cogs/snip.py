@@ -44,6 +44,13 @@ async def save_images(client, message):
             nick1 = message.author.nick
     except AttributeError:
         nick1 = message.author
+    try:
+        if message.author.guild_avatar is None:
+            avatar = message.author.avatar_url
+        else:
+            avatar = message.author.guild_avatar
+    except AttributeError:
+        avatar = message.author.avatar_url
     nick = ''
     # removes all quotes from the name, so the json interpreter doesnt mess up
     for i in str(nick1):
@@ -54,12 +61,12 @@ async def save_images(client, message):
     with open("content/json/msg/" + str(message.id) + ".json", "w+") as meow:
         if len(message.attachments) == 0:
             meow.write('{"content": "' + str(msg) + '", "avatar": "' + str(
-                message.author.avatar_url) + '", "nick": "' + str(nick) + '", "id": "' + str(
+                avatar) + '", "nick": "' + str(nick) + '", "id": "' + str(
                 message.id) + '", "image": "false"}')
         # tells the bot whether the message had a image in it
         else:
             meow.write('{"content": "' + str(msg) + '", "avatar": "' + str(
-                message.author.avatar_url) + '", "nick": "' + str(nick) + '", "id": "' + str(
+                avatar) + '", "nick": "' + str(nick) + '", "id": "' + str(
                 message.id) + '", "image": "' + str(archiv_img_url) + '"}')
         meow.close()
 
