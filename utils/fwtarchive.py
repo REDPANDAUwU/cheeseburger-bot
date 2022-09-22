@@ -37,6 +37,7 @@ async def fwtarchive(self, ctx, auto):
     else:
         # await confirmation.edit(content=f'archiving channel: {ctx}\ndownloaded messages, deleting...')
         all_pins = await ctx.pins()
+    print(msgs)
     for i in msgs:
         try:
             if i.id != confirmation_id:
