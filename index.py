@@ -52,12 +52,12 @@ client = commands.Bot(command_prefix=prefix, intents=bot_intents, fetch_offline_
 @client.event
 async def on_ready():
     # cogs
-    cogs = os.listdir('./cogs/')
-    for cog in cogs:
-        cog_list = cog.split('.')
-        if cog_list[len(cog_list) - 1] == 'py':
-            print(cog)
-            await client.load_extension(f'cogs.{cog_list[0]}')
+    # cogs = os.listdir('./cogs/')
+    # for cog in cogs:
+    #     cog_list = cog.split('.')
+    #     if cog_list[len(cog_list) - 1] == 'py':
+    #         print(cog)
+    #         await client.load_extension(f'cogs.{cog_list[0]}')
 
     print(f'{bcolors.OKGREEN}Logged on as {client.user}!{bcolors.ENDC}')
 
