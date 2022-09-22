@@ -258,7 +258,7 @@ cogs = os.listdir('./cogs/')
 for cog in cogs:
     cog_list = cog.split('.')
     if cog_list[len(cog_list) - 1] == 'py':
-        client.load_extension(f'cogs.{cog_list[0]}')
+        await client.load_extension(f'cogs.{cog_list[0]}')
 
 with open("config.json") as meow:
     if debug:
