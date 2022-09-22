@@ -6,7 +6,7 @@ import time
 
 import aiohttp
 import discord
-from discord import Webhook, AsyncWebhookAdapter
+# from discord import Webhook, AsyncWebhookAdapter
 from discord.ext import commands
 import contextlib
 import importlib
@@ -56,17 +56,19 @@ class Moderator(commands.Cog):
                     with open('config.json') as w:
                         idk = json.load(w)
                         url = idk['pinwebhookurl']
-                    webhook = Webhook.from_url(url, adapter=AsyncWebhookAdapter(session))
+                    # webhook = Webhook.from_url(url, adapter=AsyncWebhookAdapter(session))
+                    webhook = discord.Webhook.from_url(url, session=session)
                     await webhook.send(f'{discord.utils.escape_mentions(i.content)}\n{msg_link}',
                                        username=i.author.name,
                                        avatar_url=i.author.avatar_url)
+
                 await chnl.send('‏‏‎ ‎')
             elif len(mat) == 1:
                 async with aiohttp.ClientSession() as session:
                     with open('config.json') as w:
                         idk = json.load(w)
                         url = idk['pinwebhookurl']
-                    webhook = Webhook.from_url(url, adapter=AsyncWebhookAdapter(session))
+                    webhook = discord.Webhook.from_url(url, session=session)
                     await webhook.send(f'{discord.utils.escape_mentions(i.content)}\n{msg_link}\n{mat[0].url}',
                                        username=i.author.name,
                                        avatar_url=i.author.avatar_url)
@@ -76,7 +78,7 @@ class Moderator(commands.Cog):
                     with open('config.json') as w:
                         idk = json.load(w)
                         url = idk['pinwebhookurl']
-                    webhook = Webhook.from_url(url, adapter=AsyncWebhookAdapter(session))
+                    webhook = discord.Webhook.from_url(url, session=session)
                     await webhook.send(f'{discord.utils.escape_mentions(i.content)}\n{msg_link}',
                                        username=i.author.name,
                                        avatar_url=i.author.avatar_url)
