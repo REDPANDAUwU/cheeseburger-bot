@@ -56,6 +56,7 @@ async def on_ready():
     for cog in cogs:
         cog_list = cog.split('.')
         if cog_list[len(cog_list) - 1] == 'py':
+            print(cog)
             await client.load_extension(f'cogs.{cog_list[0]}')
 
     print(f'{bcolors.OKGREEN}Logged on as {client.user}!{bcolors.ENDC}')
