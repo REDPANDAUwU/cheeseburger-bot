@@ -140,7 +140,7 @@ async def reload(ctx):
         for cog_ in cogs_:
             _cog_list = cog_.split('.')
             if _cog_list[len(_cog_list) - 1] == 'py':
-                client.reload_extension(f'cogs.{_cog_list[0]}')
+                await client.reload_extension(f'cogs.{_cog_list[0]}')
 
         importlib.reload(fwtarchive)
 

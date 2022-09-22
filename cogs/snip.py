@@ -49,7 +49,7 @@ async def save_images(client, message):
     #     avatar = message.author.avatar_url
     # else:
     #     avatar = message.author.guild_avatar
-    avatar = message.author.avatar
+    avatar = message.author.display_avatar
 
     nick = ''
     # removes all quotes from the name, so the json interpreter doesnt mess up

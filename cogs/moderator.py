@@ -60,7 +60,7 @@ class Moderator(commands.Cog):
                     webhook = discord.Webhook.from_url(url, session=session)
                     await webhook.send(f'{discord.utils.escape_mentions(i.content)}\n{msg_link}',
                                        username=i.author.name,
-                                       avatar_url=i.author.avatar_url)
+                                       avatar_url=i.author.display_avatar)
 
                 await chnl.send('‏‏‎ ‎')
             elif len(mat) == 1:
@@ -71,7 +71,7 @@ class Moderator(commands.Cog):
                     webhook = discord.Webhook.from_url(url, session=session)
                     await webhook.send(f'{discord.utils.escape_mentions(i.content)}\n{msg_link}\n{mat[0].url}',
                                        username=i.author.name,
-                                       avatar_url=i.author.avatar_url)
+                                       avatar_url=i.author.display_avatar)
                 await chnl.send('‏‏‎ ‎')
             else:
                 async with aiohttp.ClientSession() as session:
@@ -81,7 +81,7 @@ class Moderator(commands.Cog):
                     webhook = discord.Webhook.from_url(url, session=session)
                     await webhook.send(f'{discord.utils.escape_mentions(i.content)}\n{msg_link}',
                                        username=i.author.name,
-                                       avatar_url=i.author.avatar_url)
+                                       avatar_url=i.author.display_avatar)
                     for image in range(len(mat)):
                         await webhook.send(mat[image - 1].url)
                 await chnl.send('‏‏‎ ‎')
