@@ -70,7 +70,7 @@ class images(commands.Cog):
 
     @commands.command(brief='pride!!!')
     async def avatar_pride(self, ctx):
-        avatar_url = ctx.author.avatar_url
+        avatar_url = ctx.author.display_avatar
         # print(avatar_url)
         atchmnt_list = str(avatar_url).split('.')
         atchmnt_end_fake = atchmnt_list[len(atchmnt_list) - 1]

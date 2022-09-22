@@ -91,7 +91,7 @@ async def dmall(self, ctx, on_msg=False):
                     await channel.send(f'{star}')
                 except discord.errors.HTTPException:
                     requests.post(webhook_url, {'username': 'Cheeseburger Bot',
-                                                'avatar_url': str(self.client.user.avatar_url),
+                                                'avatar_url': str(self.client.user.avatar),
                                                 'content': f"<@{m.id}> has me blocked or has DM's off!"
                                                 })
 

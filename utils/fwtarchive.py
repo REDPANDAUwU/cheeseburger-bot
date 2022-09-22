@@ -49,7 +49,7 @@ async def fwtarchive(self, ctx, auto):
                         # await chnl.send('from: {0}\n{1}'.format(i.author, i.content))
                         if len(str(i.content) + str(i.author)) < 2000:
                             embedz = discord.Embed(title=str(i.author), description=str(i.content), color=0x00ff00)
-                            embedz.set_thumbnail(url=i.author.avatar_url)
+                            embedz.set_thumbnail(url=i.author.display_avatar)
                             if not auto:
                                 embedz.set_footer(text='#' + str(ctx.channel))
                             else:
@@ -76,7 +76,7 @@ async def fwtarchive(self, ctx, auto):
                             string = './archive/{0}.{1}'.format(i.id, atchmnt[len(atchmnt) - 1])
                         if len(str(i.content) + str(i.author)) < 2000:
                             embedz = discord.Embed(title=str(i.author), description=str(i.content), color=0x00ff00)
-                            embedz.set_thumbnail(url=i.author.avatar_url)
+                            embedz.set_thumbnail(url=i.author.display_avatar)
                             if not auto:
                                 embedz.set_footer(text=ctx.channel)
                             else:
