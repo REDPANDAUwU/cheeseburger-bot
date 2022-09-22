@@ -44,6 +44,7 @@ with open("config.json") as meow:
 
 bot_intents = discord.Intents.default()
 bot_intents.members = True
+bot_intents.message_content = True
 
 client = commands.Bot(command_prefix=prefix, intents=bot_intents, fetch_offline_members=True, case_insensitive=True)
 
@@ -169,7 +170,8 @@ async def purge_temp():
 async def cut_carrots():
     # print('start carrots')
     chnl = client.get_channel(896519094042501161)
-    msgs = await chnl.history(limit=100000).flatten()
+    # msgs = await chnl.history(limit=100000).flatten()
+    msgs = [message async for message in chnl.history(limit=100000)]
     all_pins = await chnl.pins()
     for i in msgs:
         skip = False
@@ -188,7 +190,8 @@ async def catgirl_memes():
     # print('start catgirl memes')
     try:
         chnl = client.get_channel(896503366832762990)
-        msgs = await chnl.history(limit=100000).flatten()
+        # msgs = await chnl.history(limit=100000).flatten()
+        msgs = [message async for message in chnl.history(limit=100000)]
         all_pins = await chnl.pins()
         for i in msgs:
             skip = False

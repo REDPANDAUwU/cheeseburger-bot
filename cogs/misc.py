@@ -38,7 +38,8 @@ class misc(commands.Cog):
 
     @commands.command(brief='deletes the last message i sent')
     async def undo(self, ctx):
-        for i in await ctx.channel.history(limit=10).flatten():
+        # for i in await ctx.channel.history(limit=10).flatten():
+        for i in await ctx.channel.history(limit=10):
             if i.author == self.client.user:
                 await i.delete()
                 break
