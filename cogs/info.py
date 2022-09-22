@@ -64,5 +64,5 @@ class info(commands.Cog):
                        f'\nping: {round(res["ping"])} Milliseconds')
 
 
-def setup(client):
-    client.add_cog(info(client))
+async def setup(client):
+    await client.add_cog(info(client))

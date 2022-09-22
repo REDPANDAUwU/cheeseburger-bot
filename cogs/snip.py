@@ -217,5 +217,5 @@ class snip(commands.Cog):
         await snipe_script(self.client, ctx.message)
 
 
-def setup(client):
-    client.add_cog(snip(client))
+async def setup(client):
+    await client.add_cog(snip(client))

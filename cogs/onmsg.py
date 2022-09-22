@@ -163,5 +163,5 @@ class onmsg(commands.Cog):
     #        await member.ban()
 
 
-def setup(client):
-    client.add_cog(onmsg(client))
+async def setup(client):
+    await client.add_cog(onmsg(client))

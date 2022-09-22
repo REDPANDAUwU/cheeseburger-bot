@@ -178,7 +178,9 @@ async def purge_temp():
 @tasks.loop(minutes=180)
 async def cut_carrots():
     # print('start carrots')
-    chnl = client.get_channel(896519094042501161)
+    chnl = client.get_channel(id=896519094042501161)
+    print(chnl)
+    # client.get_channel(id=)
     # msgs = await chnl.history(limit=100000).flatten()
     msgs = [message async for message in chnl.history(limit=100000)]
     all_pins = await chnl.pins()

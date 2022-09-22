@@ -180,5 +180,5 @@ class Moderator(commands.Cog):
                 importlib.reload(dmall)
 
 
-def setup(client):
-    client.add_cog(Moderator(client))
+async def setup(client):
+    await client.add_cog(Moderator(client))

@@ -24,5 +24,5 @@ class error_handling(commands.Cog):
             return
 
 
-def setup(client):
-    client.add_cog(error_handling(client))
+async def setup(client):
+    await client.add_cog(error_handling(client))

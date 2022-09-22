@@ -150,5 +150,5 @@ class images(commands.Cog):
             await ctx.send(file=discord.File(f'./content/images/temp/{ctx.message.id}complete.gif'))
 
 
-def setup(client):
-    client.add_cog(images(client))
+async def setup(client):
+    await client.add_cog(images(client))
