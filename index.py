@@ -52,13 +52,13 @@ client = commands.Bot(command_prefix=prefix, intents=bot_intents, fetch_offline_
 @client.event
 async def on_ready():
     # cogs
-    # cogs = os.listdir('./cogs/')
-    # for cog in cogs:
-    #     cog_list = cog.split('.')
-    #     if cog_list[len(cog_list) - 1] == 'py':
-    #         print(cog)
-    #         await client.load_extension(f'cogs.{cog_list[0]}')
-    await client.load_extension('cogs.misc')
+    cogs = os.listdir('./cogs/')
+    for cog in cogs:
+        cog_list = cog.split('.')
+        if cog_list[len(cog_list) - 1] == 'py':
+            # print(cog)
+            await client.load_extension(f'cogs.{cog_list[0]}')
+    # await client.load_extension('cogs.misc')
 
     print(f'{bcolors.OKGREEN}Logged on as {client.user}!{bcolors.ENDC}')
 
@@ -179,8 +179,6 @@ async def purge_temp():
 async def cut_carrots():
     # print('start carrots')
     chnl = client.get_channel(896519094042501161)
-    print(chnl)
-    # client.get_channel(id=)
     # msgs = await chnl.history(limit=100000).flatten()
     msgs = [message async for message in chnl.history(limit=100000)]
     all_pins = await chnl.pins()
