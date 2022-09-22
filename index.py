@@ -51,6 +51,13 @@ client = commands.Bot(command_prefix=prefix, intents=bot_intents, fetch_offline_
 
 @client.event
 async def on_ready():
+    # cogs
+    cogs = os.listdir('./cogs/')
+    for cog in cogs:
+        cog_list = cog.split('.')
+        if cog_list[len(cog_list) - 1] == 'py':
+            await client.load_extension(f'cogs.{cog_list[0]}')
+
     print(f'{bcolors.OKGREEN}Logged on as {client.user}!{bcolors.ENDC}')
 
     with open('config.json') as configf:
@@ -252,13 +259,6 @@ async def make_steam_dick():
         f.write(r.content)
     client.steam_dick_data = open('content/data.bich', 'r').read().split('\n')
 
-
-# cogs
-cogs = os.listdir('./cogs/')
-for cog in cogs:
-    cog_list = cog.split('.')
-    if cog_list[len(cog_list) - 1] == 'py':
-        await client.load_extension(f'cogs.{cog_list[0]}')
 
 with open("config.json") as meow:
     if debug:
