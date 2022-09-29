@@ -19,7 +19,7 @@ async def fwtarchive(self, channel, auto=True):
     if not auto:
         await confirmation.edit(content=f'archiving channel: {channel}\ndownloaded messages, deleting...')
 
-    print(msgs)
+    # print(msgs)
     for i in msgs:
         try:
             if i not in all_pins:
@@ -62,9 +62,8 @@ async def fwtarchive(self, channel, auto=True):
                     os.remove('./archive/{0}.{1}'.format(i.id, atchmnt[len(atchmnt) - 1]))
 
                 await i.delete()
-        except Exception as e:
-            if "NotFound" in e:
-                pass  # this means that the message was deleted in the middle of archiving
+        except discord.NotFound:
+            pass  # this means that the message was deleted in the middle of archiving
     if not auto:
         await channel.send('done archiving')
 

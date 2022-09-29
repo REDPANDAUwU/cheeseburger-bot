@@ -235,6 +235,7 @@ async def auto_fwtarchive():
         log_file = open('log.txt', 'a')
         log_file.write(f'Command: fwtarchive, error: {e}, {datetime.datetime.now()}\n')
         log_file.close()
+        print(f'Command: fwtarchive, error: {e}, {datetime.datetime.now()}\n')
 
 
 @tasks.loop(minutes=5)
