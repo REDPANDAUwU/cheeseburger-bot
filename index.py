@@ -203,11 +203,13 @@ async def catgirl_memes():
         msgs = [message async for message in chnl.history(limit=100000)]
         all_pins = await chnl.pins()
         for i in msgs:
-            skip = False
-            for m in all_pins:
-                if m.id == i.id:
-                    skip = True
-            if not skip:
+            # skip = False
+            # for m in all_pins:
+            #     if m.id == i.id:
+            #         skip = True
+            # if not skip:
+            #     await i.delete()  what the fuck was i thinking when i wrote this
+            if i not in all_pins:
                 await i.delete()
         for i in sorted(os.listdir('./content/images/catgirlmemes/')):
             await chnl.send(file=discord.File(f'./content/images/catgirlmemes/{i}'))
@@ -231,7 +233,7 @@ async def auto_fwtarchive():
                 await fwtarchive.fwtarchive(client, i, True)
     except Exception as e:
         log_file = open('log.txt', 'a')
-        log_file.write(f'Command: catgirlmemes, error: {e}, {datetime.datetime.now()}\n')
+        log_file.write(f'Command: fwtarchive, error: {e}, {datetime.datetime.now()}\n')
         log_file.close()
 
 
