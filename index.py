@@ -230,7 +230,7 @@ async def auto_fwtarchive():
         for i in server.channels:
             if "CategoryChannel" not in str(type(i)) and "VoiceChannel" not in str(type(i)) and \
                     i.id not in client.autofwtarchivelist:
-                await fwtarchive.fwtarchive(client, i, True)
+                await fwtarchive.fwtarchive(client, i)
     except Exception as e:
         log_file = open('log.txt', 'a')
         log_file.write(f'Command: fwtarchive, error: {e}, {datetime.datetime.now()}\n')

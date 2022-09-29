@@ -119,7 +119,11 @@ class Moderator(commands.Cog):
 
     @commands.command(hidden=True)
     async def fwtarchive(self, ctx):
-        await fwtarchive.fwtarchive(self, ctx, False)
+        if ctx.author.id not in self.client.owners:
+            return
+        if ctx.channel.guild.id == self.client.fwtarchiveserver:
+            return
+        await fwtarchive.fwtarchive(self, ctx.channel, False)
 
     @fwtarchive.error
     async def fwtarchive_error(self, ctx, error):
