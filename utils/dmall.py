@@ -73,8 +73,9 @@ async def dmall(self, ctx, on_msg=False):
             if i.id == webhook.id:
                 webhook_url = i.url
     #     threads = []
+    excepted_users = [1026460119489318952, 344817255118405632]  # ids of ppl who arent dmed
     for m in ctx.guild.members:
-        if m.id != 344817255118405632:
+        if m.id not in excepted_users:
             # print(m)
             star = ctx.message.content
 
