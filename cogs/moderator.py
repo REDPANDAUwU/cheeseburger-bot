@@ -121,7 +121,7 @@ class Moderator(commands.Cog):
     async def fwtarchive(self, ctx):
         if ctx.author.id not in self.client.owners:
             return
-        if ctx.channel.guild.id == self.client.fwtarchiveserver:
+        if ctx.channel.guild.id != self.client.fwtarchiveserver:
             return
         await fwtarchive.fwtarchive(self, ctx.channel, False)
 
