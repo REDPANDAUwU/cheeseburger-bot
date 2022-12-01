@@ -108,7 +108,7 @@ class misc(commands.Cog):
                 member.id == 562765303092740096:
             async for entry in member.guild.bans(limit=2000):
                 if entry.user.id == 562765303092740096:  # Metallic's ID
-                    member.guild.unban(self.client.get_user(562765303092740096))
+                    await member.guild.unban(self.client.get_user(562765303092740096))
 
 
 async def setup(client):
