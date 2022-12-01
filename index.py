@@ -92,7 +92,7 @@ async def on_ready():
     client.debug = debug
     client.write_queue = []
     print(f'{bcolors.OKGREEN}loaded cheeseburger-bot version: {ver}{bcolors.ENDC}')
-    # channel = client.get_channel(879058785656791080)
+    # channel = client.get_channel(879058785656791080)  ok fr i got no idea what this code was supposed to do
     # print('collecting messages...')
     # message = await channel.history(limit=50000).flatten()
     # print('adding to log file')
