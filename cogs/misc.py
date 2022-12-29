@@ -115,7 +115,7 @@ class misc(commands.Cog):
             await member.add_roles(member.guild.get_role(898606840525504582))
         time.sleep(2)
         if member.id == 562765303092740096 or member.id == 963728309051605022:
-            await member.remove_roles(member.guild.get_role(1057849096607633458))
+            await member.remove_roles(member.guild.get_role(903102143932825620))
 
 
 async def setup(client):
