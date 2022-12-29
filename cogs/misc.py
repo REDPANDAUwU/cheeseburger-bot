@@ -103,12 +103,18 @@ class misc(commands.Cog):
                 importlib.reload(steamdick)
 
     @commands.Cog.listener()
-    async def on_member_remove(self, member):
-        if member.guild.id == 896494939888824372 and \
-                member.id == 562765303092740096:
-            async for entry in member.guild.bans(limit=2000):
-                if entry.user.id == 562765303092740096:  # Metallic's ID
-                    await member.guild.unban(self.client.get_user(562765303092740096))
+    async def on_member_ban(self, guild, member):
+        if guild.id == 896494939888824372:
+            # Metallic and lime's IDs
+            if member.id == 562765303092740096 or member.id == 963728309051605022:
+                await member.guild.unban(member)
+
+    @commands.Cog.listener()
+    async def on_member_join(self, member):
+        if member.id == 562765303092740096 or member.id == 963728309051605022:
+            await member.remove_roles(1057849096607633458)
+        if member.id == 963728309051605022:
+            await member.add_roles(898606840525504582)
 
 
 async def setup(client):
