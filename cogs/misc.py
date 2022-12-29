@@ -111,10 +111,11 @@ class misc(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        if member.id == 562765303092740096 or member.id == 963728309051605022:
-            await member.remove_roles(1057849096607633458)
         if member.id == 963728309051605022:
-            await member.add_roles(898606840525504582)
+            await member.add_roles(member.guild.get_role(898606840525504582))
+        time.sleep(2)
+        if member.id == 562765303092740096 or member.id == 963728309051605022:
+            await member.remove_roles(member.guild.get_role(1057849096607633458))
 
 
 async def setup(client):
