@@ -7,9 +7,6 @@ import json
 import time
 from datetime import datetime
 
-from utils import langgen
-from utils import steamdick
-
 
 class misc(commands.Cog):
     def __init__(self, client):
@@ -81,26 +78,6 @@ class misc(commands.Cog):
                   f'./content/images/catgirlmemes/{ctx.message.id}.png')
         await ctx.send('downloaded imag')
         self.client.catgirl_memes.restart()
-
-    @commands.command()
-    async def lang_gen(self, ctx):
-        await ctx.send(langgen.generate_sentence(self.client.lang_gen_datatable))
-
-    @commands.command()
-    async def steamdick(self, ctx, size, region, reserve_time: int):
-        # print(self.client.steam_dick_data)
-        await ctx.send(steamdick.get_time(self.client.steam_dick_data, self.client.prefix, size, region, reserve_time))
-
-    @commands.Cog.listener()
-    async def on_command_completion(self, ctx):
-        # print('super epic')
-        # print(ctx.command)
-        if str(ctx.command) == 'reload':
-            with open('config.json') as file:
-                owners = json.load(file)["owner-ids"]
-            if ctx.author.id in owners:
-                importlib.reload(langgen)
-                importlib.reload(steamdick)
 
     @commands.Cog.listener()
     async def on_member_ban(self, guild, member):

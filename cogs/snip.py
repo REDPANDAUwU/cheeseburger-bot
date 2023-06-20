@@ -135,10 +135,7 @@ async def snipe_script(client, message):  # called on message 'snipe' or $snipe
     else:
         atchmnt_url = atchmnt
         image = True
-    if client.debug:
-        webhook_name = '_testsnipe'
-    else:
-        webhook_name = '_snipe'
+    webhook_name = '_snipe'
     success = False
     for i in await message.channel.webhooks():
         if i.name == webhook_name:

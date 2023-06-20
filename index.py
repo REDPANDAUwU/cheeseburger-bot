@@ -3,10 +3,8 @@ import os
 import random
 import importlib
 import datetime
-import requests
 
 import discord
-import git
 from discord.ext import commands
 from discord.ext import tasks
 
@@ -27,20 +25,10 @@ class bcolors:
 
 
 with open("config.json") as meow:
-    if json.load(meow)["debug"] == "no":
-        debug = False
-    else:
-        debug = True
-
-with open("version.txt") as meow:
-    ver = meow.read()
+    debug = False
 
 with open("config.json") as meow:
-    if debug:
-        print(f"{bcolors.HEADER}running in debug{bcolors.ENDC}")
-        prefix = json.load(meow)["debug-prefix"]
-    else:
-        prefix = json.load(meow)["prefix"]
+    prefix = json.load(meow)["prefix"]
 
 bot_intents = discord.Intents.default()
 bot_intents.members = True
@@ -69,44 +57,19 @@ async def on_ready():
         client.fwtarchivepic = config['fwtarchive-pic-channel']
         client.fwtarchiveserver = config['fwtarchive-server']
         client.autofwtarchivelist = config['fwtarchive-exclude-list']
-        if debug:
-            client.prefix = config['debug-prefix']
-        else:
-            client.prefix = config['prefix']
+        client.prefix = config['prefix']
 
-    if not debug:
-        stunna.start()
-        purge_temp.start()
-        catgirl_memes.start()
-        cut_carrots.start()
+    purge_temp.start()
+    catgirl_memes.start()
+    cut_carrots.start()
 
-        client.cut_carrots = cut_carrots
-        client.catgirl_memes = catgirl_memes
-        auto_fwtarchive.start()
-        make_steam_dick.start()
-    else:
-        # client.steam_dick_data = open('data.bich', 'r').read().split('\n')
-        # make_steam_dick.start()
-        client.steam_dick_data = open('content/data.bich', 'r').read().replace('\t', ' ').split('\n')
-    regen_datatable.start()
-    client.debug = debug
+    client.cut_carrots = cut_carrots
+    client.catgirl_memes = catgirl_memes
+    auto_fwtarchive.start()
+
+    client.debug = False
     client.write_queue = []
-    print(f'{bcolors.OKGREEN}loaded cheeseburger-bot version: {ver}{bcolors.ENDC}')
-    # channel = client.get_channel(879058785656791080)  ok fr i got no idea what this code was supposed to do
-    # print('collecting messages...')
-    # message = await channel.history(limit=50000).flatten()
-    # print('adding to log file')
-    # for i in message:
-    #     # print(i.embeds[0].title)\
-    #     try:
-    #         if i.embeds[0].title != "Cheeseburger Bot#7278" and i.embeds[0].description.strip() != '' \
-    #                 and i.embeds[0].title.split('#')[1] != '0000':
-    #             log_file = open('log_fwt.txt', 'a')
-    #             log_file.write(f'{i.embeds[0].description}\n')
-    #             log_file.close()
-    #     except:
-    #         pass
-    # print('done!!!!')
+    print(f'{bcolors.OKGREEN}loaded cheeseburger-bot{bcolors.ENDC}')
 
 
 @client.listen('on_message')
@@ -124,10 +87,6 @@ async def reload(ctx):
     with open('config.json') as file:
         owners = json.load(file)["owner-ids"]
     if ctx.author.id in owners:
-        if not debug:
-            g = git.cmd.Git(os.getcwd())
-            g.pull()
-            regen_datatable.restart()
         with open('config.json') as configf:
             config = json.load(configf)
             client.owners = config['owner-ids']
@@ -145,26 +104,6 @@ async def reload(ctx):
         importlib.reload(fwtarchive)
 
         await ctx.send('all cogs reloaded')
-
-
-@tasks.loop(minutes=1440)
-async def stunna():
-    chnl = client.get_channel(823228873801465866)
-    meowing = True
-    stunnaboy = ''
-    while meowing:
-        stunnaboys = os.listdir('./content/images/Stunnaboy/')
-        if len(stunnaboys) == 1:
-            return
-        stunnaboy = random.choice(stunnaboys)
-        stunnaboy = './content/images/Stunnaboy/' + stunnaboy
-        stunna_list = stunnaboy.split('.')
-        if os.path.getsize(stunnaboy) < 8388608 and stunna_list[len(stunna_list) - 1] != 'md':
-            meowing = False
-        else:
-            print(f'{bcolors.WARNING}stunnaboy too big{bcolors.ENDC}')
-    await chnl.send(file=discord.File(stunnaboy))
-
 
 @tasks.loop(minutes=10)
 async def purge_temp():
@@ -238,38 +177,8 @@ async def auto_fwtarchive():
         print(f'Command: fwtarchive, error: {e}, {datetime.datetime.now()}\n')
 
 
-@tasks.loop(minutes=5)
-async def regen_datatable():
-    text = open('./input.txt').read()
-
-    text_list = text.split('\n')
-
-    # rebuild text_list
-    new_text_list = []
-    for i in text_list:
-        if i.strip() != '' and i.strip('\n') != '':
-            new_text_list.append(i.strip())
-    text_list = new_text_list
-
-    datatable = langgen.generate_datatable(text_list)
-
-    client.lang_gen_datatable = datatable
-
-
-@tasks.loop(minutes=120)
-async def make_steam_dick():
-    r = requests.get("https://docs.google.com/spreadsheets/d/1ngfg2eP8E_Ue81lqGl6v34uVJ73qrfnq9S-H1aCZGD0/"
-                     "export?format=tsv&gid=277245429")
-    with open('content/data.bich', 'wb') as f:
-        f.write(r.content)
-    client.steam_dick_data = open('content/data.bich', 'r').read().split('\n')
-
-
 with open("config.json") as meow:
-    if debug:
-        token = json.load(meow)["debug-token"]
-    else:
-        token = json.load(meow)["token"]
+    token = json.load(meow)["token"]
 
 # client = MyClient()
 client.run(token)
