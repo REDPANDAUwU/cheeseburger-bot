@@ -79,6 +79,7 @@ async def send_to_channel(message, client):  # called on message_delete and on_m
         snipe_channel_id = json.load(meow)["snipe-channel"]
 
     atchmnt = message.attachments[0].url
+    atchmnt = atchmnt.split("?")[0]  # discord added new tracking things at the end of a link for some reason
     atchmnt_list = atchmnt.split('.')
     atchmnt_end = atchmnt_list[len(atchmnt_list) - 1]
     snipe_channel = client.get_channel(snipe_channel_id)
