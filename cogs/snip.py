@@ -105,7 +105,7 @@ async def send_to_channel(message, client):  # called on message_delete and on_m
         aa = await snipe_channel.send(str(message.id), file=discord.File('./content/images/' + str(message.id) + '.' +
                                                                          atchmnt_end))
         os.remove('./content/images/' + str(message.id) + '.' + atchmnt_end)
-        return aa.attachments[0].url
+        return aa.attachments[0].url.split("?")[0]
 
     os.remove('./content/images/' + str(message.id) + '.' + atchmnt_end)
 
