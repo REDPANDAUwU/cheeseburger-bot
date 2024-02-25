@@ -177,10 +177,7 @@ class snip(commands.Cog):
             if i == "'" or i == '"':
                 i = ''
             msg += i
-        if message.author.nick is None:
-            nick1 = message.author
-        else:
-            nick1 = message.author.nick
+        nick1 = message.author.display_name
         nick = ''
         for i in str(nick1):
             if i == "'" or i == '"':
