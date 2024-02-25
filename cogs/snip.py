@@ -79,6 +79,7 @@ async def send_to_channel(message, client):  # called on message_delete and on_m
         snipe_channel_id = json.load(meow)["snipe-channel"]
 
     atchmnt = message.attachments[0].url
+    blahblah = message.attachments[0].url
     atchmnt = atchmnt.split("?")[0]  # discord added new tracking things at the end of a link for some reason
     atchmnt_list = atchmnt.split('.')
     atchmnt_end = atchmnt_list[len(atchmnt_list) - 1]
@@ -89,7 +90,7 @@ async def send_to_channel(message, client):  # called on message_delete and on_m
         atchmnt_end = ''
 
     print(f'{bcolors.OKBLUE}downloading image ID#{message.id}{bcolors.ENDC}')
-    req = urllib.request.Request(atchmnt, headers={'User-Agent': 'Mozilla/5.0'})
+    req = urllib.request.Request(blahblah, headers={'User-Agent': 'Mozilla/5.0'})
     with open('./content/images/' + str(message.id) + '.' + atchmnt_end, 'wb') as f:
         with urllib.request.urlopen(req) as r:
             f.write(r.read())
