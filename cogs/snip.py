@@ -88,13 +88,6 @@ async def send_to_channel(message, client):  # called on message_delete and on_m
     if atchmnt_end.startswith('com/'):
         atchmnt_end = ''
 
-    # with open('./content/images/' + str(message.id) + '.' + atchmnt_end, 'w+') as handle:
-    #    print(f'{bcolors.OKBLUE}downloading image ID#{message.id}{bcolors.ENDC}')
-    #    image = requests.get(atchmnt, stream=True)
-    #    for block in image.iter_content(1024):
-    #        if not block:
-    #            break
-    #        handle.write(block)
     print(f'{bcolors.OKBLUE}downloading image ID#{message.id}{bcolors.ENDC}')
     req = urllib.request.Request(atchmnt, headers={'User-Agent': 'Mozilla/5.0'})
     with open('./content/images/' + str(message.id) + '.' + atchmnt_end, 'wb') as f:

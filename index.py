@@ -83,30 +83,10 @@ async def on_ready():
         client.cut_carrots = cut_carrots
         client.catgirl_memes = catgirl_memes
         auto_fwtarchive.start()
-        make_steam_dick.start()
-    else:
-        # client.steam_dick_data = open('data.bich', 'r').read().split('\n')
-        # make_steam_dick.start()
-        client.steam_dick_data = open('content/data.bich', 'r').read().replace('\t', ' ').split('\n')
     regen_datatable.start()
     client.debug = debug
     client.write_queue = []
     print(f'{bcolors.OKGREEN}loaded cheeseburger-bot version: {ver}{bcolors.ENDC}')
-    # channel = client.get_channel(879058785656791080)  ok fr i got no idea what this code was supposed to do
-    # print('collecting messages...')
-    # message = await channel.history(limit=50000).flatten()
-    # print('adding to log file')
-    # for i in message:
-    #     # print(i.embeds[0].title)\
-    #     try:
-    #         if i.embeds[0].title != "Cheeseburger Bot#7278" and i.embeds[0].description.strip() != '' \
-    #                 and i.embeds[0].title.split('#')[1] != '0000':
-    #             log_file = open('log_fwt.txt', 'a')
-    #             log_file.write(f'{i.embeds[0].description}\n')
-    #             log_file.close()
-    #     except:
-    #         pass
-    # print('done!!!!')
 
 
 @client.listen('on_message')
@@ -148,7 +128,7 @@ async def reload(ctx):
 
 
 @tasks.loop(minutes=1440)
-async def stunna():
+async def stunna():    # TODO: make this toggleable by server
     chnl = client.get_channel(823228873801465866)
     meowing = True
     stunnaboy = ''
@@ -171,7 +151,7 @@ async def purge_temp():
     directory = './content/images/temp/'
     for f in os.listdir(directory):
         meow = f.split('.')
-        if meow[len(meow) - 1] != "md":
+        if meow[len(meow) - 1] != "md":  # doesnt delete the md file in the temp folder
             os.remove(os.path.join(directory, f))
 
 
@@ -254,15 +234,6 @@ async def regen_datatable():
     datatable = langgen.generate_datatable(text_list)
 
     client.lang_gen_datatable = datatable
-
-
-@tasks.loop(minutes=120)
-async def make_steam_dick():
-    r = requests.get("https://docs.google.com/spreadsheets/d/1ngfg2eP8E_Ue81lqGl6v34uVJ73qrfnq9S-H1aCZGD0/"
-                     "export?format=tsv&gid=277245429")
-    with open('content/data.bich', 'wb') as f:
-        f.write(r.content)
-    client.steam_dick_data = open('content/data.bich', 'r').read().split('\n')
 
 
 with open("config.json") as meow:

@@ -35,13 +35,12 @@ class Moderator(commands.Cog):
             for role in guild.roles:
                 if role.name == str(i):
                     roles.append(role)
-                    await arg.add_roles(role, reason='meow')
-                    # print('given role ' + str(role))
+        await self.client.add_roles(arg, *roles)
 
     @commands.command(brief='clears the channels pins',
                       description='clears the channels pins and posts them all in a seperate channel', hidden=True)
     @commands.has_permissions(administrator=True)
-    async def archive(self, ctx):
+    async def archive(self, ctx):  # TODO: redo this and make it archive pins immediately when pinning them
         if ctx.message.guild.id != 690036880812671048:
             await ctx.message.channel.send('this is cheseburger server only comand hehe')
             return
@@ -50,6 +49,7 @@ class Moderator(commands.Cog):
         all_pins = await ctx.message.channel.pins()
         for i in all_pins:
             mat = i.attachments
+            # TODO: make message link toggleable
             msg_link = 'https://discord.com/channels/690036880812671048/' + str(i.channel.id) + '/' + str(i.id)
             if len(mat) == 0:
                 async with aiohttp.ClientSession() as session:
@@ -89,7 +89,7 @@ class Moderator(commands.Cog):
             # print(all_pins)
 
     @commands.command(brief='invites a user in dm with a 1 use invite', hidden=True)
-    async def invite(self, ctx, arg: discord.User):
+    async def invite(self, ctx, arg: discord.User):  # TODO: make this server universal
         if ctx.guild.id != 690036880812671048:
             ctx.send('dis is chezburger srvr only comands')
             return
@@ -104,9 +104,11 @@ class Moderator(commands.Cog):
 
         inviter_id = arg.id
 
-        invite_to_send = await ctx.message.channel.create_invite(max_uses=1, max_age=86400,
-                                                                 reason='requested by ' + ctx.message.author.name + '#'
-                                                                        + ctx.message.author.discriminator)
+        invite_to_send = await ctx.message.channel.create_invite(  # TODO: make this work with new usernames
+            max_uses=1,
+            max_age=86400,
+            reason='requested by ' + ctx.message.author.name + '#' + ctx.message.author.discriminator
+        )
         user = self.client.get_user(int(inviter_id))
         # print(user)
 
@@ -118,7 +120,7 @@ class Moderator(commands.Cog):
         await ctx.send('the following error has occured, ' + str(error))
 
     @commands.command(hidden=True)
-    async def fwtarchive(self, ctx):
+    async def fwtarchive(self, ctx):  # TODO: make this server universal
         if ctx.author.id not in self.client.owners:
             return
         if ctx.channel.guild.id != self.client.fwtarchiveserver:
@@ -136,7 +138,7 @@ class Moderator(commands.Cog):
 
     @commands.command(hidden=True)
     @commands.has_permissions(administrator=True)
-    async def clone(self, ctx):
+    async def clone(self, ctx):    # TODO: make this server universal
         if ctx.message.guild.id != 690036880812671048:
             await ctx.message.channel.send('this is cheseburger server only comand hehe')
             return
@@ -163,7 +165,7 @@ class Moderator(commands.Cog):
             await ctx.message.channel.set_permissions(role2, read_messages=True)
 
     @commands.command()
-    async def execute(self, ctx, *, code):
+    async def execute(self, ctx, *, code):    # TODO: make this better
         if ctx.author.id not in self.client.owners:
             await ctx.send('shut up')
             return

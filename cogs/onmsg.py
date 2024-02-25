@@ -21,6 +21,8 @@ class onmsg(commands.Cog):
         if isinstance(message.channel, discord.channel.DMChannel):
             return
 
+        # this is for getting data for the lang_gen command
+
         if message.channel.id == 896496646773424178 and message.content != '' \
                 and message.author.id != self.client.user.id and str(message.author.discriminator) != "0000":
             self.client.write_queue.append(message.content)
@@ -37,7 +39,8 @@ class onmsg(commands.Cog):
                 await message.channel.send(langgen.generate_sentence(self.client.lang_gen_datatable))
 
         # dotbot
-        if message.content == '.' and message.channel.name == 'dot-wars':
+
+        if message.content == '.' and message.channel.name == 'dot-wars':  # TODO: make this toggleable per server
             role = get(message.guild.roles, name="Dot Master!")
 
             await message.author.add_roles(role)
@@ -56,37 +59,8 @@ class onmsg(commands.Cog):
         if message.channel.id == 782825184054476821:
             if '69' not in message.content.split():
                 await message.delete()
-            # msg = message.content.split()
-            # dont_delete = False
-            # for i in msg:
-            #     if i == '69':
-            #         dont_delete = True
-            # if not dont_delete:
-            #     await message.delete()
 
-
-        # megagamer lisp
-
-        if message.author.id == 510647816700428289:
-            # print('meow')
-            lisp = ''
-            do_lisp = False
-            for i in message.content:
-                if i == 's' or i == 'z' or i == 'S' or i == 'Z':
-                    i = 'th'
-                    do_lisp = True
-                lisp += i
-            if not do_lisp:
-                return
-            characters = 0
-            for _ in lisp:
-                characters += 1
-            if characters > 2000:
-                await message.channel.send('stfu megagamer')
-            else:
-                await message.channel.send(discord.utils.escape_mentions(lisp))
-
-        # react to burger and cheese moduel
+        # react to burger and cheese
 
         if message.content.lower().startswith('burger') or message.content.lower().startswith('cheese'):
             emoji = '<cheeseburger:821355767436804116>'
@@ -126,18 +100,14 @@ class onmsg(commands.Cog):
             await self.client.invoke(ctx)
 
     @commands.Cog.listener()
-    async def on_reaction_add(self, reaction, user):
-        if reaction.message.guild.id != 828797783863591012:
-            try:
-                await reaction.message.add_reaction(reaction)
-            except discord.Forbidden:
-                return
-        if reaction.message.guild.id == 828797783863591012:
-            channel = await user.create_dm()
-            await channel.send('u added a  reaciton !!!!!!')
+    async def on_reaction_add(self, reaction, user):  # TODO: make this toggleable per server
+        try:
+            await reaction.message.add_reaction(reaction)
+        except discord.Forbidden:
+            return
 
     @commands.Cog.listener()
-    async def on_message_edit(self, before, after):
+    async def on_message_edit(self, before, after):  # TODO: make this server universal
         if before.channel.id == 782825184054476821:
             msg = after.content.split()
             dont_delete = False
@@ -156,11 +126,6 @@ class onmsg(commands.Cog):
                 owners = json.load(file)["owner-ids"]
             if ctx.author.id in owners:
                 importlib.reload(langgen)
-
-    # @commands.Cog.listener()
-    # async def on_member_join(self, member):
-    #    if member.id == 552225393571004425 and member.guild.id == 690036880812671048:
-    #        await member.ban()
 
 
 async def setup(client):
