@@ -79,7 +79,6 @@ async def on_ready():
         purge_temp.start()
         # catgirl_memes.start()
         # cut_carrots.start()
-        #
         # client.cut_carrots = cut_carrots
         # client.catgirl_memes = catgirl_memes
         # auto_fwtarchive.start()
