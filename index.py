@@ -75,14 +75,14 @@ async def on_ready():
             client.prefix = config['prefix']
 
     if not debug:
-        stunna.start()
+        # stunna.start()
         purge_temp.start()
-        catgirl_memes.start()
-        cut_carrots.start()
-
-        client.cut_carrots = cut_carrots
-        client.catgirl_memes = catgirl_memes
-        auto_fwtarchive.start()
+        # catgirl_memes.start()
+        # cut_carrots.start()
+        #
+        # client.cut_carrots = cut_carrots
+        # client.catgirl_memes = catgirl_memes
+        # auto_fwtarchive.start()
     regen_datatable.start()
     client.debug = debug
     client.write_queue = []
@@ -127,23 +127,23 @@ async def reload(ctx):
         await ctx.send('all cogs reloaded')
 
 
-@tasks.loop(minutes=1440)
-async def stunna():    # TODO: make this toggleable by server
-    chnl = client.get_channel(823228873801465866)
-    meowing = True
-    stunnaboy = ''
-    while meowing:
-        stunnaboys = os.listdir('./content/images/Stunnaboy/')
-        if len(stunnaboys) == 1:
-            return
-        stunnaboy = random.choice(stunnaboys)
-        stunnaboy = './content/images/Stunnaboy/' + stunnaboy
-        stunna_list = stunnaboy.split('.')
-        if os.path.getsize(stunnaboy) < 8388608 and stunna_list[len(stunna_list) - 1] != 'md':
-            meowing = False
-        else:
-            print(f'{bcolors.WARNING}stunnaboy too big{bcolors.ENDC}')
-    await chnl.send(file=discord.File(stunnaboy))
+# @tasks.loop(minutes=1440)
+# async def stunna():    # TODO: make this toggleable by server
+#     chnl = client.get_channel(823228873801465866)
+#     meowing = True
+#     stunnaboy = ''
+#     while meowing:
+#         stunnaboys = os.listdir('./content/images/Stunnaboy/')
+#         if len(stunnaboys) == 1:
+#             return
+#         stunnaboy = random.choice(stunnaboys)
+#         stunnaboy = './content/images/Stunnaboy/' + stunnaboy
+#         stunna_list = stunnaboy.split('.')
+#         if os.path.getsize(stunnaboy) < 8388608 and stunna_list[len(stunna_list) - 1] != 'md':
+#             meowing = False
+#         else:
+#             print(f'{bcolors.WARNING}stunnaboy too big{bcolors.ENDC}')
+#     await chnl.send(file=discord.File(stunnaboy))
 
 
 @tasks.loop(minutes=10)
@@ -155,67 +155,67 @@ async def purge_temp():
             os.remove(os.path.join(directory, f))
 
 
-@tasks.loop(minutes=180)
-async def cut_carrots():
-    # print('start carrots')
-    chnl = client.get_channel(896519094042501161)
-    # msgs = await chnl.history(limit=100000).flatten()
-    msgs = [message async for message in chnl.history(limit=100000)]
-    all_pins = await chnl.pins()
-    for i in msgs:
-        skip = False
-        for m in all_pins:
-            if m.id == i.id:
-                skip = True
-        if not skip:
-            await i.delete()
-    for i in sorted(os.listdir('./content/images/carrots/')):
-        await chnl.send(file=discord.File(f'./content/images/carrots/{i}'))
-    # print('done with carrots')
+# @tasks.loop(minutes=180)
+# async def cut_carrots():
+#     # print('start carrots')
+#     chnl = client.get_channel(896519094042501161)
+#     # msgs = await chnl.history(limit=100000).flatten()
+#     msgs = [message async for message in chnl.history(limit=100000)]
+#     all_pins = await chnl.pins()
+#     for i in msgs:
+#         skip = False
+#         for m in all_pins:
+#             if m.id == i.id:
+#                 skip = True
+#         if not skip:
+#             await i.delete()
+#     for i in sorted(os.listdir('./content/images/carrots/')):
+#         await chnl.send(file=discord.File(f'./content/images/carrots/{i}'))
+#     # print('done with carrots')
 
 
-@tasks.loop(minutes=180)
-async def catgirl_memes():
-    # print('start catgirl memes')
-    try:
-        chnl = client.get_channel(896503366832762990)
-        # msgs = await chnl.history(limit=100000).flatten()
-        msgs = [message async for message in chnl.history(limit=100000)]
-        all_pins = await chnl.pins()
-        for i in msgs:
-            # skip = False
-            # for m in all_pins:
-            #     if m.id == i.id:
-            #         skip = True
-            # if not skip:
-            #     await i.delete()  what the fuck was i thinking when i wrote this
-            if i not in all_pins:
-                await i.delete()
-        for i in sorted(os.listdir('./content/images/catgirlmemes/')):
-            await chnl.send(file=discord.File(f'./content/images/catgirlmemes/{i}'))
-    except Exception as e:
-        log_file = open('log.txt', 'a')
-        log_file.write(f'Command: catgirlmemes, error: {e}, {datetime.datetime.now()}\n')
-        log_file.close()
+# @tasks.loop(minutes=180)
+# async def catgirl_memes():
+#     # print('start catgirl memes')
+#     try:
+#         chnl = client.get_channel(896503366832762990)
+#         # msgs = await chnl.history(limit=100000).flatten()
+#         msgs = [message async for message in chnl.history(limit=100000)]
+#         all_pins = await chnl.pins()
+#         for i in msgs:
+#             # skip = False
+#             # for m in all_pins:
+#             #     if m.id == i.id:
+#             #         skip = True
+#             # if not skip:
+#             #     await i.delete()  what the fuck was i thinking when i wrote this
+#             if i not in all_pins:
+#                 await i.delete()
+#         for i in sorted(os.listdir('./content/images/catgirlmemes/')):
+#             await chnl.send(file=discord.File(f'./content/images/catgirlmemes/{i}'))
+#     except Exception as e:
+#         log_file = open('log.txt', 'a')
+#         log_file.write(f'Command: catgirlmemes, error: {e}, {datetime.datetime.now()}\n')
+#         log_file.close()
+#
+#     # print('done with catgirl memes')
 
-    # print('done with catgirl memes')
 
-
-@tasks.loop(minutes=120)
-async def auto_fwtarchive():
-    try:
-        # print("auto_fwtarchive")
-        client.client = client
-        server = client.get_guild(client.fwtarchiveserver)
-        for i in server.channels:
-            if "CategoryChannel" not in str(type(i)) and "VoiceChannel" not in str(type(i)) and \
-                    i.id not in client.autofwtarchivelist:
-                await fwtarchive.fwtarchive(client, i)
-    except Exception as e:
-        log_file = open('log.txt', 'a')
-        log_file.write(f'Command: fwtarchive, error: {e}, {datetime.datetime.now()}\n')
-        log_file.close()
-        print(f'Command: fwtarchive, error: {e}, {datetime.datetime.now()}\n')
+# @tasks.loop(minutes=120)
+# async def auto_fwtarchive():
+#     try:
+#         # print("auto_fwtarchive")
+#         client.client = client
+#         server = client.get_guild(client.fwtarchiveserver)
+#         for i in server.channels:
+#             if "CategoryChannel" not in str(type(i)) and "VoiceChannel" not in str(type(i)) and \
+#                     i.id not in client.autofwtarchivelist:
+#                 await fwtarchive.fwtarchive(client, i)
+#     except Exception as e:
+#         log_file = open('log.txt', 'a')
+#         log_file.write(f'Command: fwtarchive, error: {e}, {datetime.datetime.now()}\n')
+#         log_file.close()
+#         print(f'Command: fwtarchive, error: {e}, {datetime.datetime.now()}\n')
 
 
 @tasks.loop(minutes=5)
